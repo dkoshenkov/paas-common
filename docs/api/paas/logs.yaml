@@ -2,7 +2,6 @@ services:
   logs:
     proto:
       package: paas.logs.v1
-      go_package: github.com/dkoshenkov/paas/pkg/sdk/paas/grpc/logs
     endpoints:
       - name: List
         method: GET
