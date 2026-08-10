@@ -2,7 +2,6 @@ services:
   ready:
     proto:
       package: paas.common.ready.v1
-      go_package: github.com/dkoshenkov/paas/pkg/sdk/common/grpc/ready
     endpoints:
       - name: Ready
         method: GET
