@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/dkoshenkov/paas-sdk/compare/v0.3.0...v0.3.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* rm init script ([#7](https://github.com/dkoshenkov/paas-sdk/issues/7)) ([6099a00](https://github.com/dkoshenkov/paas-sdk/commit/6099a0008bf3e3dfbd5df4eea6c3aa2c03f0e678))
+
 ## [0.3.0](https://github.com/dkoshenkov/paas-sdk/compare/v0.2.0...v0.3.0) (2026-08-10)
 
 
