@@ -1,0 +1,40 @@
+name: dependency-review
+
+on:
+  pull_request:
+
+concurrency:
+  group: dependency-review
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  detect-dependencies:
+    runs-on: ubuntu-latest
+
+    outputs:
+      has_dependencies: ${{ steps.detect.outputs.has_dependencies }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: detect
+        name: Detect Go dependencies
+        run: |
+          if [[ -f go.mod ]] && grep -Eq '^[[:space:]]*require([[:space:]]|\()' go.mod; then
+            echo 'has_dependencies=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'has_dependencies=false' >> "$GITHUB_OUTPUT"
+          fi
+
+  dependency-review:
+    needs: detect-dependencies
+    if: needs.detect-dependencies.outputs.has_dependencies == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/dependency-review-action@v5

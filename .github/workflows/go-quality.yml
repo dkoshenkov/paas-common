@@ -1,0 +1,145 @@
+name: go-quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: go-quality
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  detect-go:
+    runs-on: ubuntu-latest
+
+    outputs:
+      has_go: ${{ steps.detect.outputs.has_go }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: detect
+        name: Detect Go source files
+        run: |
+          go_file="$(find . -type f -name '*.go' -not -path './.git/*' -not -path './vendor/*' -print -quit)"
+          if [[ -n "$go_file" ]]; then
+            echo 'has_go=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'has_go=false' >> "$GITHUB_OUTPUT"
+          fi
+
+  go-mod-tidy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Check go mod tidy
+        run: go mod tidy -diff
+
+  go-test:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Run tests
+        run: go test -count=1 ./...
+
+  go-build:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Build packages
+        run: go build ./...
+
+  go-race:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Run race detector
+        run: go test -race ./...
+
+  govulncheck:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: govulncheck
+        uses: golang/govulncheck-action@v1
+        with:
+          go-version-file: go.mod
+          go-package: ./...
+
+  go-checks:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Run go vet
+        run: go vet ./...
+
+  golangci-lint:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Install golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.11
+          install-only: true
+
+      - name: Check formatting
+        run: |
+          golangci-lint fmt
+          git diff --exit-code
+
+      - name: Run golangci-lint
+        run: golangci-lint run
