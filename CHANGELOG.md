@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/dkoshenkov/paas-sdk/compare/v0.3.1...v0.3.2) (2026-08-10)
+
+
+### Bug Fixes
+
+* doc ([#9](https://github.com/dkoshenkov/paas-sdk/issues/9)) ([1e4ef55](https://github.com/dkoshenkov/paas-sdk/commit/1e4ef5583fcc8d5cafd0eb7be6f26d0af4568f16))
+
 ## [0.3.1](https://github.com/dkoshenkov/paas-sdk/compare/v0.3.0...v0.3.1) (2026-08-10)
 
 
