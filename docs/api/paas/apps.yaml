@@ -1,0 +1,96 @@
+imports:
+  - ../common/error_types.yaml
+
+services:
+  apps:
+    proto:
+      package: paas.apps.v1
+      go_package: github.com/dkoshenkov/paas/pkg/sdk/paas/grpc/apps
+    endpoints:
+      - name: List
+        method: GET
+        path: /apps
+        responses:
+          "200": ListAppsResponse
+
+      - name: Get
+        method: GET
+        path: /apps/{name}
+        request: GetAppRequest
+        responses:
+          "200": App
+          "404": ../common/error_types.yaml#ErrorResponse
+
+      - name: Create
+        method: POST
+        path: /apps
+        request: CreateAppRequest
+        responses:
+          "201": App
+          "400": ../common/error_types.yaml#ErrorResponse
+          "409": ../common/error_types.yaml#ErrorResponse
+
+      - name: Update
+        method: PATCH
+        path: /apps/{name}
+        request: UpdateAppRequest
+        responses:
+          "200": App
+          "400": ../common/error_types.yaml#ErrorResponse
+          "404": ../common/error_types.yaml#ErrorResponse
+
+      - name: Delete
+        method: DELETE
+        path: /apps/{name}
+        request: DeleteAppRequest
+        responses:
+          "204": null
+          "404": ../common/error_types.yaml#ErrorResponse
+
+types:
+  App:
+    kind: struct
+    fields:
+      id: {type: string, number: 1}
+      name: {type: string, number: 2}
+      domain: {type: string, number: 3}
+      public_service: {type: string, number: 4}
+      public_port: {type: int, number: 5}
+      health_path: {type: string, number: 6}
+      compose_sha256: {type: string, number: 7, optional: true}
+      env_keys: {type: string, number: 8, repeated: true, optional: true}
+      created_at: {type: string, number: 9}
+      updated_at: {type: string, number: 10}
+
+  ListAppsResponse:
+    kind: struct
+    fields:
+      items: {type: App, number: 1, repeated: true}
+
+  GetAppRequest:
+    kind: struct
+    fields:
+      name: {type: string, number: 1}
+
+  CreateAppRequest:
+    kind: struct
+    fields:
+      name: {type: string, number: 1}
+      domain: {type: string, number: 2}
+      public_service: {type: string, number: 3}
+      public_port: {type: int, number: 4}
+      health_path: {type: string, number: 5}
+
+  UpdateAppRequest:
+    kind: struct
+    fields:
+      name: {type: string, number: 1}
+      domain: {type: string, number: 2, optional: true}
+      public_service: {type: string, number: 3, optional: true}
+      public_port: {type: int, number: 4, optional: true}
+      health_path: {type: string, number: 5, optional: true}
+
+  DeleteAppRequest:
+    kind: struct
+    fields:
+      name: {type: string, number: 1}

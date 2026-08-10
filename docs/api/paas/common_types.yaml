@@ -1,0 +1,11 @@
+types:
+  PaginationRequest:
+    kind: struct
+    fields:
+      limit: {type: int, number: 1, optional: true}
+      cursor: {type: string, number: 2, optional: true}
+
+  PageInfo:
+    kind: struct
+    fields:
+      next_cursor: {type: string, number: 1, optional: true}

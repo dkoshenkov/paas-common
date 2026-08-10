@@ -1,0 +1,7 @@
+imports:
+  - ./error_types.yaml
+  - ./health.yaml
+  - ./ready.yaml
+
+services: {}
+

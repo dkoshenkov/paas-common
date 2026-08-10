@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: "ready API"
+  version: "1.0.0"
+paths:
+  /ready:
+    get:
+      operationId: "ReadyReady"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadyReadyResponse"
+components:
+  schemas:
+    ReadyReadyResponse:
+      type: object
+      properties:
+        status:
+          type: string

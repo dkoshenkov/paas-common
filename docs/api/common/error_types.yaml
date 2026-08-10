@@ -1,0 +1,6 @@
+types:
+  ErrorResponse:
+    kind: struct
+    fields:
+      code: {type: string, number: 1}
+      message: {type: string, number: 2}

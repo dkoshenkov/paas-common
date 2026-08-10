@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: "health API"
+  version: "1.0.0"
+paths:
+  /health:
+    get:
+      operationId: "HealthHealth"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthHealthResponse"
+components:
+  schemas:
+    HealthHealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
