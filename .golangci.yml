@@ -1,0 +1,31 @@
+version: "2"
+
+run:
+  timeout: 5m
+  relative-path-mode: gomod
+
+linters:
+  default: standard
+
+  exclusions:
+    generated: strict
+
+
+formatters:
+  enable:
+    - gofumpt
+    - gci
+
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - localmodule
+        - blank
+        - dot
+        - alias
+      custom-order: true
+
+  exclusions:
+    generated: strict
