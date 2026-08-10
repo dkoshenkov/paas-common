@@ -1,0 +1,43 @@
+imports:
+  - ./error_types.yaml
+
+services:
+  migration:
+    proto:
+      package: paas.common.migration.v1
+      go_package: github.com/dkoshenkov/paas/pkg/sdk/common/grpc/migration
+    endpoints:
+      - name: Up
+        method: POST
+        path: /migration/up
+        request: MigrationTarget
+        responses:
+          "200": MigrationResult
+          "400": ./error_types.yaml#ErrorResponse
+          "404": ./error_types.yaml#ErrorResponse
+          "409": ./error_types.yaml#ErrorResponse
+      - name: Down
+        method: POST
+        path: /migration/down
+        request: MigrationTarget
+        responses:
+          "200": MigrationResult
+          "400": ./error_types.yaml#ErrorResponse
+          "404": ./error_types.yaml#ErrorResponse
+          "409": ./error_types.yaml#ErrorResponse
+
+
+types:
+  MigrationTarget:
+    kind: struct
+    fields:
+      service: {type: string, number: 1, optional: true}
+      migration: {type: string, number: 2, optional: true}
+  MigrationResult:
+    kind: struct
+    fields:
+      action: {type: string, number: 1}
+      status: {type: string, number: 2}
+      count: {type: int, number: 3}
+      service: {type: string, number: 4, optional: true}
+      migration: {type: string, number: 5, optional: true}

@@ -1,0 +1,17 @@
+services:
+  health:
+    proto:
+      package: paas.common.health.v1
+      go_package: github.com/dkoshenkov/paas/pkg/sdk/common/grpc/health
+    endpoints:
+      - name: Health
+        method: GET
+        path: /health
+        responses:
+          "200": HealthResponse
+
+types:
+  HealthResponse:
+    kind: struct
+    fields:
+      status: {type: string, number: 1}

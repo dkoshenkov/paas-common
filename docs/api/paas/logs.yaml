@@ -1,0 +1,29 @@
+services:
+  logs:
+    proto:
+      package: paas.logs.v1
+      go_package: github.com/dkoshenkov/paas/pkg/sdk/paas/grpc/logs
+    endpoints:
+      - name: List
+        method: GET
+        path: /apps/{app_name}/logs
+        request: GetLogsRequest
+        responses:
+          "200": DeploymentLogs
+          "404": ../common/error_types.yaml#ErrorResponse
+
+types:
+  GetLogsRequest:
+    kind: struct
+    fields:
+      app_name: {type: string, number: 1}
+      service: {type: string, number: 2, optional: true}
+      deployment_id: {type: string, number: 3, optional: true}
+      tail: {type: int, number: 4, optional: true}
+
+  DeploymentLogs:
+    kind: struct
+    fields:
+      app_name: {type: string, number: 1}
+      deployment_id: {type: string, number: 2}
+      lines: {type: string, number: 3, repeated: true}

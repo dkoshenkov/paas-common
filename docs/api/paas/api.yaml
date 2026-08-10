@@ -1,0 +1,6 @@
+imports:
+  - ./apps.yaml
+  - ./deployments.yaml
+  - ./logs.yaml
+
+services: {}

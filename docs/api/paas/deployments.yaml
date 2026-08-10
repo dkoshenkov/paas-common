@@ -1,0 +1,84 @@
+imports:
+  - ../common/error_types.yaml
+
+services:
+  deployments:
+    proto:
+      package: paas.deployments.v1
+      go_package: github.com/dkoshenkov/paas/pkg/sdk/paas/grpc/deployments
+    endpoints:
+      - name: List
+        method: GET
+        path: /apps/{app_name}/deployments
+        request: ListDeploymentsRequest
+        responses:
+          "200": ListDeploymentsResponse
+          "404": ../common/error_types.yaml#ErrorResponse
+
+      - name: Get
+        method: GET
+        path: /apps/{app_name}/deployments/{deployment_id}
+        request: GetDeploymentRequest
+        responses:
+          "200": Deployment
+          "404": ../common/error_types.yaml#ErrorResponse
+
+      - name: Create
+        method: POST
+        path: /apps/{app_name}/deployments
+        request: CreateDeploymentRequest
+        responses:
+          "202": Deployment
+          "400": ../common/error_types.yaml#ErrorResponse
+          "404": ../common/error_types.yaml#ErrorResponse
+          "409": ../common/error_types.yaml#ErrorResponse
+
+      - name: Rollback
+        method: POST
+        path: /apps/{app_name}/rollback
+        request: RollbackDeploymentRequest
+        responses:
+          "202": Deployment
+          "404": ../common/error_types.yaml#ErrorResponse
+          "409": ../common/error_types.yaml#ErrorResponse
+
+types:
+  Deployment:
+    kind: struct
+    fields:
+      id: {type: string, number: 1}
+      app_name: {type: string, number: 2}
+      status: {type: string, number: 3}
+      error: {type: string, number: 4, optional: true}
+      created_at: {type: string, number: 5}
+      compose_sha256: {type: string, number: 6}
+      rolled_back_from: {type: string, number: 7, optional: true}
+
+  ListDeploymentsRequest:
+    kind: struct
+    fields:
+      app_name: {type: string, number: 1}
+
+  ListDeploymentsResponse:
+    kind: struct
+    fields:
+      items: {type: Deployment, number: 1, repeated: true}
+
+  GetDeploymentRequest:
+    kind: struct
+    fields:
+      app_name: {type: string, number: 1}
+      deployment_id: {type: string, number: 2}
+
+  CreateDeploymentRequest:
+    kind: struct
+    fields:
+      app_name: {type: string, number: 1}
+      compose_yaml: {type: string, number: 2}
+      environment: {type: "map<string,string>", number: 3}
+
+  RollbackDeploymentRequest:
+    kind: struct
+    fields:
+      app_name: {type: string, number: 1}
+      deployment_id: {type: string, number: 2, optional: true}
