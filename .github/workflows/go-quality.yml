@@ -14,6 +14,25 @@ permissions:
   contents: read
 
 jobs:
+  detect-go:
+    runs-on: ubuntu-latest
+
+    outputs:
+      has_go: ${{ steps.detect.outputs.has_go }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: detect
+        name: Detect Go source files
+        run: |
+          go_file="$(find . -type f -name '*.go' -not -path './.git/*' -not -path './vendor/*' -print -quit)"
+          if [[ -n "$go_file" ]]; then
+            echo 'has_go=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'has_go=false' >> "$GITHUB_OUTPUT"
+          fi
+
   go-mod-tidy:
     runs-on: ubuntu-latest
 
@@ -28,6 +47,8 @@ jobs:
         run: go mod tidy -diff
 
   go-test:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -41,6 +62,8 @@ jobs:
         run: go test -count=1 ./...
 
   go-build:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -54,6 +77,8 @@ jobs:
         run: go build ./...
 
   go-race:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -67,6 +92,8 @@ jobs:
         run: go test -race ./...
 
   govulncheck:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -77,6 +104,8 @@ jobs:
           go-package: ./...
 
   go-checks:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -90,6 +119,8 @@ jobs:
         run: go vet ./...
 
   golangci-lint:
+    needs: detect-go
+    if: needs.detect-go.outputs.has_go == 'true'
     runs-on: ubuntu-latest
 
     steps:
