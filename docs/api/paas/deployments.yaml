@@ -5,6 +5,7 @@ services:
   deployments:
     proto:
       package: paas.deployments.v1
+      go_package: github.com/dkoshenkov/paas/pkg/sdk/paas/grpc/deployments
     endpoints:
       - name: List
         method: GET

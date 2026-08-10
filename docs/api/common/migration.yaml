@@ -5,6 +5,7 @@ services:
   migration:
     proto:
       package: paas.common.migration.v1
+      go_package: github.com/dkoshenkov/paas/pkg/sdk/common/grpc/migration
     endpoints:
       - name: Up
         method: POST
