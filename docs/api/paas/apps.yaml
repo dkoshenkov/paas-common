@@ -5,7 +5,6 @@ services:
   apps:
     proto:
       package: paas.apps.v1
-      go_package: github.com/dkoshenkov/paas/pkg/sdk/paas/grpc/apps
     endpoints:
       - name: List
         method: GET
