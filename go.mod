@@ -3,7 +3,7 @@ module github.com/dkoshenkov/paas-sdk
 go 1.26.5
 
 require (
-	github.com/dkoshenkov/packages-go v0.2.0
+	github.com/dkoshenkov/packages-go v0.3.0
 	google.golang.org/grpc v1.83.0
 	google.golang.org/protobuf v1.36.12
 )
