@@ -1,7 +1,7 @@
 services:
   ready:
     proto:
-      package: paas.common.ready.v1
+      package: ready
     endpoints:
       - name: Ready
         method: GET

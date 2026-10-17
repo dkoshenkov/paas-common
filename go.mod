@@ -1,4 +1,4 @@
-module github.com/dkoshenkov/paas-sdk
+module github.com/dkoshenkov/paas-common
 
 go 1.26.5
 

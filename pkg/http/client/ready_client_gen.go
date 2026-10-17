@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"net/url"
 
-	httptypes "github.com/dkoshenkov/paas-sdk/pkg/http/types"
+	httptypes "github.com/dkoshenkov/paas-common/pkg/http/types"
 )
 
 type ReadyClient struct {

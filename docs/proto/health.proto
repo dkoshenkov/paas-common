@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package health;
 
-option go_package = "github.com/dkoshenkov/paas-sdk/internal/generated/proto/health";
+option go_package = "github.com/dkoshenkov/paas-common/internal/generated/proto/health";
 
 import "google/protobuf/empty.proto";
 

@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package ready;
 
-option go_package = "github.com/dkoshenkov/paas-sdk/internal/generated/proto/ready";
+option go_package = "github.com/dkoshenkov/paas-common/internal/generated/proto/ready";
 
 import "google/protobuf/empty.proto";
 

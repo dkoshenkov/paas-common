@@ -1,7 +1,7 @@
 services:
   health:
     proto:
-      package: paas.common.health.v1
+      package: health
     endpoints:
       - name: Health
         method: GET

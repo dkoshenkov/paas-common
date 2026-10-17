@@ -5,7 +5,7 @@ import (
 	"context"
 	"net/http"
 
-	httptypes "github.com/dkoshenkov/paas-sdk/pkg/http/types"
+	httptypes "github.com/dkoshenkov/paas-common/pkg/http/types"
 	"github.com/dkoshenkov/packages-go/configx"
 	"github.com/dkoshenkov/packages-go/middlewarex"
 	"github.com/dkoshenkov/packages-go/middlewarex/httpx"
