@@ -45,6 +45,7 @@ func RegisterReadyHandlersWithMiddlewares(mux *http.ServeMux, server ReadyServer
 			}
 			return httpx.OK(resp), nil
 		},
+		httpx.WithDecoder[struct{}, httptypes.ReadyReadyResponse](func(*http.Request) (struct{}, error) { return struct{}{}, nil }),
 		httpx.WithRuntime[struct{}, httptypes.ReadyReadyResponse](runtime),
 		httpx.WithMiddlewares[struct{}, httptypes.ReadyReadyResponse](middlewares.Ready...),
 	))

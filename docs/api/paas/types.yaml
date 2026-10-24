@@ -1,0 +1,77 @@
+types:
+  ManifestFile:
+    kind: struct
+    fields:
+      name: {type: string}
+      content: {type: string}
+  PreviewRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      component_id: {type: string}
+      files: {type: "[]./types.yaml#ManifestFile"}
+  ApplyRequest:
+    kind: struct
+    fields:
+      preview_id: {type: string}
+  Diagnostic:
+    kind: struct
+    fields:
+      severity: {type: string}
+      code: {type: string}
+      message: {type: string}
+      file: {type: string, required: false}
+      document: {type: int, required: false}
+      field_path: {type: string, required: false}
+      line: {type: int, required: false}
+      column: {type: int, required: false}
+  PreviewResponse:
+    kind: struct
+    fields:
+      diagnostics: {type: "[]./types.yaml#Diagnostic"}
+      plan: {type: ./types.yaml#Plan, required: false}
+      preview_id: {type: string, required: false}
+      expires_at: {type: string, required: false}
+  Plan:
+    kind: struct
+    fields:
+      resources: {type: "[]./types.yaml#ResourceChange"}
+      additional_actions: {type: "[]./types.yaml#AdditionalAction"}
+  ResourceChange:
+    kind: struct
+    fields:
+      api_version: {type: string}
+      kind: {type: string}
+      namespace: {type: string}
+      name: {type: string}
+      action: {type: string}
+      changed_fields: {type: "[]string"}
+  AdditionalAction:
+    kind: struct
+    fields:
+      kind: {type: string}
+      app_id: {type: string}
+  Operation:
+    kind: struct
+    fields:
+      operation_id: {type: string}
+      app_id: {type: string}
+      component_id: {type: string}
+      state: {type: string}
+      stage: {type: string, required: false}
+      diagnostics: {type: "[]./types.yaml#Diagnostic"}
+      created_at: {type: string}
+      updated_at: {type: string}
+      finished_at: {type: string, required: false}
+  ErrorResponse:
+    kind: struct
+    fields:
+      code: {type: string}
+      message: {type: string}
+      diagnostics: {type: "[]./types.yaml#Diagnostic"}
+      conflicting_operation_id: {type: string, required: false}
+  OperationPage:
+    kind: struct
+    fields:
+      items: {type: "[]./types.yaml#Operation"}
+      next_cursor: {type: string, required: false}

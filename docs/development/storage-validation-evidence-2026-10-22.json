@@ -1,0 +1,303 @@
+{
+  "date": "2026-10-22",
+  "go_version": "go version go1.26.5 darwin/arm64",
+  "postgres_version": "PostgreSQL 18.6 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+  "postgres_image": "postgres:18.6-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873",
+  "checks": {
+    "paas-common": [
+      {
+        "check": "version",
+        "exit_code": 0
+      },
+      {
+        "check": "build",
+        "exit_code": 0
+      },
+      {
+        "check": "vet",
+        "exit_code": 0
+      },
+      {
+        "check": "tidy",
+        "exit_code": 0
+      },
+      {
+        "check": "fmt",
+        "exit_code": 0
+      },
+      {
+        "check": "lint",
+        "exit_code": 0
+      },
+      {
+        "check": "test",
+        "exit_code": 0
+      },
+      {
+        "check": "race",
+        "exit_code": 0
+      },
+      {
+        "check": "git diff --check",
+        "exit_code": 0
+      }
+    ],
+    "paas-ctl": [
+      {
+        "check": "version",
+        "exit_code": 0
+      },
+      {
+        "check": "build",
+        "exit_code": 0
+      },
+      {
+        "check": "vet",
+        "exit_code": 0
+      },
+      {
+        "check": "tidy",
+        "exit_code": 0
+      },
+      {
+        "check": "fmt",
+        "exit_code": 0
+      },
+      {
+        "check": "lint",
+        "exit_code": 0
+      },
+      {
+        "check": "test",
+        "exit_code": 0
+      },
+      {
+        "check": "race",
+        "exit_code": 0
+      },
+      {
+        "check": "linux-build",
+        "exit_code": 0
+      },
+      {
+        "check": "git diff --check",
+        "exit_code": 0
+      }
+    ],
+    "paas-daemon": [
+      {
+        "check": "version",
+        "exit_code": 0
+      },
+      {
+        "check": "build",
+        "exit_code": 0
+      },
+      {
+        "check": "vet",
+        "exit_code": 0
+      },
+      {
+        "check": "tidy",
+        "exit_code": 0
+      },
+      {
+        "check": "fmt",
+        "exit_code": 0
+      },
+      {
+        "check": "lint",
+        "exit_code": 0
+      },
+      {
+        "check": "test",
+        "exit_code": 0
+      },
+      {
+        "check": "linux-build",
+        "exit_code": 0
+      },
+      {
+        "check": "git diff --check",
+        "exit_code": 0
+      }
+    ]
+  },
+  "daemon_db_race": {
+    "exit_code": 0,
+    "skipped": false
+  },
+  "sdk_unchanged_count": 58,
+  "sdk_sha256": {
+    "pkg/http/paas/types/types_gen.go": "6cb763c37d35617c3a98b8de577f7920056ccb56cef66f64244c1e676bc6a5f6",
+    "pkg/http/paas/transport/errors_test.go": "10940c5a4276cb51aa5c464bc02e72304bd36375dd26ce9b934fd96511fa8e77",
+    "pkg/http/paas/transport/errors.go": "9300efde3b61cadfb2fc232f93dffe73a7e7605d0bcd962e5926f0b4822f9828",
+    "pkg/http/paas/server/operations/server_gen.go": "ffadc86a373c0476c88607d1f2fdc4d22ac1a889171e7e8377b95b8981d6d607",
+    "pkg/http/paas/server/components/server_gen.go": "c83d37e03384ce3ccadf40b75035a62423e51eca83a225ec212e18306f8b4cb7",
+    "pkg/http/paas/server/apps/server_gen.go": "592e32d53d6e1735a734a49d9f69dcede99bec9808902b0197130edd5492a192",
+    "pkg/http/paas/server/deployments/server_gen.go": "7f03a1e9a8db5e908a225473c4e4e06338ea141766e71b14109de6b6d101af5e",
+    "pkg/http/paas/client/deployments_client_gen.go": "80b19e2eafba533bae62ef4abecee8d4f9c40347c8ab1511dac12d2fb5b46935",
+    "pkg/http/paas/client/components_client_gen.go": "cb1edb139941d40a0aff847f1abe8f069f9f27ff8365573b7c76af22ab5a3c7b",
+    "pkg/http/paas/client/apps_client_gen.go": "2c1b0b2165595e1d20b69f18c8acbcc8fdacb54572f818f39ab0ba491d176eb7",
+    "pkg/http/paas/client/operations_client_gen.go": "63b9954becd7f85b51a0d0023cfaf129db07bb15d568c253b4db14fe9ba1ffea",
+    "pkg/http/paas/client/contract_test.go": "e751fa4c5c30d408b79075347c7fa93f638dfd551b1a85bca64cbe8cf661f818",
+    "pkg/http/paas/validation/plan.go": "218b4c6e57e48d9535585173067ae17e77308e78dca7b02cf37c5dc4bdaf2af2",
+    "pkg/http/paas/validation/catalog.go": "c4c1b04f1c8ba8fb4ea3a61872440833c7d8f73a47518629f6dd41feb04c903d",
+    "pkg/http/paas/validation/catalog_test.go": "c28d8473bb4e47fce42093e1da30dd5491d0ad1deef3841830eb5690664d402a",
+    "pkg/http/paas/validation/response.go": "56f3877530f0d9c31502f5ca1c536765d167521eed42687c33b3ac757f229ac0",
+    "pkg/http/paas/validation/request.go": "b75a22fe8dc67f502cac66f82e4216bb8ddf91911c0cdf8fac6c86d712945f01",
+    "pkg/http/paas/validation/operation_list.go": "f33f067cad15f3f2bc4aa088eebd49d67d367a2128aa08eb6f044d70a89662b5",
+    "pkg/http/paas/validation/response_test.go": "211ca30917b16b5f4c77d762f9d41de1c95a2963ae7cf0eeee021d3b63c6d026",
+    "pkg/http/paas/validation/catalog_integration_test.go": "73a02ed7afa3250a0c82154b5fbf6f12a6277b4cd11ecea2f126d18f7d55f5c6",
+    "pkg/http/paas/validation/operation_list_test.go": "5262995bf0bd5c8409f4e61a3cf6544c91c46fa739dc0f767e587e4ca7a0fb94",
+    "pkg/http/paas/validation/operation_list_integration_test.go": "84a531f4cf4313c407d1b8099db500cb9e30faad0aea0fefeabfdf507ffdc0ca",
+    "pkg/http/paas/validation/integration_test.go": "32040df08e232fe1446e589f6343bf0fc8966720d13198428917d3a2ed6814be",
+    "pkg/http/paas/validation/request_plan_test.go": "af0f47a52eacffad52642dc70d5403371dd223f3802cbee8ff1640c3259cb2d7",
+    "pkg/http/types/types_gen.go": "130eb84e018144f7a3396a904e99b17a45ad65cfd5fa6534d39f0f58935f050e",
+    "pkg/http/server/ready/server_gen.go": "d6337d05e1d38e8b0c48b7d7253e6e40dd10c35656a3316bca8c20f8b09a8f74",
+    "pkg/http/server/health/server_gen.go": "987ca7d5f575b7b745fd67c7ae1b0d5ece31a59cdcfdd7c325fdc0f2d59420e4",
+    "pkg/http/client/common_test.go": "b883f3618e857f3da7365dea01eb0ab7c0e8989459bdc00a7a72b1f934e5ec56",
+    "pkg/http/client/ready_client_gen.go": "d59125a357bf24d53e1bd4fb1e3a9e034dcb1c87635c2c1e1bac10c038f5af53",
+    "pkg/http/client/health_client_gen.go": "31610f635919b347f9401c80e1a4f5471f658de7a6aca87e9d6adbf256fa26c2",
+    "pkg/grpc/ready/ready_grpc.pb.go": "21aa15e0475e278f4c99a00c0549dedbecb4478063c76d5e1d53793589ea3f24",
+    "pkg/grpc/ready/ready.pb.go": "5314ce5d379872696c91d315c6d85fd212f30375a941f06da53c67597202c6c0",
+    "pkg/grpc/health/health_grpc.pb.go": "297ea38e36cb720e3360b01f42295d1332542069a7e39b55a2fffd3b4298a82f",
+    "pkg/grpc/health/health.pb.go": "5fe0c587833f143870f4d53c93650c7cf7884b1c1f8f07c873ebe56bce9491d4",
+    "docs/proto/ready.proto": "e48a2ce78ec7f247586e5c7890ab32d61423963f2c76956dcd62efef5b332988",
+    "docs/proto/health.proto": "e91a19de2c658ea02671a14c07710cdb9601df667cf37cbcee114afb6e9961c6",
+    "docs/oapi/paas/operations_openapi.yaml": "33ccae9b81d0fd3a48160275c3cb28ce8a3dbd513397c8f7850df6dc46c77f5b",
+    "docs/oapi/paas/components_openapi.yaml": "1c2bda0533e8986c9273797ef3522ae97fecbcd4e84289a9abe701d7f753b698",
+    "docs/oapi/paas/apps_openapi.yaml": "37a229660873dfa0cc5ef3e490c3aade49202a07a3104e9914dd1392907bb420",
+    "docs/oapi/paas/deployments_openapi.yaml": "f3f2f478e8a6f483822ecf36b87fcea04d78b32f6ef6a82f395e0542549fac24",
+    "docs/oapi/http/health_openapi.yaml": "07ec155639db4eb85d749a6fdac0cf4459b704b9c2eca189b616d44c3b5df82d",
+    "docs/oapi/http/ready_openapi.yaml": "8e2a27a3bf167d50daf429137db1ff5f520631761f48752a68732155b6e78f2b",
+    "docs/api/paas/common_types.yaml": "b8c8b3704208b29059336d1cb5c4c61092d6d115c8e5be7e6ca3f549d808ce19",
+    "docs/api/paas/api.yaml": "87dae00700407d9cb29dc5c78142e60a7bbab1315a04a36c47f9094b429286af",
+    "docs/api/paas/catalog_types.yaml": "d314efa3d04f42a90259c1093ca33a66420423fdd4f97695b5e5455233c1217c",
+    "docs/api/paas/logs.yaml": "ab520ffa21f4bbf7502dcccee408d561eca2a2be7f45f838fec871c3a3d50745",
+    "docs/api/paas/deployments.yaml": "ec7cfef37f341d22d8fa8eb1488242a28ded04368b2664cb8e4ca95a598597ee",
+    "docs/api/paas/types.yaml": "51159fa9d3d734730e32d80077a888f42ef864598ed032ec85c3f12ad5a3c04f",
+    "docs/api/paas/operations.yaml": "268d06c9d0b98f4e0ec9db852ddf22560bcb9a220cfd7ec7661d7e161440f52e",
+    "docs/api/paas/catalog.yaml": "982e46393d64cc0d32b724360dcf2912e77a279242345f03575847088f311b95",
+    "docs/api/paas/apps.yaml": "7184b7cf505fe2451ee94eb55eb84a4b9285bfbba302cdb68aeb50b16b44d8d2",
+    "docs/api/paas/paas/api.yaml": "932a61a2b20d40c9fc22a8262a5ed1e39a7b271d1713fb6f62c648060ae1739a",
+    "docs/api/common/api.yaml": "c307eebd4d94d9d704d5420d4ee17770a5393f742887c8d8711812382a56cd15",
+    "docs/api/common/health.yaml": "9e5e981ee07345d4e42d57a0549590d94cad5360d075b661d9677de6a9b93933",
+    "docs/api/common/migration.yaml": "0875e9daf6e982453bec8d52ebab672247086823ff93d99cd362d1dc790d03ac",
+    "docs/api/common/error_types.yaml": "893744661f6eae5d039610d5952ae55ddeae318068e554a9a7ffa219794f8653",
+    "docs/api/common/ready.yaml": "03b3390a1202f320d479f7f8ff275e0fc60ac40e73e4d3394174d595c2d7f57b",
+    "docs/api/common/http/api.yaml": "932a61a2b20d40c9fc22a8262a5ed1e39a7b271d1713fb6f62c648060ae1739a"
+  },
+  "source_sha256": {
+    "paas-common/go.mod": "a400ef80bd3f36e47d1ba92d5f6113c0719c9cf055ccae79e4e1eea569d900a2",
+    "paas-common/go.sum": "d77835eb1363b24c1e0ea3afcfea5ee90edb2e909141177654017c895659e834",
+    "paas-common/pkg/grpc/health/health.pb.go": "5fe0c587833f143870f4d53c93650c7cf7884b1c1f8f07c873ebe56bce9491d4",
+    "paas-common/pkg/grpc/health/health_grpc.pb.go": "297ea38e36cb720e3360b01f42295d1332542069a7e39b55a2fffd3b4298a82f",
+    "paas-common/pkg/grpc/ready/ready.pb.go": "5314ce5d379872696c91d315c6d85fd212f30375a941f06da53c67597202c6c0",
+    "paas-common/pkg/grpc/ready/ready_grpc.pb.go": "21aa15e0475e278f4c99a00c0549dedbecb4478063c76d5e1d53793589ea3f24",
+    "paas-common/pkg/http/client/common_test.go": "b883f3618e857f3da7365dea01eb0ab7c0e8989459bdc00a7a72b1f934e5ec56",
+    "paas-common/pkg/http/client/health_client_gen.go": "31610f635919b347f9401c80e1a4f5471f658de7a6aca87e9d6adbf256fa26c2",
+    "paas-common/pkg/http/client/ready_client_gen.go": "d59125a357bf24d53e1bd4fb1e3a9e034dcb1c87635c2c1e1bac10c038f5af53",
+    "paas-common/pkg/http/paas/client/apps_client_gen.go": "2c1b0b2165595e1d20b69f18c8acbcc8fdacb54572f818f39ab0ba491d176eb7",
+    "paas-common/pkg/http/paas/client/components_client_gen.go": "cb1edb139941d40a0aff847f1abe8f069f9f27ff8365573b7c76af22ab5a3c7b",
+    "paas-common/pkg/http/paas/client/contract_test.go": "e751fa4c5c30d408b79075347c7fa93f638dfd551b1a85bca64cbe8cf661f818",
+    "paas-common/pkg/http/paas/client/deployments_client_gen.go": "80b19e2eafba533bae62ef4abecee8d4f9c40347c8ab1511dac12d2fb5b46935",
+    "paas-common/pkg/http/paas/client/operations_client_gen.go": "63b9954becd7f85b51a0d0023cfaf129db07bb15d568c253b4db14fe9ba1ffea",
+    "paas-common/pkg/http/paas/server/apps/server_gen.go": "592e32d53d6e1735a734a49d9f69dcede99bec9808902b0197130edd5492a192",
+    "paas-common/pkg/http/paas/server/components/server_gen.go": "c83d37e03384ce3ccadf40b75035a62423e51eca83a225ec212e18306f8b4cb7",
+    "paas-common/pkg/http/paas/server/deployments/server_gen.go": "7f03a1e9a8db5e908a225473c4e4e06338ea141766e71b14109de6b6d101af5e",
+    "paas-common/pkg/http/paas/server/operations/server_gen.go": "ffadc86a373c0476c88607d1f2fdc4d22ac1a889171e7e8377b95b8981d6d607",
+    "paas-common/pkg/http/paas/transport/errors.go": "9300efde3b61cadfb2fc232f93dffe73a7e7605d0bcd962e5926f0b4822f9828",
+    "paas-common/pkg/http/paas/transport/errors_test.go": "10940c5a4276cb51aa5c464bc02e72304bd36375dd26ce9b934fd96511fa8e77",
+    "paas-common/pkg/http/paas/types/types_gen.go": "6cb763c37d35617c3a98b8de577f7920056ccb56cef66f64244c1e676bc6a5f6",
+    "paas-common/pkg/http/paas/validation/catalog.go": "c4c1b04f1c8ba8fb4ea3a61872440833c7d8f73a47518629f6dd41feb04c903d",
+    "paas-common/pkg/http/paas/validation/catalog_integration_test.go": "73a02ed7afa3250a0c82154b5fbf6f12a6277b4cd11ecea2f126d18f7d55f5c6",
+    "paas-common/pkg/http/paas/validation/catalog_test.go": "c28d8473bb4e47fce42093e1da30dd5491d0ad1deef3841830eb5690664d402a",
+    "paas-common/pkg/http/paas/validation/integration_test.go": "32040df08e232fe1446e589f6343bf0fc8966720d13198428917d3a2ed6814be",
+    "paas-common/pkg/http/paas/validation/operation_list.go": "f33f067cad15f3f2bc4aa088eebd49d67d367a2128aa08eb6f044d70a89662b5",
+    "paas-common/pkg/http/paas/validation/operation_list_integration_test.go": "84a531f4cf4313c407d1b8099db500cb9e30faad0aea0fefeabfdf507ffdc0ca",
+    "paas-common/pkg/http/paas/validation/operation_list_test.go": "5262995bf0bd5c8409f4e61a3cf6544c91c46fa739dc0f767e587e4ca7a0fb94",
+    "paas-common/pkg/http/paas/validation/plan.go": "218b4c6e57e48d9535585173067ae17e77308e78dca7b02cf37c5dc4bdaf2af2",
+    "paas-common/pkg/http/paas/validation/request.go": "b75a22fe8dc67f502cac66f82e4216bb8ddf91911c0cdf8fac6c86d712945f01",
+    "paas-common/pkg/http/paas/validation/request_plan_test.go": "af0f47a52eacffad52642dc70d5403371dd223f3802cbee8ff1640c3259cb2d7",
+    "paas-common/pkg/http/paas/validation/response.go": "56f3877530f0d9c31502f5ca1c536765d167521eed42687c33b3ac757f229ac0",
+    "paas-common/pkg/http/paas/validation/response_test.go": "211ca30917b16b5f4c77d762f9d41de1c95a2963ae7cf0eeee021d3b63c6d026",
+    "paas-common/pkg/http/server/health/server_gen.go": "987ca7d5f575b7b745fd67c7ae1b0d5ece31a59cdcfdd7c325fdc0f2d59420e4",
+    "paas-common/pkg/http/server/ready/server_gen.go": "d6337d05e1d38e8b0c48b7d7253e6e40dd10c35656a3316bca8c20f8b09a8f74",
+    "paas-common/pkg/http/types/types_gen.go": "130eb84e018144f7a3396a904e99b17a45ad65cfd5fa6534d39f0f58935f050e",
+    "paas-ctl/cmd/paas-ctl/main.go": "1bb42a58a54a053b5e964dd58577c3eb94a1b0c622ff9a7d644bd7cceb200c4e",
+    "paas-ctl/cmd/paas-ctl/main_test.go": "49f7e63489a270733ee18ebe8a39e9f25a449a0e7cc700397e351cff8ab23349",
+    "paas-ctl/go.mod": "866b160e765bfb236a7d3646ed0af7d13ae8cb8b108a84ef8218d538884de76e",
+    "paas-ctl/go.sum": "541a1df90b337f4cd2322ad3df9bb3af01461fc1a320dca03fc936578e0643fe",
+    "paas-ctl/internal/connection/client.go": "a9cf347ce223b0343be1be289a4b0f8fe57fa702208f39c101c95cfb493c67c8",
+    "paas-ctl/internal/connection/connection_test.go": "5dcefcd9bba0e7e3d1b5fcea6e26dc6fa4d5e650ced36b4116e8abedec59e956",
+    "paas-ctl/internal/connection/ssh.go": "3657f22bf81141b3395fae3c5e5130005eef61edf885d0c74679d7f1051b386f",
+    "paas-daemon/cmd/paas-daemon/main.go": "42999cdfbaec2ba9789bd11a84cf11bc39e3d90129b15e0b16598308750c9c53",
+    "paas-daemon/go.mod": "9c5c19ad75088a96b7641c71417d557d81682c01eb428d75b5225f3345a8941c",
+    "paas-daemon/go.sum": "add0e47b9165773084fd5a1899c60d4e9253ebf84945a3ee3775a3f21a79627b",
+    "paas-daemon/internal/daemon/catalog.go": "5329019059ac4a5098834a91bd436e1f3f541c482e35ccaed9b956462ba00416",
+    "paas-daemon/internal/daemon/postgres_test.go": "9866313050495527b3dcadfdc436b9d95db8c5abc5c32bee7ef65757e88b69b6",
+    "paas-daemon/internal/daemon/server.go": "937f19855ff0e05b1ca774b6aeee361802f0990c59300c238415e1be3125c6b4",
+    "paas-daemon/internal/daemon/server_test.go": "a14ee518b7de03256a7075a36efa1452403c0de785e7a71206cdff9c7aca5d23",
+    "paas-daemon/internal/store/config.go": "a83aa978493eb56535aeb4a2bf82085abad8120f6f378a31c77fd725df95ea04",
+    "paas-daemon/internal/store/config_test.go": "faad45a8a75e3b6cb11254f323b4282473dfdd2dd36b1b7744f40f6ec2727566",
+    "paas-daemon/internal/store/integration_test.go": "6a15a81561dd20ce2dce95480af27e7be17cc73af11e1c62e630a2632bab9788",
+    "paas-daemon/internal/store/migrate.go": "b169731686826d7ebc67176dd5218cdcbadaec52126632c5c9ed4ea553aa98db",
+    "paas-daemon/internal/store/migrations/00001_catalog.sql": "beb640b0967516e84bd1e16df772e052ed371c5792b935e8c924d432e6c6e6f6",
+    "paas-daemon/internal/store/migrations/00002_application_validation.sql": "f81cd716717f82e9605b348a9341e4d06b7f69bc4ce8d51ec42269ec172b1acc",
+    "paas-daemon/internal/store/store.go": "4edb5845054f32dda59359a9a1719991c594ba4b1aa92aa91548b0b59de2b90c",
+    "paas-daemon/scripts/test-postgres.sh": "cea4da869f12af393ce1e64ee631470478132bda4ddce9aea11f13541e7170c8"
+  },
+  "log_directory": "/private/tmp/paas-acceptance-20261022",
+  "log_sha256": {
+    "daemon-db-race.log": "6b107d3d22fac8c02d23708c848a0e323f17dbf64daf49ded7a54cfb642a62c7",
+    "openspec-validate.log": "208bc944e536646ea5794db03fba025e9b369d8f929e1301af3048f08ee7c3a1",
+    "paas-common-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-common-diff-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-common-fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-common-lint.log": "e92606b0bf483111dff0a120c315ea165821348f31365020e2468a0059095c47",
+    "paas-common-race.log": "730e65e5c2dfcd2b5c83068e632a578f12fa11f3d711ff4064f1ead334af8870",
+    "paas-common-test.log": "a82ce7cc4eb7df78e9c869df5e822eade590ac61f94bc97549931c1d08cb26ab",
+    "paas-common-tidy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-common-version.log": "278375c8a03c34bb0f855154850de7c4f217fd3b8cdf37986819e3f05d0a4c33",
+    "paas-common-vet.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-ctl-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-ctl-diff-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-ctl-fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-ctl-lint.log": "e92606b0bf483111dff0a120c315ea165821348f31365020e2468a0059095c47",
+    "paas-ctl-linux-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-ctl-race.log": "23cc3fd2d7f2dcfb27c87d8017b7645dd52c2ab0ab1f33fc2e747be9880f152c",
+    "paas-ctl-test.log": "a64ba5c9c64b1bbd4e8eb389d4c1733e87560cd056ab885ebb9ab4d4e93b03f7",
+    "paas-ctl-tidy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-ctl-version.log": "278375c8a03c34bb0f855154850de7c4f217fd3b8cdf37986819e3f05d0a4c33",
+    "paas-ctl-vet.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-daemon-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-daemon-diff-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-daemon-fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-daemon-lint.log": "e92606b0bf483111dff0a120c315ea165821348f31365020e2468a0059095c47",
+    "paas-daemon-linux-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-daemon-test.log": "d2bbd06dc08dc91640470a252a5674eaef72dbaff7723f3a5ef6ab10b27c185e",
+    "paas-daemon-tidy.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paas-daemon-version.log": "278375c8a03c34bb0f855154850de7c4f217fd3b8cdf37986819e3f05d0a4c33",
+    "paas-daemon-vet.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "db_tests": [
+    "--- PASS: TestPostgresDaemonProcess (0.00s)",
+    "--- PASS: TestPostgresCatalogOverUnixAndRestart (4.26s)",
+    "--- PASS: TestPostgresEnvironmentCannotRedirect (0.00s)",
+    "--- PASS: TestPostgresServiceEnvironmentRejected (0.00s)",
+    "--- PASS: TestPostgresCatalogPersistenceAndPaging (0.14s)",
+    "--- PASS: TestPostgresSchemaAndRecovery (0.21s)",
+    "--- PASS: TestPostgresMigrations (5.66s)",
+    "--- PASS: TestPostgresApplicationValidationAndSoftDelete (0.22s)",
+    "--- PASS: TestPostgresUpgradePreservesCatalog (0.23s)",
+    "--- PASS: TestPostgresByteOrderingAndIndexes (0.08s)"
+  ],
+  "boundaries": [
+    "Local Docker PostgreSQL and non-root daemon server subprocess on prepared temporary UDS path",
+    "No live SSH/sshd, k3s installation, production roles, deployment or runtime preview/operations acceptance"
+  ],
+  "openspec_strict_validate": {
+    "exit_code": 0
+  }
+}

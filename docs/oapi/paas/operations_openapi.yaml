@@ -1,0 +1,164 @@
+openapi: 3.0.3
+info:
+  title: "operations API"
+  version: "1.0.0"
+paths:
+  "/operations/get":
+    get:
+      operationId: "OperationsGet"
+      parameters:
+        - name: "operation_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesOperation"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/operations/list":
+    get:
+      operationId: "OperationsList"
+      parameters:
+        - name: "cursor"
+          in: query
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "limit"
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: "state"
+          in: query
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesOperationPage"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string
+    TypesOperation:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "created_at"
+        - "diagnostics"
+        - "operation_id"
+        - "state"
+        - "updated_at"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        created_at:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        finished_at:
+          type: string
+        operation_id:
+          type: string
+        stage:
+          type: string
+        state:
+          type: string
+        updated_at:
+          type: string
+    TypesOperationPage:
+      type: object
+      required:
+        - "items"
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesOperation"
+        next_cursor:
+          type: string

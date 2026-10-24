@@ -1,17 +1,15 @@
 services:
   ready:
-    proto:
-      package: ready
     endpoints:
       - name: Ready
         method: GET
         path: /ready
         responses:
-          "200": ReadyResponse
+          "200": ./ready.yaml#ReadyResponse
 
 
 types:
   ReadyResponse:
     kind: struct
     fields:
-      status: {type: string, number: 1}
+      status: string
