@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/dkoshenkov/paas-common/compare/v0.3.2...v1.0.0) (2026-10-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename SDK to paas-common and add platform specs
+
+### Code Refactoring
+
+* rename SDK to paas-common and add platform specs ([baecae5](https://github.com/dkoshenkov/paas-common/commit/baecae54a0ae27c50390c90c5239031ed7d7303e))
+
 ## [0.3.2](https://github.com/dkoshenkov/paas-sdk/compare/v0.3.1...v0.3.2) (2026-08-10)
 
 
