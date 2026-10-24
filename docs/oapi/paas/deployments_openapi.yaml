@@ -1,0 +1,283 @@
+openapi: 3.0.3
+info:
+  title: "deployments API"
+  version: "1.0.0"
+paths:
+  "/deployments/apply":
+    post:
+      operationId: "DeploymentsApply"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 8388608
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TypesApplyRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesOperation"
+        "202":
+          description: "HTTP 202 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesOperation"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "410":
+          description: "HTTP 410 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/deployments/preview":
+    post:
+      operationId: "DeploymentsPreview"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 8388608
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TypesPreviewRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesPreviewResponse"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    TypesAdditionalAction:
+      type: object
+      required:
+        - "app_id"
+        - "kind"
+      properties:
+        app_id:
+          type: string
+        kind:
+          type: string
+    TypesApplyRequest:
+      type: object
+      required:
+        - "preview_id"
+      properties:
+        preview_id:
+          type: string
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string
+    TypesManifestFile:
+      type: object
+      required:
+        - "content"
+        - "name"
+      properties:
+        content:
+          type: string
+        name:
+          type: string
+    TypesOperation:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "created_at"
+        - "diagnostics"
+        - "operation_id"
+        - "state"
+        - "updated_at"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        created_at:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        finished_at:
+          type: string
+        operation_id:
+          type: string
+        stage:
+          type: string
+        state:
+          type: string
+        updated_at:
+          type: string
+    TypesPlan:
+      type: object
+      required:
+        - "additional_actions"
+        - "resources"
+      properties:
+        additional_actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesAdditionalAction"
+        resources:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesResourceChange"
+    TypesPreviewRequest:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "files"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesManifestFile"
+    TypesPreviewResponse:
+      type: object
+      required:
+        - "diagnostics"
+      properties:
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        expires_at:
+          type: string
+        plan:
+          allOf:
+            -
+              $ref: "#/components/schemas/TypesPlan"
+            - not:
+                enum: [null]
+        preview_id:
+          type: string
+    TypesResourceChange:
+      type: object
+      required:
+        - "action"
+        - "api_version"
+        - "changed_fields"
+        - "kind"
+        - "name"
+        - "namespace"
+      properties:
+        action:
+          type: string
+        api_version:
+          type: string
+        changed_fields:
+          type: array
+          items:
+            type: string
+        kind:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string

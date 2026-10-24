@@ -11,7 +11,7 @@ on:
       golangci-lint-version:
         required: false
         type: string
-        default: v2.11
+        default: v2.15.0
 
 permissions:
   contents: read

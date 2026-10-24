@@ -1,35 +1,32 @@
-
+.DEFAULT_GOAL := sdk
 
 GENERATOR ?= ./flux
+FLUX_REVISION := 7bf0d07b74871baa601b6388b53560ec6f6cbe01
 COMMON_INPUT ?= docs/api/common
-SDK_GO_PATH ?= pkg/http
-PROTO_PATH ?= docs/proto
-COMMON_PROTO_OUTPUT ?= $(PROTO_PATH)
+PAAS_INPUT ?= docs/api/paas
+SDK_GO_PATH ?= pkg
+PAAS_GO_PATH ?= pkg/http
 OAPI_OUTPUT_PATH ?= docs/oapi
-COMMON_GRPC_OUTPUT ?= pkg/grpc
-COMMON_OAPI_OUTPUT ?= docs/oapi
-PROTOC ?= protoc
-GO_BIN ?= $(shell GOTOOLCHAIN=local go env GOPATH)/bin
-PROTOC_GEN_GO ?= $(GO_BIN)/protoc-gen-go
-PROTOC_GEN_GO_GRPC ?= $(GO_BIN)/protoc-gen-go-grpc
-GO_MODULE ?= $(shell awk '$$1 == "module" { print $$2; exit }' go.mod)
-PROTOC_GO_PACKAGE_OPTIONS ?= --go_opt=Mhealth.proto=$(GO_MODULE)/pkg/grpc/health --go_opt=Mready.proto=$(GO_MODULE)/pkg/grpc/ready
-PROTOC_GRPC_PACKAGE_OPTIONS ?= --go-grpc_opt=Mhealth.proto=$(GO_MODULE)/pkg/grpc/health --go-grpc_opt=Mready.proto=$(GO_MODULE)/pkg/grpc/ready
 
-.PHONY: sdk sdk-http sdk-proto sdk-grpc sdk-oapi
+.PHONY: sdk sdk-http sdk-oapi sdk-proto sdk-grpc check-flux
 
-sdk-http:
-	$(GENERATOR) generate --target go --in $(COMMON_INPUT)  --go-generated-path $(SDK_GO_PATH)
+check-flux:
+	@version="$$($(GENERATOR) version)"; \
+	case "$$version" in \
+	  "flux v0.4.0 ($(FLUX_REVISION))"|"flux dev ($(FLUX_REVISION))") ;; \
+	  *) printf '%s\n' "Expected clean Flux $(FLUX_REVISION); got: $$version" >&2; exit 1 ;; \
+	esac
 
-sdk-proto:
-	$(GENERATOR) generate --target proto --in $(COMMON_INPUT) --proto-generated-path $(PROTO_PATH)
+sdk-http: check-flux
+	$(GENERATOR) generate --target go --in $(COMMON_INPUT) --go-generated-path $(SDK_GO_PATH)
+	$(GENERATOR) generate --target go --in $(PAAS_INPUT) --go-generated-path $(PAAS_GO_PATH)
 
-sdk-grpc: sdk-proto
-	mkdir -p $(COMMON_GRPC_OUTPUT)
-	$(PROTOC) --proto_path=$(PROTO_PATH) --plugin=protoc-gen-go=$(PROTOC_GEN_GO) --plugin=protoc-gen-go-grpc=$(PROTOC_GEN_GO_GRPC) --go_out=. --go_opt=paths=import --go_opt=module=$(GO_MODULE) $(PROTOC_GO_PACKAGE_OPTIONS) --go-grpc_out=. --go-grpc_opt=paths=import --go-grpc_opt=module=$(GO_MODULE) $(PROTOC_GRPC_PACKAGE_OPTIONS) $(COMMON_PROTO_OUTPUT)/*.proto
+sdk-oapi: check-flux
+	$(GENERATOR) generate --target oapi --in $(COMMON_INPUT) --oapi-generated-path $(OAPI_OUTPUT_PATH)
+	$(GENERATOR) generate --target oapi --in $(PAAS_INPUT) --oapi-generated-path $(OAPI_OUTPUT_PATH)
 
-sdk-oapi:
-	$(GENERATOR) generate --target oapi --in $(COMMON_INPUT)  --oapi-generated-path $(OAPI_OUTPUT_PATH)
+sdk-proto sdk-grpc:
+	@printf '%s\n' 'proto/gRPC generation is deferred; existing docs/proto and pkg/grpc are preserved.' >&2
+	@exit 1
 
-
-sdk: sdk-http sdk-grpc sdk-oapi
+sdk: sdk-http sdk-oapi

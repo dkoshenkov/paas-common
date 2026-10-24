@@ -3,7 +3,7 @@ info:
   title: "health API"
   version: "1.0.0"
 paths:
-  /health:
+  "/health":
     get:
       operationId: "HealthHealth"
       responses:

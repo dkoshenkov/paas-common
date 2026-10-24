@@ -5,12 +5,12 @@
 This repository contains PaaS contracts, generated SDK artifacts, OpenSpec, and shared project documentation. It is part of a workspace with three independent Git repositories; the workspace root is not a Git repository.
 
 - This repository: Go module for HTTP and gRPC contracts. Edit source specifications in `docs/api/common/` and `docs/api/paas/`. Generated artifacts live in `pkg/http/`, `pkg/grpc/`, `docs/proto/`, and `docs/oapi/`.
-- Sibling repositories `../paas-ctl/` and `../paas-daemon/`: currently template scaffolds with workflow definitions and initialization scripts; application code and Go modules are not present yet.
+- Sibling repositories `../paas-ctl/` and `../paas-daemon/` have Go modules and application code. ctl checks daemon health/readiness through SSH/UDS; daemon serves health/readiness and the read-only PostgreSQL catalog. Preview/apply and operation-history runtime remain pending stages. Both use a development-only local `replace` for `paas-common`.
 - Each repository has `.github/` automation and `.golangci.yml` configuration.
 
 ## Build, Test, and Development Commands
 
-Run these commands from this repository root, using Go 1.26.5 or newer:
+Run these commands from this repository root, using Go 1.27.3 or newer:
 
 - `go build ./...`: compile all packages.
 - `go test -count=1 ./...`: run tests without cached results.
@@ -18,17 +18,17 @@ Run these commands from this repository root, using Go 1.26.5 or newer:
 - `go vet ./...`: run static checks.
 - `go mod tidy -diff`: detect dependency-file drift without modifying files.
 - `golangci-lint fmt` and `golangci-lint run`: format handwritten code and run configured linters.
-- `make sdk`: regenerate common HTTP, protobuf, gRPC, and OpenAPI artifacts. Individual targets include `sdk-http`, `sdk-grpc`, and `sdk-oapi`.
+- `make sdk GENERATOR=/path/to/flux`: regenerate common and approved PaaS preview/apply, operations get/list and catalog HTTP/OpenAPI artifacts. Individual targets are `sdk-http` and `sdk-oapi`; existing protobuf/gRPC artifacts are preserved.
 
-Generation requires Flux, `protoc`, `protoc-gen-go`, and `protoc-gen-go-grpc`. The default `./flux` binary is currently absent; supply it or use `make sdk GENERATOR=/path/to/flux`. There is no application run command yet.
+Generation uses clean Flux revision `7bf0d07b74871baa601b6388b53560ec6f6cbe01` (v0.4.0); Makefile checks it. The default `./flux` binary is absent; pass `GENERATOR=/path/to/flux`. Current Flux has no proto target: `sdk-proto`/`sdk-grpc` fail explicitly, and no protoc tools are needed for this profile. This contracts repository has no application run command; executable commands live in the sibling ctl/daemon repositories.
 
 ## Coding Style & Naming Conventions
 
-Use idiomatic Go names, tabs for Go indentation, and two spaces in YAML. Configured formatters are `gofumpt` and `gci`. Never manually edit generated files, including `*_gen.go` and `*.pb.go`; update source contracts and regenerate. Current Makefile defaults generate common contracts only.
+Use idiomatic Go names, tabs for Go indentation, and two spaces in YAML. Configured formatters are `gofumpt` and `gci`. Never manually edit generated files, including `*_gen.go` and `*.pb.go`; update source contracts and regenerate. Current Makefile defaults generate common and the approved PaaS deployment, operation get/list and read-only catalog contracts. `pkg/http/paas/transport` and `pkg/http/paas/validation` are handwritten. Semantic validators are explicit, context-free calls; generated handlers do not automatically install them.
 
 ## Testing Guidelines
 
-No `*_test.go` files or coverage threshold currently exist. Use Go's standard `testing` package, colocate `*_test.go` files with code, and name tests `TestBehavior`. Add focused checks for new handwritten behavior. Verify regenerated artifacts with build, test, and lint commands.
+`pkg/http/client/common_test.go` checks generated health/ready clients, handlers and JSON responses through an in-process transport without opening a TCP port; no coverage threshold exists. Use Go's standard `testing` package, colocate `*_test.go` files with code, and name tests `TestBehavior`. Add focused checks for new handwritten behavior. Verify regenerated artifacts with build, test, and lint commands.
 
 ## Commit & Pull Request Guidelines
 

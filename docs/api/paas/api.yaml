@@ -1,6 +1,8 @@
 imports:
-  - ./apps.yaml
   - ./deployments.yaml
-  - ./logs.yaml
+  - ./operations.yaml
+  - ./catalog.yaml
+  - ./catalog_types.yaml
+  - ./types.yaml
 
 services: {}

@@ -1,0 +1,23 @@
+types:
+  AppSummary:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      name: {type: string}
+  ComponentSummary:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      component_id: {type: string}
+      name: {type: string}
+  AppPage:
+    kind: struct
+    fields:
+      items: {type: "[]./catalog_types.yaml#AppSummary"}
+      next_cursor: {type: string, required: false}
+  ComponentPage:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      items: {type: "[]./catalog_types.yaml#ComponentSummary"}
+      next_cursor: {type: string, required: false}
