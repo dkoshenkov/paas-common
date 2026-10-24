@@ -33,19 +33,19 @@ func (c *HealthClient) Health(ctx context.Context) (httptypes.HealthHealthRespon
 	reqURL := c.baseURL.ResolveReference(&url.URL{Path: "/health"})
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", reqURL.String(), bodyReader)
 	if err != nil {
-		return httptypes.HealthHealthResponse{}, fmt.Errorf("build request: %w", err)
+		return *new(httptypes.HealthHealthResponse), fmt.Errorf("build request: %w", err)
 	}
 	httpResp, err := c.httpClient.Do(httpReq)
 	if err != nil {
-		return httptypes.HealthHealthResponse{}, fmt.Errorf("execute request: %w", err)
+		return *new(httptypes.HealthHealthResponse), fmt.Errorf("execute request: %w", err)
 	}
 	defer httpResp.Body.Close()
 	if httpResp.StatusCode != 200 {
-		return httptypes.HealthHealthResponse{}, fmt.Errorf("unexpected status: %d", httpResp.StatusCode)
+		return *new(httptypes.HealthHealthResponse), fmt.Errorf("unexpected status: %d", httpResp.StatusCode)
 	}
 	var resp httptypes.HealthHealthResponse
 	if err := json.NewDecoder(httpResp.Body).Decode(&resp); err != nil {
-		return httptypes.HealthHealthResponse{}, fmt.Errorf("decode response: %w", err)
+		return *new(httptypes.HealthHealthResponse), fmt.Errorf("decode response: %w", err)
 	}
 	return resp, nil
 }

@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: "components API"
+  version: "1.0.0"
+paths:
+  "/components/get":
+    get:
+      operationId: "ComponentsGet"
+      parameters:
+        - name: "app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "component_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogTypesComponentSummary"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/components/list":
+    get:
+      operationId: "ComponentsList"
+      parameters:
+        - name: "app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "cursor"
+          in: query
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "limit"
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogTypesComponentPage"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    CatalogTypesComponentPage:
+      type: object
+      required:
+        - "app_id"
+        - "items"
+      properties:
+        app_id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CatalogTypesComponentSummary"
+        next_cursor:
+          type: string
+    CatalogTypesComponentSummary:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "name"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        name:
+          type: string
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string

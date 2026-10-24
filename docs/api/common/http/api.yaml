@@ -1,0 +1,4 @@
+imports:
+  - ../api.yaml
+
+services: {}

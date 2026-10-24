@@ -45,6 +45,7 @@ func RegisterHealthHandlersWithMiddlewares(mux *http.ServeMux, server HealthServ
 			}
 			return httpx.OK(resp), nil
 		},
+		httpx.WithDecoder[struct{}, httptypes.HealthHealthResponse](func(*http.Request) (struct{}, error) { return struct{}{}, nil }),
 		httpx.WithRuntime[struct{}, httptypes.HealthHealthResponse](runtime),
 		httpx.WithMiddlewares[struct{}, httptypes.HealthHealthResponse](middlewares.Health...),
 	))

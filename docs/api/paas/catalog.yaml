@@ -1,0 +1,80 @@
+services:
+  apps:
+    endpoints:
+      - name: List
+        method: GET
+        path: /apps/list
+        parameters:
+          - name: limit
+            field: limit
+            in: query
+            type: int
+            required: false
+          - name: cursor
+            field: cursor
+            in: query
+            type: string
+            required: false
+        responses:
+          "200": ./catalog_types.yaml#AppPage
+          "400": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Get
+        method: GET
+        path: /apps/get
+        parameters:
+          - name: app_id
+            field: appId
+            in: query
+            type: string
+            required: true
+        responses:
+          "200": ./catalog_types.yaml#AppSummary
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+  components:
+    endpoints:
+      - name: List
+        method: GET
+        path: /components/list
+        parameters:
+          - name: app_id
+            field: appId
+            in: query
+            type: string
+            required: true
+          - name: limit
+            field: limit
+            in: query
+            type: int
+            required: false
+          - name: cursor
+            field: cursor
+            in: query
+            type: string
+            required: false
+        responses:
+          "200": ./catalog_types.yaml#ComponentPage
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Get
+        method: GET
+        path: /components/get
+        parameters:
+          - name: app_id
+            field: appId
+            in: query
+            type: string
+            required: true
+          - name: component_id
+            field: componentId
+            in: query
+            type: string
+            required: true
+        responses:
+          "200": ./catalog_types.yaml#ComponentSummary
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
