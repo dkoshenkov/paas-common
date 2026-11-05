@@ -7,10 +7,11 @@ import (
 	"strings"
 	"testing"
 
-	yaml "go.yaml.in/yaml/v4"
 	"go.yaml.in/yaml/v4/plugin/aliasdata"
 	"go.yaml.in/yaml/v4/plugin/loaderlimits"
 	"go.yaml.in/yaml/v4/plugin/mergekey"
+
+	yaml "go.yaml.in/yaml/v4"
 )
 
 func depth(n *yaml.Node) int {
@@ -25,6 +26,7 @@ func depth(n *yaml.Node) int {
 	}
 	return m
 }
+
 func nodes(n *yaml.Node) int {
 	count := 1
 	for _, c := range n.Content {
@@ -32,6 +34,7 @@ func nodes(n *yaml.Node) int {
 	}
 	return count
 }
+
 func block(n int, leaf string) string {
 	var b strings.Builder
 	for i := 0; i < n; i++ {
@@ -51,6 +54,7 @@ func indentless(n int) string {
 	b.WriteString(strings.Repeat("  ", n) + "0\n")
 	return b.String()
 }
+
 func load(input string, extra ...yaml.Option) (yaml.Node, error) {
 	opts := []yaml.Option{yaml.WithPlugin(loaderlimits.New(loaderlimits.DepthValue(64)))}
 	opts = append(opts, extra...)
@@ -62,14 +66,17 @@ func load(input string, extra ...yaml.Option) (yaml.Node, error) {
 	e = l.Load(&n)
 	return n, e
 }
+
 func TestDepthCounterexamples(t *testing.T) {
 	cases := []struct {
 		name, input string
 		wantDepth   int
 		wantErr     bool
 	}{
-		{"flow64", flow(64), 64, false}, {"flow65", flow(65), 0, true},
-		{"block64", block(64, "0"), 64, false}, {"block65", block(65, "0"), 0, true},
+		{"flow64", flow(64), 64, false},
+		{"flow65", flow(65), 0, true},
+		{"block64", block(64, "0"), 64, false},
+		{"block65", block(65, "0"), 0, true},
 		{"mixed65", block(32, flow(33)), 65, false},
 		{"mixed128", block(64, flow(64)), 128, false},
 		{"indentless64", indentless(32), 64, false},
@@ -88,6 +95,7 @@ func TestDepthCounterexamples(t *testing.T) {
 		})
 	}
 }
+
 func TestAliasesAndMerge(t *testing.T) {
 	deny, e := aliasdata.New(aliasdata.WithDisable(true))
 	if e != nil {
@@ -112,6 +120,7 @@ type docPolicy struct{ count int }
 func (p *docPolicy) NewAliasDataContext(yaml.AliasDataServices) (yaml.AliasDataContext, error) {
 	return p, nil
 }
+
 func (p *docPolicy) BeginDocument() error {
 	p.count++
 	if p.count > 128 {
@@ -151,6 +160,7 @@ func TestDocumentBudget(t *testing.T) {
 	}
 	t.Fatal("129th document not rejected")
 }
+
 func TestNoNodeBudget(t *testing.T) {
 	calls := 0
 	limits := loaderlimits.New(loaderlimits.DepthFunc(func(d int, _ *yaml.DepthContext) error {
