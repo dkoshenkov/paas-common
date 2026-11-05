@@ -1219,3 +1219,43 @@ apps/logs и GitHub-клиента требует отдельного согл�
 - **WHEN** загрузка Go 1.27.3 не выполняется из-за ограничения среды
 - **THEN** проверки на этом baseline остаются открытыми с воспроизводимыми командами
 - **AND** предварительная генерация другой patch-версией Go не объявляется полной приёмкой
+
+
+### Requirement: Внутренняя основа admission не подменяет публичный деплой
+
+Статус: предложено 2026-11-05, требуется одобрение 3.3.11–3.3.15 до реализации.
+Внутренний этап SHALL сохранять immutable versioned snapshots, атомарную связь
+preview → operation и долговременные резервы в PostgreSQL с Go-validation.
+Он SHALL NOT регистрировать production preview/apply handlers, CLI deploy,
+фиктивный worker или выдавать production ACCEPTED. Тестовые planner/state SHALL
+явно отделяться от реальной проверки Kubernetes и восстановления исполнения.
+
+#### Scenario: Ожидающий writer видит завершённое принятие
+- **WHEN** два процесса пытаются изменить контрольное состояние или выполнить cleanup
+- **THEN** они SHALL использовать один transaction-scoped advisory lock и READ COMMITTED
+- **AND** authoritative reads SHALL выполняться после lock, видя commit предыдущего writer
+- **AND** TTL SHALL проверяться по DB wall clock после ожидания и при финальном решении после replan, существующая связь — раньше TTL
+- **AND** ожидание и транзакция SHALL иметь конечный deadline, не содержать внешних мутаций
+
+#### Scenario: Внутренняя транзакция принята, подтверждение commit потеряно
+- **WHEN** клиент не может доказать результат commit admission
+- **THEN** он SHALL возвращать unknown-outcome, не FAILED и не обещание отсутствия операции
+- **AND** повтор того же preview ID под writer lock SHALL разрешать прежнюю связь
+- **AND** битая связь, duplicate identity или повреждённый snapshot SHALL запрещать новое принятие
+
+#### Scenario: Очистка не разрушает идемпотентность и восстановление
+- **WHEN** cleanup под тем же writer lock очищает допустимые по lifecycle snapshots
+- **THEN** он SHALL атомарно очищать чувствительные payloads и обновлять quota accounting
+- **AND** активные input/plan/claims SHALL сохраняться независимо от TTL preview
+- **AND** retired IDs SHALL оставаться неповторяемыми, ownership SHALL сохраняться отдельно от истории
+- **AND** soft-delete без очистки payload SHALL NOT считаться удалением чувствительного содержимого
+
+#### Scenario: Приёмка внутренней основы ограничена доказанным объёмом
+- **WHEN** integration tests используют привилегированные fixtures и тестовый planner
+- **THEN** отдельные процессы и настоящий PostgreSQL SHALL проверять гонки, restart и commit ambiguity
+- **AND** fixture results SHALL NOT закрывать требования public planner, catalog writers или Kubernetes recovery
+- **AND** production daemon SHALL сохранять SELECT-only identity, прежние GET/DTO и отсутствие DML startup
+
+Числа новых active quotas, представление private full plan и tombstone trade-off
+предложены в design.md и SHALL утверждаться перед apply; существующие preview
+квоты/TTL и публичные HTTP-коды не изменяются этим требованием.

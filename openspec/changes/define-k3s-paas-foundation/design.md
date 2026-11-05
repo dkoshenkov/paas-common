@@ -1371,3 +1371,236 @@ RBAC/hostPath и прочие инфраструктурные требован�
 Матрица всех требований и снимок исходников — в [design.md](design.md),
 раздел «Снимок реализации и покрытие OpenSpec — 2026-10-21».
 Это статус реализации, а не ослабление требований ниже.
+
+## Предложение 3.3.11–3.3.15: внутреннее durable admission — 2026-11-05
+
+Статус: архитектура для рассмотрения, не разрешение на реализацию. Пользователь
+разрешил автономную подготовку архитектуры после merge 3.3.6–3.3.10; предыдущий
+вопрос явно предусматривал рассмотрение конкретных решений перед реализацией.
+Основа: common `4bbf001`, daemon `7e2316d`, ctl `a7a50ca`; CI на main прошёл.
+
+### Граница полезного этапа
+
+Предлагается реализовать внутренние persistence/transaction primitives daemon,
+проверяемые настоящим PostgreSQL и отдельными процессами. Они сохраняют
+неизменяемый preview и атомарно принимают его в тестовой модели полного плана.
+Это не production preview/apply: маршруты POST не регистрируются, публичная CLI
+команда не добавляется, runtime identity сохраняет SELECT-only права. Не создаются
+production ACCEPTED, очередь, фиктивный worker, Kubernetes adapter или установка.
+Fixtures не выдаются за проверку Kubernetes-политик, реального replan либо recovery.
+
+Такой объём — часть 3.3, не закрытие общего 3.3, 5.1 или готовности платформы.
+Необходимый будущий путь: production catalog/policy writers → настоящий planner
+и recheck → атомарное admission → executor с проверками UID/version и recovery →
+публичный ctl. Нельзя подключить public admission отдельно от этих гарантий.
+
+### Сериализация и граница доверия
+
+Предлагается один фиксированный двухкомпонентный database-scoped advisory key
+для всех контрольных записей PaaS. Запись и cleanup выполняются в новой
+READ COMMITTED транзакции, сначала `pg_advisory_xact_lock`, затем все
+авторитетные чтения/проверки и изменения. Существующий read-only REPEATABLE READ
+helper не переиспользуется: snapshot, созданный до ожидания lock, может не видеть
+commit предыдущего writer. Два отдельных процесса обязаны сериализоваться так же,
+как две goroutine. Это намеренное ограничение throughput первого однонодового
+профиля; шардирование ключа не вводится без новой модели конфликтов.
+
+Транзакция и ожидание lock имеют общий конечный deadline 2 секунды, как текущие
+store-запросы; истечение даёт unavailable без бесконечного retry. Внутри lock нет
+Kubernetes, SSH или иных сетевых вызовов. DB wall clock читается через
+`clock_timestamp()` после lock; `now()`/время начала транзакции не используется
+для решения о TTL. Проверка существующей связи предшествует TTL и квотам.
+После bounded replan/validation DB wall clock проверяется ещё раз непосредственно
+перед финальным решением о новом принятии и записью: preview мог истечь во время
+callback. Истёкшее к этому моменту значение не принимается.
+
+Все будущие catalog/domain/ownership/reservation writers и cleanup обязаны
+использовать тот же протокол. Go проверяет уникальность, ссылки и состояния;
+UNIQUE/FK/CHECK/PK/NOT NULL и DB triggers для бизнес-данных не добавляются.
+Обычные индексы и существующий Goose lifecycle сохраняются. Advisory lock не
+защищает от произвольного SQL администратора; fixture role отдельно привилегирована,
+обход протокола не входит в production-гарантии. Прочитанные дубликаты, NULL,
+несогласованные связи/версии и повреждённые snapshots приводят к fail-closed.
+
+Advisory lock защищает только DB-решение, не владение worker и не Kubernetes fencing.
+Process death освобождает транзакционный lock, но никогда не удаляет долговременные
+резервы или ownership. Протокол безопасного execution/recovery остаётся отдельным.
+
+### Данные и совместимость
+
+Предлагается Goose v4, без изменения HTTP DTO или generated SDK:
+
+| Данные | Назначение |
+| --- | --- |
+| Preview record | Неповторяемый ID, schema/profile version, app/component ID, immutable input, full internal plan и безопасная diagnostics, created_at/expires_at, размер сериализованного содержимого, consumed/retired marker. |
+| Admission record | Связь preview ID → operation ID, удерживаемый immutable input/plan и итоговый набор намерений/резервов; ссылка на прежний bounded Operation snapshot в paas_operations. |
+| Component occupancy и reservations | Долговременные занятость компонента, идентичности ресурсов и нормализованные route keys; владелец operation; не удаляются вместе с историей. |
+| Ownership ledger | Отдельные fixture-provided записи принадлежности действующих ресурсов; cleanup не назначает production ownership и не удаляет его с историей. |
+| Identity tombstones | Компактные ID/связи и retired marker без YAML/полного плана; запрещают повторное использование даже после 404 публичной истории. |
+
+Точное разбиение SQL-таблиц следует этим инвариантам и не требует отдельного
+абстрактного storage framework. Внутренние модели живут в daemon; common сохраняет
+только публичные contracts/validators. История v3 не заменяется приватным полным
+планом. Миграция и runtime readiness согласованно переходят на v4; прежние
+SELECT-only GET остаются работоспособны, DML-grants не проверяются записью при
+startup. Внутренние write-тесты используют отдельную DB identity, не ослабляя
+права production daemon. Установка и выдача production writer credentials отложены.
+
+### Полный план и фиксация сравнения
+
+Публичный Plan — безопасная сводка, не доказательство совпадения полного плана.
+Приватный snapshot имеет version и закреплённую JSON-сериализацию без форматирующих
+пробелов; размер считается по реальным UTF-8 bytes с escaping. Хранятся полные
+сравниваемые current/target значения и связи, а не только changed_fields или hash.
+Повторная сериализация не должна потерять значения, отсутствие поля либо explicit
+null. Порядок объектов по identity фиксируется; порядок семантически значимых
+массивов сохраняется. Кандидатные ID представляются стабильными символическими
+ссылками; окончательное выделение не меняет структуру связей.
+
+Исключения сравнения ровно прежние: timestamps проверки, наблюдаемый runtime
+status, числовой resourceVersion и окончательные значения новых ID при тех же
+связях. Неизвестная версия плана не принимается. Нет публичного hash-протокола.
+Внутренний тестовый planner явно объявляет свой профиль и даёт full-plan fixtures;
+это проверяет хранение/сравнение/атомарность, но не полноту будущего Kubernetes
+planner. Без закреплённого настоящего normalization/policy profile public handlers
+остаются недоступны. YAML parser, protected fields и live recheck в этот этап
+не добавляются и не считаются доказанными.
+
+Для этого внутреннего этапа interface planner→store ограничен versioned opaque
+canonical comparison payload и отдельно типизированными admission claims (target,
+resource identity, owner, component occupancy и route claim). Store проверяет
+структуру envelope, ID/ссылки/уникальность claims и profile version в Go; comparison
+payload сравнивается побайтно после канонизации, которую выполняет planner.
+Store не реализует универсальный Kubernetes normalizer и не доказывает полноту
+semantic payload. Test planner profile явно отличается от будущего production
+profile; production entrypoints не могут принять test profile.
+
+В fixture-профиле routes проверяется закреплённая модель из согласованного раздела
+«Согласовано архитектором»: host нормализован, Prefix без завершающего slash кроме
+корня, Exact буквальный; одинаковые host/path Exact/Prefix и дубликаты запрещены,
+вложение путей разрешено. Проверяются claims всех компонентов приложения, включая
+активные резервы, с исключением своей подтверждённой версии при update. Такая
+модель тестирует typed-claim conflict, но не извлечение routes из произвольного
+Ingress и не реальный cluster recheck. Нельзя заменить эти правила общей проверкой
+равенства непрозрачных строк или запретом всех Prefix overlaps.
+
+### Атомарное принятие и неизвестный commit
+
+Порядок внутреннего admission под общим lock:
+
+1. Прочитать и проверить preview identity/tombstone и существующую связь. При
+   целой связи вернуть прежнюю операцию; при retired истории — not found. Не
+   создавать замену при дубликате/битой связи, после TTL или после FAILED.
+2. Для нового принятия проверить immutable snapshot, DB wall clock и каталог,
+   получить canonical comparison payload и typed claims через явно переданный
+   доверенный test planner/state.
+   Побайтно сравнить полный comparison payload, включающий предупреждения и исправления; изменение требует нового
+   preview/подтверждения, не тихого изменения старого.
+3. Проверить component occupancy, ownership, намерения, конфликты typed claims
+   по явно выбранному профилю и active capacity; активная операция даёт конфликт с её ID, без очереди.
+4. Проверить clock_timestamp ещё раз после replan/validation и до записи.
+   В одном commit сохранить operation, связь, retained snapshot, занятость и
+   резервы; согласованно освободить квоту unused preview. До commit никаких
+   внешних эффектов; успешный результат не возвращается раньше commit.
+
+До вызова commit ошибка означает отсутствие принятия этой транзакцией. Ошибка
+commit, при которой исход нельзя доказать, возвращает отдельный внутренний
+unknown-outcome; она не превращается в FAILED и не обещает отсутствие операции.
+Повторяет тот же preview ID и заново разрешает связь под lock. Не создаёт новый
+preview/operation автоматически. Будущий HTTP mapping использует уже утверждённый
+503 ACCEPTANCE_UNKNOWN, но публичный handler этим этапом не подключается.
+
+```mermaid
+sequenceDiagram
+    participant C as Тестовый caller
+    participant S as Internal admission
+    participant D as PostgreSQL
+    C->>S: Admit(preview_id)
+    S->>D: BEGIN READ COMMITTED
+    S->>D: pg_advisory_xact_lock
+    S->>D: Связь и актуальное состояние
+    alt Связь уже сохранена
+        D-->>S: Прежняя операция или retired marker
+        S->>D: Завершить read/replay transaction
+        S-->>C: Replay / not found
+    else Новое принятие
+        S->>D: clock_timestamp, TTL, quota, conflicts
+        Note over S: Test planner: comparison payload и typed claims
+        S->>D: Финальный clock_timestamp и TTL после replan
+        S->>D: Operation + linkage + retained snapshot + reservations
+        S->>D: COMMIT
+        alt Подтверждение получено
+            S-->>C: Durable result
+        else Исход неизвестен
+            S-->>C: Unknown outcome; повторить тот же ID
+        end
+    end
+    Note over C,D: Только внутренняя приёмка; Kubernetes/HTTP deploy отсутствуют
+```
+
+### Квоты, cleanup и пределы обещаний
+
+Сохраняются действующие 64 unused previews / 256 MiB / TTL 30 минут, размер
+считается как сумма input/full plan/diagnostics в фиксированной сериализации.
+Предлагается отдельный первый лимит активных операций: 16 записей и 256 MiB
+retained input/full plan/diagnostics суммарно; это консервативный предел, не
+измеренная производительность. ACCEPTED/RUNNING/RECOVERY_REQUIRED все учитываются.
+Превышение не вытесняет живые данные и не освобождает опасные резервы; возвращается
+внутренний capacity error. Числа и публичный error code требуется согласовать
+до production admission; новые HTTP-коды автоматически не добавляются.
+
+Cleanup использует тот же lock и ограниченный batch. Истёкший unused preview
+становится retired, его payload очищается, квота пересчитывается атомарно.
+Активный retained snapshot не очищается по TTL preview. Для terminal fixtures
+допускается retirement только уже структурно проверенного terminal
+состояния, подготовленного fixture с явным безопасным итогом и ledger. Переходы
+RUNNING→terminal и production release state machine здесь не реализуются; store
+не выводит безопасность Kubernetes из поля state. После допустимого fixture
+retirement очищаются чувствительные payloads. Через 30 дней после finished_at
+история скрывается и snapshot очищается; компактные ID tombstones сохраняются.
+Один deleted_at с сохранённым YAML не считается очисткой payload. Ownership и
+действующие ресурсы независимы от истории. Все изменения — INSERT/SELECT/UPDATE.
+
+Tombstones растут с числом когда-либо выданных ID; эти квоты не ограничивают их,
+WAL/MVCC/TOAST/индексы/backup или общий размер БД. Дисковое исчерпание остаётся
+safe failure/операционной проблемой, не поводом удалить recovery-данные. Внутренний
+cleanup вызывается тестовой программой; production scheduler не запускается до
+готовности публичного lifecycle. Retention не обещает стирания backup/WAL.
+
+### Приёмка и параллельная работа
+
+- common: coherent OpenSpec и независимое ревью, без спекулятивного расширения SDK.
+- daemon: миграция, внутренние write/read/resolve/cleanup primitives и real DB tests.
+- ctl: read-only review контрактов и транспорта; production-команды не добавляются.
+  Настоящий CLI потребует отдельных finite budgets вместо status timeout 3s/2s,
+  решения о повторе после restart (GET preview сейчас нет) и файловом вводе.
+
+Обязательные тесты: два отдельных writer process; один preview одновременно;
+разные previews одного компонента и конфликт routes; квота на границе count/bytes;
+предыдущий commit виден после ожидания lock; TTL истёк во время ожидания или replan;
+cleanup против apply; потерянный ответ и неизвестный commit с повтором того же ID;
+kill/restart без снятия резервов; corrupted/duplicate/null records; retired ID;
+очистка чувствительного payload без удаления ownership; v3→v4/repeated migration,
+SELECT-only runtime permissions, прежние GET по UDS и restart.
+
+Неизвестный commit проверяется контролируемым fault injection на DB protocol
+boundary: backend применил commit, но клиент не получил подтверждение, затем
+независимое соединение разрешает linkage. Mock commit error сам по себе не
+доказывает этот случай. Все тестовые hooks недоступны из production HTTP/CLI.
+
+Проверки Go build/test/race/vet/tidy/fmt/lint, live PostgreSQL с pinned image,
+OpenSpec strict и CI обязательны. Fixtures не закрывают end-to-end k3s, реальный
+planner, запись production каталога, установку, executor/recovery и TUI.
+
+### Что требуется согласовать
+
+Предлагается одобрить только 3.3.11–3.3.15 как внутреннюю основу: общий advisory lock
++ READ COMMITTED, модель snapshots/резервов/tombstones, отдельные предлагаемые квоты
+и отсутствие production POST/CLI/worker. Это сужение исполнения относительно
+полного durable preview/apply, необходимое при условии «сам деплой позже».
+Следующий публичный этап требует собственных planner/policy/catalog/executor
+решений; нельзя вывести их разрешение из приёмки внутренних primitives.
+
+Техническое основание изоляции:
+https://www.postgresql.org/docs/18/transaction-iso.html и
+https://www.postgresql.org/docs/18/explicit-locking.html#ADVISORY-LOCKS.
