@@ -1372,16 +1372,17 @@ RBAC/hostPath и прочие инфраструктурные требован�
 раздел «Снимок реализации и покрытие OpenSpec — 2026-10-21».
 Это статус реализации, а не ослабление требований ниже.
 
-## Предложение 3.3.11–3.3.15: внутреннее durable admission — 2026-11-05
+## Согласованный подэтап 3.3.11–3.3.15: внутреннее durable admission — 2026-11-05
 
-Статус: архитектура для рассмотрения, не разрешение на реализацию. Пользователь
-разрешил автономную подготовку архитектуры после merge 3.3.6–3.3.10; предыдущий
-вопрос явно предусматривал рассмотрение конкретных решений перед реализацией.
+Статус: пользователь одобрил реализацию внутреннего этапа 3.3.11–3.3.15
+2026-11-05 ответом «делай» после рассмотрения архитектуры. Одобрение относится
+только к описанной ниже внутренней основе; production admission и executor
+остаются вне разрешённого объёма. Реализация и её приёмка ещё не завершены.
 Основа: common `4bbf001`, daemon `7e2316d`, ctl `a7a50ca`; CI на main прошёл.
 
 ### Граница полезного этапа
 
-Предлагается реализовать внутренние persistence/transaction primitives daemon,
+Согласовано реализовать внутренние persistence/transaction primitives daemon,
 проверяемые настоящим PostgreSQL и отдельными процессами. Они сохраняют
 неизменяемый preview и атомарно принимают его в тестовой модели полного плана.
 Это не production preview/apply: маршруты POST не регистрируются, публичная CLI
@@ -1396,7 +1397,7 @@ Fixtures не выдаются за проверку Kubernetes-политик, 
 
 ### Сериализация и граница доверия
 
-Предлагается один фиксированный двухкомпонентный database-scoped advisory key
+Согласован один фиксированный двухкомпонентный database-scoped advisory key
 для всех контрольных записей PaaS. Запись и cleanup выполняются в новой
 READ COMMITTED транзакции, сначала `pg_advisory_xact_lock`, затем все
 авторитетные чтения/проверки и изменения. Существующий read-only REPEATABLE READ
@@ -1428,7 +1429,7 @@ Process death освобождает транзакционный lock, но н�
 
 ### Данные и совместимость
 
-Предлагается Goose v4, без изменения HTTP DTO или generated SDK:
+Согласована Goose v4, без изменения HTTP DTO или generated SDK:
 
 | Данные | Назначение |
 | --- | --- |
@@ -1542,7 +1543,7 @@ sequenceDiagram
 
 Сохраняются действующие 64 unused previews / 256 MiB / TTL 30 минут, размер
 считается как сумма input/full plan/diagnostics в фиксированной сериализации.
-Предлагается отдельный первый лимит активных операций: 16 записей и 256 MiB
+Согласован отдельный первый лимит активных операций: 16 записей и 256 MiB
 retained input/full plan/diagnostics суммарно; это консервативный предел, не
 измеренная производительность. ACCEPTED/RUNNING/RECOVERY_REQUIRED все учитываются.
 Превышение не вытесняет живые данные и не освобождает опасные резервы; возвращается
@@ -1592,10 +1593,10 @@ boundary: backend применил commit, но клиент не получил
 OpenSpec strict и CI обязательны. Fixtures не закрывают end-to-end k3s, реальный
 planner, запись production каталога, установку, executor/recovery и TUI.
 
-### Что требуется согласовать
+### Граница одобрения и следующий этап
 
-Предлагается одобрить только 3.3.11–3.3.15 как внутреннюю основу: общий advisory lock
-+ READ COMMITTED, модель snapshots/резервов/tombstones, отдельные предлагаемые квоты
+Одобрены только 3.3.11–3.3.15 как внутренняя основа: общий advisory lock
++ READ COMMITTED, модель snapshots/резервов/tombstones, отдельные внутренние квоты
 и отсутствие production POST/CLI/worker. Это сужение исполнения относительно
 полного durable preview/apply, необходимое при условии «сам деплой позже».
 Следующий публичный этап требует собственных planner/policy/catalog/executor
@@ -1604,3 +1605,15 @@ planner, запись production каталога, установку, executor/
 Техническое основание изоляции:
 https://www.postgresql.org/docs/18/transaction-iso.html и
 https://www.postgresql.org/docs/18/explicit-locking.html#ADVISORY-LOCKS.
+
+
+## Приёмка внутреннего этапа 3.3.11–3.3.15 — 2026-11-05
+
+Реализация daemon: `227e5d79ba07ea334ef9ee407d25148376599d29`, draft PR #5.
+Goose schema v4 использует три private таблицы: paas_previews, paas_admissions,
+paas_ownership; компактные tombstones остаются в строках preview/admission.
+Отдельной production writer identity или handler не добавлено. Ctl не изменялся.
+READ COMMITTED/lock, real commit-loss/restart, count/byte quotas, corruption,
+retirement и прежние UDS GET проверены локально и в GitHub CI на этом HEAD.
+Отчёт и SHA-256: docs/development/durable-admission-check-2026-11-05.md.
+Выполнено 43/63 задач, общий 3.3 и публичное выполнение остаются открытыми.

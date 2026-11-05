@@ -1,0 +1,10 @@
+PostgreSQL image: postgres@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
+PostgreSQL 18.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+?   	github.com/dkoshenkov/paas-daemon/cmd/paas-daemon	[no test files]
+=== RUN   TestPostgresCatalogOverUnixAndRestart
+--- PASS: TestPostgresCatalogOverUnixAndRestart (5.44s)
+PASS
+ok  	github.com/dkoshenkov/paas-daemon/internal/daemon	6.476s
+testing: warning: no tests to run
+PASS
+ok  	github.com/dkoshenkov/paas-daemon/internal/store	1.016s [no tests to run]

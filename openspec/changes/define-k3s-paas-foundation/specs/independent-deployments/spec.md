@@ -1223,7 +1223,7 @@ apps/logs и GitHub-клиента требует отдельного согл�
 
 ### Requirement: Внутренняя основа admission не подменяет публичный деплой
 
-Статус: предложено 2026-11-05, требуется одобрение 3.3.11–3.3.15 до реализации.
+Статус: apply 3.3.11–3.3.15 одобрен 2026-11-05 («делай»); приёмка открыта.
 Внутренний этап SHALL сохранять immutable versioned snapshots, атомарную связь
 preview → operation и долговременные резервы в PostgreSQL с Go-validation.
 Он SHALL NOT регистрировать production preview/apply handlers, CLI deploy,
@@ -1256,6 +1256,6 @@ preview → operation и долговременные резервы в PostgreS
 - **AND** fixture results SHALL NOT закрывать требования public planner, catalog writers или Kubernetes recovery
 - **AND** production daemon SHALL сохранять SELECT-only identity, прежние GET/DTO и отсутствие DML startup
 
-Числа новых active quotas, представление private full plan и tombstone trade-off
-предложены в design.md и SHALL утверждаться перед apply; существующие preview
-квоты/TTL и публичные HTTP-коды не изменяются этим требованием.
+Числа внутренних active quotas, представление private full plan и tombstone trade-off
+согласованы в design.md для этого этапа и SHALL соблюдаться при apply; существующие
+preview квоты/TTL и публичные HTTP-коды не изменяются этим требованием.
