@@ -1,0 +1,32 @@
+[
+  {
+    "repo": "paas-common",
+    "check": "fmt",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "lint",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "fmt",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "lint",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "fmt",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "lint",
+    "exit": 0
+  }
+]

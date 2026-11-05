@@ -1,0 +1,36 @@
+=== RUN   TestSSHCommandHelper
+--- PASS: TestSSHCommandHelper (0.00s)
+=== RUN   TestStatusCommand
+=== RUN   TestStatusCommand/not-ready
+=== RUN   TestStatusCommand/ready
+--- PASS: TestStatusCommand (0.32s)
+    --- PASS: TestStatusCommand/not-ready (0.11s)
+    --- PASS: TestStatusCommand/ready (0.11s)
+=== RUN   TestInvalidArguments
+--- PASS: TestInvalidArguments (0.00s)
+PASS
+ok  	github.com/dkoshenkov/paas-ctl/cmd/paas-ctl	0.321s
+=== RUN   TestSSHArguments
+--- PASS: TestSSHArguments (0.00s)
+=== RUN   TestUnixOnlyTransport
+--- PASS: TestUnixOnlyTransport (0.00s)
+=== RUN   TestForwardHelper
+--- PASS: TestForwardHelper (0.00s)
+=== RUN   TestSessionLifecycle
+--- PASS: TestSessionLifecycle (0.11s)
+=== RUN   TestSessionFailuresCleanUp
+=== RUN   TestSessionFailuresCleanUp/exit
+=== RUN   TestSessionFailuresCleanUp/hang
+=== RUN   TestSessionFailuresCleanUp/malformed
+=== RUN   TestSessionFailuresCleanUp/start-error
+--- PASS: TestSessionFailuresCleanUp (1.01s)
+    --- PASS: TestSessionFailuresCleanUp/exit (0.00s)
+    --- PASS: TestSessionFailuresCleanUp/hang (0.50s)
+    --- PASS: TestSessionFailuresCleanUp/malformed (0.50s)
+    --- PASS: TestSessionFailuresCleanUp/start-error (0.00s)
+=== RUN   TestSessionPreservesReplacement
+--- PASS: TestSessionPreservesReplacement (0.11s)
+=== RUN   TestSessionDetectsChildExit
+--- PASS: TestSessionDetectsChildExit (0.10s)
+PASS
+ok  	github.com/dkoshenkov/paas-ctl/internal/connection	1.329s

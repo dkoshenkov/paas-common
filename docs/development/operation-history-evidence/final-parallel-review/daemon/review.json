@@ -1,0 +1,11 @@
+{
+  "live_postgres_race_exit": 0,
+  "skip_count": 0,
+  "files_changed_by_review": [
+    "README.md",
+    "internal/daemon/operations.go",
+    "internal/daemon/postgres_test.go"
+  ],
+  "finding": "Generated HTTP JSON encoder adds newline; reserve one wire byte before 200 headers for Get/List. Live UDS regression: 65535 JSON bytes -> 65536 body bytes/200; 65536 JSON bytes -> generic 500.",
+  "log_sha256": "c813e902ea7d944dd185948e85687d7dfa40a8d47507460a8f95574a6e7b5290"
+}

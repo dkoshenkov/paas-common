@@ -1,0 +1,40 @@
+services:
+  operations:
+    endpoints:
+      - name: Get
+        method: GET
+        path: /operations/get
+        parameters:
+          - name: operation_id
+            field: operationId
+            in: query
+            type: string
+            required: true
+        responses:
+          "200": ./types.yaml#Operation
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: List
+        method: GET
+        path: /operations/list
+        parameters:
+          - name: state
+            field: state
+            in: query
+            type: string
+            required: false
+          - name: limit
+            field: limit
+            in: query
+            type: int
+            required: false
+          - name: cursor
+            field: cursor
+            in: query
+            type: string
+            required: false
+        responses:
+          "200": ./types.yaml#OperationPage
+          "400": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse

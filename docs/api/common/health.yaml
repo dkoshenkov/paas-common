@@ -1,16 +1,14 @@
 services:
   health:
-    proto:
-      package: health
     endpoints:
       - name: Health
         method: GET
         path: /health
         responses:
-          "200": HealthResponse
+          "200": ./health.yaml#HealthResponse
 
 types:
   HealthResponse:
     kind: struct
     fields:
-      status: {type: string, number: 1}
+      status: string

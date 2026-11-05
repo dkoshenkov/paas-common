@@ -33,19 +33,19 @@ func (c *ReadyClient) Ready(ctx context.Context) (httptypes.ReadyReadyResponse, 
 	reqURL := c.baseURL.ResolveReference(&url.URL{Path: "/ready"})
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", reqURL.String(), bodyReader)
 	if err != nil {
-		return httptypes.ReadyReadyResponse{}, fmt.Errorf("build request: %w", err)
+		return *new(httptypes.ReadyReadyResponse), fmt.Errorf("build request: %w", err)
 	}
 	httpResp, err := c.httpClient.Do(httpReq)
 	if err != nil {
-		return httptypes.ReadyReadyResponse{}, fmt.Errorf("execute request: %w", err)
+		return *new(httptypes.ReadyReadyResponse), fmt.Errorf("execute request: %w", err)
 	}
 	defer httpResp.Body.Close()
 	if httpResp.StatusCode != 200 {
-		return httptypes.ReadyReadyResponse{}, fmt.Errorf("unexpected status: %d", httpResp.StatusCode)
+		return *new(httptypes.ReadyReadyResponse), fmt.Errorf("unexpected status: %d", httpResp.StatusCode)
 	}
 	var resp httptypes.ReadyReadyResponse
 	if err := json.NewDecoder(httpResp.Body).Decode(&resp); err != nil {
-		return httptypes.ReadyReadyResponse{}, fmt.Errorf("decode response: %w", err)
+		return *new(httptypes.ReadyReadyResponse), fmt.Errorf("decode response: %w", err)
 	}
 	return resp, nil
 }
