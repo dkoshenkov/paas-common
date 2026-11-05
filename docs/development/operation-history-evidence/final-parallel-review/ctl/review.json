@@ -1,0 +1,28 @@
+{
+  "repository": "paas-ctl",
+  "head": "b96b3554811f96a385b70c28a6eae9d35e5fb181",
+  "status_porcelain": "",
+  "scope": "OpenSpec 3.3.6–3.3.10; proposal explicitly says paas-ctl remains unchanged",
+  "findings": [],
+  "changes_required": false,
+  "reviewed": [
+    "cmd/paas-ctl/main.go",
+    "cmd/paas-ctl/main_test.go",
+    "internal/connection/client.go",
+    "internal/connection/ssh.go",
+    "internal/connection/connection_test.go",
+    "go.mod",
+    "README.md"
+  ],
+  "verified_behaviors": [
+    "status distinguishes API reachable and control plane ready/not ready; failure returns nonzero",
+    "generated health/readiness clients compile against sibling common",
+    "fixed Unix-only transport rejects foreign endpoints and redirects",
+    "SSH strict host-key arguments and selected-key-only forwarding preserved",
+    "local subprocess cancellation, failure cleanup, idempotent close, replacement socket preservation tested"
+  ],
+  "limitations": [
+    "No live SSH server authentication or remote deployment tested; subprocess fixtures only.",
+    "Existing local replace ../paas-common still requires sibling checkout; independent release out of scope."
+  ]
+}

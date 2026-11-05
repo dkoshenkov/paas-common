@@ -1,0 +1,4 @@
+go: downloading github.com/dkoshenkov/packages-go v0.3.1-0.20261024142719-ec269923c64b
+go: downloading golang.org/x/net v0.60.0
+go: downloading golang.org/x/sys v0.48.0
+go: downloading golang.org/x/text v0.42.0

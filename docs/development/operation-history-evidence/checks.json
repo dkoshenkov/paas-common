@@ -1,0 +1,197 @@
+[
+  {
+    "repository": "paas-common",
+    "command": [
+      "go",
+      "build",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-common",
+    "command": [
+      "go",
+      "test",
+      "-count=1",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-common",
+    "command": [
+      "go",
+      "test",
+      "-race",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-common",
+    "command": [
+      "go",
+      "vet",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-common",
+    "command": [
+      "go",
+      "mod",
+      "tidy",
+      "-diff"
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-common",
+    "command": [
+      "golangci-lint",
+      "run"
+    ],
+    "exit_code": 3
+  },
+  {
+    "repository": "paas-common",
+    "command": [
+      "golangci-lint",
+      "fmt",
+      "--diff"
+    ],
+    "exit_code": 3
+  },
+  {
+    "repository": "paas-daemon",
+    "command": [
+      "go",
+      "build",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-daemon",
+    "command": [
+      "go",
+      "test",
+      "-count=1",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-daemon",
+    "command": [
+      "go",
+      "test",
+      "-race",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-daemon",
+    "command": [
+      "go",
+      "vet",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-daemon",
+    "command": [
+      "go",
+      "mod",
+      "tidy",
+      "-diff"
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-daemon",
+    "command": [
+      "golangci-lint",
+      "run"
+    ],
+    "exit_code": 3
+  },
+  {
+    "repository": "paas-daemon",
+    "command": [
+      "golangci-lint",
+      "fmt",
+      "--diff"
+    ],
+    "exit_code": 3
+  },
+  {
+    "repository": "paas-ctl",
+    "command": [
+      "go",
+      "build",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-ctl",
+    "command": [
+      "go",
+      "test",
+      "-count=1",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-ctl",
+    "command": [
+      "go",
+      "test",
+      "-race",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-ctl",
+    "command": [
+      "go",
+      "vet",
+      "./..."
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-ctl",
+    "command": [
+      "go",
+      "mod",
+      "tidy",
+      "-diff"
+    ],
+    "exit_code": 1
+  },
+  {
+    "repository": "paas-ctl",
+    "command": [
+      "golangci-lint",
+      "run"
+    ],
+    "exit_code": 3
+  },
+  {
+    "repository": "paas-ctl",
+    "command": [
+      "golangci-lint",
+      "fmt",
+      "--diff"
+    ],
+    "exit_code": 3
+  }
+]

@@ -1,0 +1,14 @@
+?   	github.com/dkoshenkov/paas-common/pkg/grpc/health	[no test files]
+?   	github.com/dkoshenkov/paas-common/pkg/grpc/ready	[no test files]
+ok  	github.com/dkoshenkov/paas-common/pkg/http/client	1.069s
+ok  	github.com/dkoshenkov/paas-common/pkg/http/paas/client	1.780s
+?   	github.com/dkoshenkov/paas-common/pkg/http/paas/server/apps	[no test files]
+?   	github.com/dkoshenkov/paas-common/pkg/http/paas/server/components	[no test files]
+?   	github.com/dkoshenkov/paas-common/pkg/http/paas/server/deployments	[no test files]
+?   	github.com/dkoshenkov/paas-common/pkg/http/paas/server/operations	[no test files]
+ok  	github.com/dkoshenkov/paas-common/pkg/http/paas/transport	1.045s
+?   	github.com/dkoshenkov/paas-common/pkg/http/paas/types	[no test files]
+ok  	github.com/dkoshenkov/paas-common/pkg/http/paas/validation	1.696s
+?   	github.com/dkoshenkov/paas-common/pkg/http/server/health	[no test files]
+?   	github.com/dkoshenkov/paas-common/pkg/http/server/ready	[no test files]
+?   	github.com/dkoshenkov/paas-common/pkg/http/types	[no test files]

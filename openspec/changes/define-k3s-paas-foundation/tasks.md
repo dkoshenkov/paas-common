@@ -1,9 +1,12 @@
 # Tasks
 
-- Статус на 2026-10-24: 33/58 задач завершены. Подэтап 3.3.1–3.3.5
+- Статус на 2026-11-05: 38/58 задач завершены. Подэтап 3.3.1–3.3.5
   принят; source/SDK/log SHA-256 совпадают с evidence от 2026-10-22.
-  Пять новых задач 3.3.6–3.3.10 предложены, архитектура и apply требуют
-  одобрения пользователя. Полная матрица и границы — в design.md.
+  Подэтап 3.3.6–3.3.10 одобрен пользователем в текущем диалоге. Реализация
+  проверена на Go 1.27.3 и настоящем PostgreSQL/UDS; 3.3.6–3.3.10 завершены.
+  Strict OpenSpec проходит без замечаний; нормативные условия сохранены.
+  Отчёт: docs/development/operation-history-check-2026-11-05.md.
+  Полная матрица и границы — в design.md.
 - Выполнять только отдельно согласованный этап; после него показать проверки
   и дождаться разрешения на следующий.
 
@@ -482,11 +485,11 @@ PostgreSQL/UDS/restart fixture daemon. Во время проверки испр
 runtime-пределов Operation/diagnostics и схемы v3 из design.md. Production
 writers, preview/apply/worker/recovery в этот подэтап не входят. Общий 3.3 открыт.
 
-- [ ] 3.3.6 Получить одобрение подэтапа и добавить отдельный явный validator ограниченного снимка Operation в paas-common; проверить UTF-8/controls, все byte/count/wire границы, JSON escaping, terminal state/diagnostics и сохранность прежних validators/DTO. Без одобрения код не менять.
-- [ ] 3.3.7 Добавить embedded Goose v3 для истории operation_id/state/snapshot BYTEA/deleted_at с обычными индексами без DB constraints; проверить на PostgreSQL v2 → v3/repeated/concurrent up, сохранность каталога/tombstones, read-only grants и точную schema readiness; описать миграцию и grants.
-- [ ] 3.3.8 Реализовать PostgreSQL Get/List истории через существующие pgxpool/Squirrel: canonical scoped state cursor, byte ordering, limit+1, soft delete, parent-independent history и app-side snapshot/column validation; проверить 105+ записей, все state, foreign cursor, смену limit, удаление after, NULL/дубликаты/mismatch/oversize без side effects.
-- [ ] 3.3.9 Подключить два прежних generated GET operations к daemon и проверке полного JSON response до headers; через реальные PostgreSQL/UDS/generated clients проверить 200/400/404/503/generic 500, canary, runtime bounds и отдельный process restart. Preview/apply не регистрировать, фиктивные операции не создавать; обновить README.
-- [ ] 3.3.10 Провести build/test/race/vet/tidy/fmt/lint трёх модулей, Linux build ctl/daemon и strict OpenSpec validate; повторить реальные DB/UDS проверки старого каталога и новой истории, сохранить evidence/SHA-256, подтвердить неизменность прежних SDK/API файлов; не закрывать при skip вместо live DB.
+- [x] 3.3.6 Получить одобрение подэтапа и добавить отдельный явный validator ограниченного снимка Operation в paas-common; проверить UTF-8/controls, все byte/count/wire границы, JSON escaping, terminal state/diagnostics и сохранность прежних validators/DTO. Без одобрения код не менять.
+- [x] 3.3.7 Добавить embedded Goose v3 для истории operation_id/state/snapshot BYTEA/deleted_at с обычными индексами без DB constraints; проверить на PostgreSQL v2 → v3/repeated/concurrent up, сохранность каталога/tombstones, read-only grants и точную schema readiness; описать миграцию и grants.
+- [x] 3.3.8 Реализовать PostgreSQL Get/List истории через существующие pgxpool/Squirrel: canonical scoped state cursor, byte ordering, limit+1, soft delete, parent-independent history и app-side snapshot/column validation; проверить 105+ записей, все state, foreign cursor, смену limit, удаление after, NULL/дубликаты/mismatch/oversize без side effects.
+- [x] 3.3.9 Подключить два прежних generated GET operations к daemon и проверке полного JSON response до headers; через реальные PostgreSQL/UDS/generated clients проверить 200/400/404/503/generic 500, canary, runtime bounds и отдельный process restart. Preview/apply не регистрировать, фиктивные операции не создавать; обновить README.
+- [x] 3.3.10 Провести build/test/race/vet/tidy/fmt/lint трёх модулей, Linux build ctl/daemon и strict OpenSpec validate; повторить реальные DB/UDS проверки старого каталога и новой истории, сохранить evidence/SHA-256, подтвердить неизменность прежних SDK/API файлов; не закрывать при skip вместо live DB.
 
 ## 4. Базы приложений и секреты
 

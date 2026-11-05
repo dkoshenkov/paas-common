@@ -1,0 +1,429 @@
+{
+  "rewritten_requirements": [
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement": "Первый объём не включает пользовательское хранилище секретов",
+      "scenario_added": "Отложенные пользовательские секреты",
+      "original_body_sha256": "31064f3b88f69e922d5e11a85167e6c2a6403dd6a0b0c16f64a06ddc0f6bd5b3",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 325
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement": "Доступ к секретам соответствует одной административной роли",
+      "scenario_added": "Матрица доступа и защита открытых значений",
+      "original_body_sha256": "1886ee7ba2bd38d38c854f830cfecef1eb618cf0f6d083aab99364892c30fdc8",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 83
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement": "Секреты выдаются по явным привязкам к контейнерам",
+      "scenario_added": "Проверка привязок перед выдачей Secret",
+      "original_body_sha256": "946b5cd679681816bd75bf138701e6f260b63a8128f5cb48c3e0c16fb4a30148",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 134
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement": "Используются штатные способы подключения разрешённых Secrets",
+      "scenario_added": "Проверка штатных ссылок на Secrets",
+      "original_body_sha256": "b7829d5ab2da7dd74c7588933e9f758bf0f87d719eb11c8ceb16f7117c3e074c",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 232
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement": "ServiceAccount и отсутствие API-токенов управляются PaaS",
+      "scenario_added": "ServiceAccount и API-токены workloads",
+      "original_body_sha256": "049056fd364a776b7997c09db79220144d6e0ec31b9996c5ab932b5d92ac52be",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 113
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement": "Полномочия мигратора доступны только его защищённому запуску",
+      "scenario_added": "Изоляция защищённого миграционного Job",
+      "original_body_sha256": "28146ffa71883206d6bd271fdd5b37e56f22604596490b4e6fc5dacfcf5f7b17",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 56
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement": "Credentials приватных образов GHCR настраиваются через CLI",
+      "scenario_added": "Настройка и применение GHCR credentials",
+      "original_body_sha256": "626d733e385ae4fae94deeb10b4c7b3c76f9e6ae81ab24f0ce4a2982a20a6a51",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 73
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Компоненты обновляются независимо",
+      "scenario_added": "Независимый выпуск компонентов и доступ к данным",
+      "original_body_sha256": "d1c2d96e4671cb00b555d7befb75ae3c9988117c1d05c92157101cc38a26da27",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 86
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Пакет манифестов принадлежит одному компоненту",
+      "scenario_added": "Проверка состава и владельца пакета",
+      "original_body_sha256": "8690c30637ce43b6b6aca81ba3562e811e64bd1aaa34b1d32f098ade3203bdfa",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 70
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Пакет передаётся как исходные YAML-файлы в JSON",
+      "scenario_added": "Чтение и проверка исходных файлов пакета",
+      "original_body_sha256": "ec73f490bd1075e82ab26cec0bd68a6aeafb1970f8677d25e8f7d52761a25b38",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 109
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Проверенный снимок запускается единственной операцией",
+      "scenario_added": "Сохранение preview и принятие apply",
+      "original_body_sha256": "3ff5e9ff74e4281fc88f6ecb80266a11b744f7f283027a53f692647ef0be42c8",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 162
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Preview и операция сохраняют безопасный жизненный цикл",
+      "scenario_added": "Хранение и восстановление preview и операций",
+      "original_body_sha256": "d443c494f31dd9fb5c9a54e6b902d82b8a7b4d6b73233dd9ed74b83e1c508ee8",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 65
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Состояние операции отделено от этапа и готовности TLS",
+      "scenario_added": "Состояния и переходы операции",
+      "original_body_sha256": "46bc6338198a4c415aac0a8a6c8c10e68c02e1f00eaeac455683a65991192e5e",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 94
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Preview и операции используют единую структурированную диагностику",
+      "scenario_added": "Поля и безопасность Diagnostic",
+      "original_body_sha256": "91e3de261be8a80e29205466d81dc503080a227081678d675ac61af292311f3d",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 91
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "DTO и HTTP-ответы вертикального сценария однозначны",
+      "scenario_added": "Ответы статических endpoint",
+      "original_body_sha256": "1bb799d3cf839de00401c91c19867da87524f7c799b3c1ad38271dc9bbde727c",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 54
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Первый профиль ограничивает вход и хранение снимков",
+      "scenario_added": "Ограничения входа и хранимых снимков",
+      "original_body_sha256": "91528361f1ddedf13effc08d7de8a7d766acbe8d45f9bb93d93b68aba5e79ba5",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 53
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "SDK предоставляет явные проверки семантики DTO без runtime",
+      "scenario_added": "Границы явных SDK-проверок",
+      "original_body_sha256": "da5883f23085e7f50089f3d8ff205121068730c406d77b7827e478aaacef871b",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 335
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "SQL-мигратор собирается по шаблону",
+      "scenario_added": "Сборка и запуск стандартного мигратора",
+      "original_body_sha256": "5a4c6a16ef846c5de483adbaa872422bc7afe3c70fc3528de59807683d525940",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 166
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Интерфейс управления отделён от выполнения миграций",
+      "scenario_added": "Управление Job и представление результата",
+      "original_body_sha256": "3f0c675bb7d1551a40f970dbcdc5e528a5c0fe4c476fdea0b5ece854c4018108",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 59
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Ошибка миграции не запускает скрытые повторы",
+      "scenario_added": "Сохранение ошибки мигратора",
+      "original_body_sha256": "60b7ec49b46d778f234a741b29ef4505947238c2944e0aa42db9552678a771dc",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 138
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Повторный запуск мигратора учитывает историю",
+      "scenario_added": "Повторный или конкурирующий запуск миграции",
+      "original_body_sha256": "66c7ee4148bf3f61574c5569dc336caadd2dc0311d8e1d3716819ffbeeff65c5",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 121
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "SDK предоставляет каталог идентичностей приложений и компонентов",
+      "scenario_added": "Контракт каталога чтения SDK",
+      "original_body_sha256": "cdd1f7365eb0717906539b70987311e3dd4789e9fb3aa3c4121e91bddc31f7e9",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 78
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "SDK предоставляет список сохранённых операций",
+      "scenario_added": "Контракт списка операций SDK",
+      "original_body_sha256": "60096e5a078a2d6d54d447ab06c2fb6b5fd6a5f227e91995d4635ed62dcaf729",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 124
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Каталог runtime читает сохранённые записи PostgreSQL",
+      "scenario_added": "Чтение PostgreSQL-каталога",
+      "original_body_sha256": "71a769e63f9c468f5617d9d2df908d5093fe1a1cf2a91361da512cb7719d294d",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 357
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "Runtime читает ограниченные снимки истории операций",
+      "scenario_added": "Пределы и целостность истории операций",
+      "original_body_sha256": "2af5ca1f5d4232cdb08dad633c6f9662f96f3424c151188475f847eb9b28c96e",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 227
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement": "SDK закрепляет согласованные версии Go, Flux и HTTP runtime",
+      "scenario_added": "Воспроизводимость Go SDK и runtime",
+      "original_body_sha256": "428f9b75f6bb5873ed8c17bde73a74d5f7466f4a46e74362f1907950589355a8",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 104
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/operator-tui/spec.md",
+      "requirement": "TUI содержит четыре основных экрана",
+      "scenario_added": "Содержимое основных экранов",
+      "original_body_sha256": "76640150ac5a28eaa5fa8c17a723d6d8de35f21a0965b45f6d438610f8106423",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 92
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/operator-tui/spec.md",
+      "requirement": "Деплой проверяется до явного запуска",
+      "scenario_added": "Проверка и подтверждение деплоя в TUI",
+      "original_body_sha256": "9d6fba24172ff97567484eea796877e410f77cf016e11eb77fc0629179da048e",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 178
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/operator-tui/spec.md",
+      "requirement": "Оператор подключается с одной административной ролью через SSH",
+      "scenario_added": "Административный доступ через SSH",
+      "original_body_sha256": "fa4cce7f90fccf7fec9c158421bbbad0558307e8eaff7cbd898c34a7b53f7d59",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 108
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/operator-tui/spec.md",
+      "requirement": "TUI автоматизирует импорт публичных ключей из GitHub",
+      "scenario_added": "Импорт и управление SSH-ключами",
+      "original_body_sha256": "7d8f256796fdd288071fffacbc17fa40e7bad9f46e9cd538a470f504acb1d56e",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 191
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Sudo пользователя paas ограничен фиксированными операциями",
+      "scenario_added": "Подготовка пользователя и sudo-действия",
+      "original_body_sha256": "3fdb7b0cd6376a73c06ab49b79ff8bee96144ccbc9e49f9044ff09d2464f94c5",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 190
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Административная подготовка отделена от полномочий daemon",
+      "scenario_added": "Передача управления ограниченному daemon",
+      "original_body_sha256": "31e67693ea962ad63299bcbe997556a6524abb17cd996459c78c36c7894751a1",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 167
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Управляющий API daemon доступен только через файловый Unix-сокет",
+      "scenario_added": "Размещение и доступ к управляющему UDS",
+      "original_body_sha256": "5e402c728396aca915edb793bdb9aa0c6d769232c73f36f6025f5f9fa280ef27",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 111
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "HTTP-01 и перенаправление HTTP на HTTPS управляются платформой",
+      "scenario_added": "Настройка HTTP-01 и перенаправлений",
+      "original_body_sha256": "5191d4056ae88d441ed4ed471709de800f8de5a1fb2fefa6169d910eafb2b84b",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 176
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Готовность TLS определяется внешней наблюдаемой проверкой",
+      "scenario_added": "Наблюдаемая проверка TLS",
+      "original_body_sha256": "bd20f44e3829ffd488e5fb71df97e69c8564a1f45a2985f354a1df3f3e9336e2",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 77
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "ACME state сохраняется и имеет единственного writer",
+      "scenario_added": "Приёмка и хранение ACME state",
+      "original_body_sha256": "6fd018ae29a9dfd9149f53a03eb1523d8ca30ec81bdd87b7410af00e12f3169a",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 108
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Домены регистрируются за приложением через PaaS",
+      "scenario_added": "Регистрация и использование домена",
+      "original_body_sha256": "075c13d52aa4db78972d41d468b70de85f406d030ea04fea6ad9190c7d1a0b94",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 70
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Домены канонизируются одинаково при регистрации и в Ingress",
+      "scenario_added": "Канонизация доменных имён",
+      "original_body_sha256": "8168477a6ae84c512c4a5aeeb0d555208a098c010cc9918cf47ddf567cdb8687",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 180
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Class TLS и annotations Ingress управляются PaaS",
+      "scenario_added": "Проверка Ingress class и TLS",
+      "original_body_sha256": "dd317452d4b4ea13409f135e22cbedf730ae7bba56a7f00f6e4a5146e3dffe28",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 163
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Маршруты Ingress однозначны и проверяются в пределах приложения",
+      "scenario_added": "Проверка и резервирование маршрутов",
+      "original_body_sha256": "ebea9caa8f22849b8644e165759db58da45d9022c6b6f05fd1e834ba6b9bca96",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 115
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Пользовательские манифесты ограничены начальным набором ресурсов",
+      "scenario_added": "Проверка начального профиля Kubernetes-ресурсов",
+      "original_body_sha256": "613a538d3109d5a0feda0835125a503c79eb4fa065b7ea674837ebdc4e0a1b05",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 171
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Идентичность и принадлежность ресурсов учитываются PaaS",
+      "scenario_added": "Учёт идентичности и ownership",
+      "original_body_sha256": "2761f11a36e700690949e177b64632f2fdfa9afa4bae7b30f8a023e12889ddc0",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 107
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Служебные метки и selectors формируются из состояния PaaS",
+      "scenario_added": "Формирование меток и selectors",
+      "original_body_sha256": "a098e1f1e1376ea6ad4e0e809de5b236b2c21bd98828f3e68b67afb59f510514",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 323
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Сетевые связи приложений разрешаются явно",
+      "scenario_added": "Внутренние и внешние сетевые разрешения",
+      "original_body_sha256": "b062abcc92594530beb94b3c34be413d45a2a4a0584439603aaaa2e1f849ea4f",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 186
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Общий бизнесовый сервис переиспользуется",
+      "scenario_added": "Изоляция общего сервиса и его потребителей",
+      "original_body_sha256": "23c2c4087a61f1f31a66c7ca022a10751c40bd6feb59f9974dd7057539a23343",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 150
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Первое исполняемое ядро реализует согласованный UDS транспорт",
+      "scenario_added": "Границы первого UDS-подэтапа",
+      "original_body_sha256": "fde00d185ef92bb2819c8444e78cad51a37137d63e52547655df2f93efc40d50",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 150
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Служебное хранилище проверяет готовность без изменения схемы",
+      "scenario_added": "Конфигурация и readiness служебного хранилища",
+      "original_body_sha256": "fc74e108fc508335af293b0cd27bbcd1cab50e5261f7361156d62837abae9623",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 221
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement": "Схема служебного каталога обновляется отдельной командой",
+      "scenario_added": "Явное обновление служебной схемы",
+      "original_body_sha256": "9197fb4c9ca4f19eca6794a2920ef6984bd7aabe64119a9c2e3eaf06888fcb2d",
+      "clauses_preserved_ignoring_whitespace": true,
+      "description_characters": 227
+    }
+  ],
+  "moved_status_sections": [
+    {
+      "source": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "destination": "openspec/changes/define-k3s-paas-foundation/design.md",
+      "original": "## Implementation Status — 2026-10-21\n\nВ paas-common реализованы HTTP/OpenAPI SDK preview/apply/get, каталог чтения,\nсписок операций и явные context-free валидаторы. Эти части проверяются generated\nclient/server и fixtures; в daemon прикладные endpoints пока не зарегистрированы.\nХранение preview/операций, идемпотентность, YAML/Kubernetes validation,\nисполнение деплоев, миграции, TTL/retention и DB cursor остаются runtime-задачами.\nМатрица требований и границы доказательств — в [design.md](../../design.md),\nраздел «Снимок реализации и покрытие OpenSpec — 2026-10-21».\nSDK-объём не закрывает требования runtime этой delta.",
+      "relative_link_rebased": true
+    },
+    {
+      "source": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "destination": "openspec/changes/define-k3s-paas-foundation/design.md",
+      "original": "## Implementation Status — 2026-10-21\n\nРеализован локальный транспортный подэтап 3.0.1–3.0.5, описанный последним\nRequirement этой delta. Развёртывание daemon в k3s, установка, PostgreSQL,\nRBAC/hostPath и прочие инфраструктурные требования остаются открытыми.\nМатрица всех требований и снимок исходников — в [design.md](../../design.md),\nраздел «Снимок реализации и покрытие OpenSpec — 2026-10-21».\nЭто статус реализации, а не ослабление требований ниже.",
+      "relative_link_rebased": true
+    }
+  ],
+  "checks": [
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-database-access/spec.md",
+      "requirement_names_unchanged": true,
+      "existing_scenarios_preserved": 10
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/application-secrets/spec.md",
+      "requirement_names_unchanged": true,
+      "existing_scenarios_preserved": 23
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/independent-deployments/spec.md",
+      "requirement_names_unchanged": true,
+      "existing_scenarios_preserved": 64
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/operator-tui/spec.md",
+      "requirement_names_unchanged": true,
+      "existing_scenarios_preserved": 20
+    },
+    {
+      "path": "openspec/changes/define-k3s-paas-foundation/specs/shared-infrastructure/spec.md",
+      "requirement_names_unchanged": true,
+      "existing_scenarios_preserved": 82
+    }
+  ]
+}

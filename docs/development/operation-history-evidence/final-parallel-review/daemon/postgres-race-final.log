@@ -1,0 +1,67 @@
+PostgreSQL image: postgres@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
+PostgreSQL 18.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+?   	github.com/dkoshenkov/paas-daemon/cmd/paas-daemon	[no test files]
+=== RUN   TestPostgresDaemonProcess
+--- PASS: TestPostgresDaemonProcess (0.00s)
+=== RUN   TestPostgresCatalogOverUnixAndRestart
+--- PASS: TestPostgresCatalogOverUnixAndRestart (5.92s)
+=== RUN   TestSocketOwnershipAndRefusal
+--- PASS: TestSocketOwnershipAndRefusal (0.00s)
+=== RUN   TestHealthReadyAndUnwiredRoutes
+--- PASS: TestHealthReadyAndUnwiredRoutes (0.00s)
+=== RUN   TestServeUnixAndShutdown
+--- PASS: TestServeUnixAndShutdown (0.00s)
+=== RUN   TestIdentity
+--- PASS: TestIdentity (0.00s)
+PASS
+ok  	github.com/dkoshenkov/paas-daemon/internal/daemon	6.965s
+=== RUN   TestSecretConfig
+=== RUN   TestSecretConfig/valid
+=== RUN   TestSecretConfig/missing-password
+=== RUN   TestSecretConfig/missing-db
+=== RUN   TestSecretConfig/missing-mode
+=== RUN   TestSecretConfig/prefer
+=== RUN   TestSecretConfig/service
+=== RUN   TestSecretConfig/duplicate
+=== RUN   TestSecretConfig/invalid-port
+=== RUN   TestSecretConfig/oversized
+=== RUN   TestSecretConfig/tls-no-root
+--- PASS: TestSecretConfig (0.01s)
+    --- PASS: TestSecretConfig/valid (0.00s)
+    --- PASS: TestSecretConfig/missing-password (0.00s)
+    --- PASS: TestSecretConfig/missing-db (0.00s)
+    --- PASS: TestSecretConfig/missing-mode (0.00s)
+    --- PASS: TestSecretConfig/prefer (0.00s)
+    --- PASS: TestSecretConfig/service (0.00s)
+    --- PASS: TestSecretConfig/duplicate (0.00s)
+    --- PASS: TestSecretConfig/invalid-port (0.00s)
+    --- PASS: TestSecretConfig/oversized (0.00s)
+    --- PASS: TestSecretConfig/tls-no-root (0.00s)
+=== RUN   TestPostgresEnvironmentCannotRedirect
+--- PASS: TestPostgresEnvironmentCannotRedirect (0.00s)
+=== RUN   TestCursorScopeAndCanonicalEncoding
+--- PASS: TestCursorScopeAndCanonicalEncoding (0.00s)
+=== RUN   TestPostgresServiceEnvironmentRejected
+--- PASS: TestPostgresServiceEnvironmentRejected (0.00s)
+=== RUN   TestPostgresCatalogPersistenceAndPaging
+--- PASS: TestPostgresCatalogPersistenceAndPaging (0.71s)
+=== RUN   TestPostgresSchemaAndRecovery
+--- PASS: TestPostgresSchemaAndRecovery (0.66s)
+=== RUN   TestPostgresMigrations
+--- PASS: TestPostgresMigrations (6.16s)
+=== RUN   TestPostgresApplicationValidationAndSoftDelete
+--- PASS: TestPostgresApplicationValidationAndSoftDelete (0.28s)
+=== RUN   TestPostgresUpgradePreservesCatalog
+--- PASS: TestPostgresUpgradePreservesCatalog (0.40s)
+=== RUN   TestPostgresByteOrderingAndIndexes
+--- PASS: TestPostgresByteOrderingAndIndexes (0.22s)
+=== RUN   TestOperationCursor
+--- PASS: TestOperationCursor (0.00s)
+=== RUN   TestPostgresOperationHistory
+--- PASS: TestPostgresOperationHistory (0.63s)
+=== RUN   TestPostgresOperationUpgrade
+--- PASS: TestPostgresOperationUpgrade (0.33s)
+=== RUN   TestDecodeOperationSnapshot
+--- PASS: TestDecodeOperationSnapshot (0.00s)
+PASS
+ok  	github.com/dkoshenkov/paas-daemon/internal/store	10.434s

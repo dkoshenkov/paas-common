@@ -1,0 +1,31 @@
+{
+  "paas-common": {
+    "head": "a2ef8bfa0407471b8ec04474440f2d073141ad25",
+    "changed_sha256": {
+      "docs/development/operation-history-check-2026-11-05.md": "0e1815db75f5903a3446c455497aec54cef87ce85cf79d013501d745d6490d41",
+      "pkg/http/paas/validation/operation_history.go": "ea21233d0f213d6ddf26ac5a9a5c7db661aaed9e38bcda4db5b773cc5df148b3",
+      "pkg/http/paas/validation/operation_history_test.go": "4b93bef684a0ed45324c1d9d67a9a98759da8a0efe9f89cf627d01ab6a02b74a",
+      "openspec/changes/define-k3s-paas-foundation/design.md": "dc690127a7adcf5d091e53ec441883e372f9e4e8d7536bf762be9df3122c2c8b",
+      "openspec/changes/define-k3s-paas-foundation/tasks.md": "ae3eb36c9434e78e6befd174309b5a0556208126906e973509506adba9b02c48"
+    }
+  },
+  "paas-daemon": {
+    "head": "4eac5bd7f0c1ac811a16817057849f681010d201",
+    "changed_sha256": {
+      "internal/daemon/operations.go": "d9b27abe7293627ddb41e7a99aa3017f860ca059366722156c1c9d448e326622",
+      "internal/store/migrations/00003_operation_history.sql": "e2927f697de07b495085a497a0f5a72127509bf3303e869347837e24ecb5a3df",
+      "internal/store/operations.go": "0ebc3259461f9a5a3bb3e1a75d56ddd39b62b164b0281ee2ca4825e07fc96b9c",
+      "internal/store/operations_test.go": "06679409ec1a6d749e4352bf66569e67eba67a5184cfb7dbbe0dfeec0862af2d",
+      "README.md": "fdd17c306afc7783002b74433266d2d54df28ba2d2a8019de7af24f031134d63",
+      "internal/daemon/postgres_test.go": "dfa9632fecc17763055ca24eb8edfbcde4fbd444c9161dc34ef15b4578eee7c9",
+      "internal/daemon/server.go": "a80aca2bf291ed52eab45ded11798fc637724346656bac1c67013a56fc489fa3",
+      "internal/store/migrate.go": "ce3dbdd974c49f8ce70be8b736265de49fc4af4e600b11d36e7e318fb9d6b385",
+      "internal/store/store.go": "55b230d5b7118d1caee1bb52542dc16de7bd523363171e7a927fad6e02928679",
+      "scripts/test-postgres.sh": "e0dc4edcfa1ed17b8458b6a2e22d646bf4d6f7222df046c6b4ec3eab9c524063"
+    }
+  },
+  "paas-ctl": {
+    "head": "b96b3554811f96a385b70c28a6eae9d35e5fb181",
+    "changed_sha256": {}
+  }
+}

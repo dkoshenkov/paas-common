@@ -1,0 +1,132 @@
+[
+  {
+    "repo": "paas-common",
+    "check": "build",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "test",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "race",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "vet",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "tidy",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "fmt",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "lint",
+    "exit": 0
+  },
+  {
+    "repo": "paas-common",
+    "check": "diff",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "build",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "test",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "race",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "vet",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "tidy",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "fmt",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "lint",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "diff",
+    "exit": 0
+  },
+  {
+    "repo": "paas-daemon",
+    "check": "linux-build",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "build",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "test",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "race",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "vet",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "tidy",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "fmt",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "lint",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "diff",
+    "exit": 0
+  },
+  {
+    "repo": "paas-ctl",
+    "check": "linux-build",
+    "exit": 0
+  }
+]

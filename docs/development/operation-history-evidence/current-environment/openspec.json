@@ -1,0 +1,283 @@
+{
+  "items": [
+    {
+      "id": "define-k3s-paas-foundation",
+      "type": "change",
+      "valid": false,
+      "issues": [
+        {
+          "level": "WARNING",
+          "path": "application-secrets/spec.md",
+          "message": "ADDED \"Первый объём не включает пользовательское хранилище секретов\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "application-secrets/spec.md",
+          "message": "ADDED \"Доступ к секретам соответствует одной административной роли\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "application-secrets/spec.md",
+          "message": "ADDED \"Секреты выдаются по явным привязкам к контейнерам\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "application-secrets/spec.md",
+          "message": "ADDED \"Используются штатные способы подключения разрешённых Secrets\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "application-secrets/spec.md",
+          "message": "ADDED \"ServiceAccount и отсутствие API-токенов управляются PaaS\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "application-secrets/spec.md",
+          "message": "ADDED \"Полномочия мигратора доступны только его защищённому запуску\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "application-secrets/spec.md",
+          "message": "ADDED \"Credentials приватных образов GHCR настраиваются через CLI\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "line": 8,
+          "message": "Section \"## Implementation Status — 2026-10-21\" is not carried into the main spec by archive. Move it into a requirement, or into proposal.md or design.md."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Компоненты обновляются независимо\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Пакет манифестов принадлежит одному компоненту\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Пакет передаётся как исходные YAML-файлы в JSON\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Проверенный снимок запускается единственной операцией\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Preview и операция сохраняют безопасный жизненный цикл\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Состояние операции отделено от этапа и готовности TLS\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Preview и операции используют единую структурированную диагностику\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"DTO и HTTP-ответы вертикального сценария однозначны\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Первый профиль ограничивает вход и хранение снимков\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"SDK предоставляет явные проверки семантики DTO без runtime\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"SQL-мигратор собирается по шаблону\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Интерфейс управления отделён от выполнения миграций\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Ошибка миграции не запускает скрытые повторы\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Повторный запуск мигратора учитывает историю\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"SDK предоставляет каталог идентичностей приложений и компонентов\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"SDK предоставляет список сохранённых операций\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Каталог runtime читает сохранённые записи PostgreSQL\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"Runtime читает ограниченные снимки истории операций\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "independent-deployments/spec.md",
+          "message": "ADDED \"SDK закрепляет согласованные версии Go, Flux и HTTP runtime\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "operator-tui/spec.md",
+          "message": "ADDED \"TUI содержит четыре основных экрана\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "operator-tui/spec.md",
+          "message": "ADDED \"Деплой проверяется до явного запуска\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "operator-tui/spec.md",
+          "message": "ADDED \"Оператор подключается с одной административной ролью через SSH\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "operator-tui/spec.md",
+          "message": "ADDED \"TUI автоматизирует импорт публичных ключей из GitHub\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "line": 8,
+          "message": "Section \"## Implementation Status — 2026-10-21\" is not carried into the main spec by archive. Move it into a requirement, or into proposal.md or design.md."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Sudo пользователя paas ограничен фиксированными операциями\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Административная подготовка отделена от полномочий daemon\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Управляющий API daemon доступен только через файловый Unix-сокет\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"HTTP-01 и перенаправление HTTP на HTTPS управляются платформой\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Готовность TLS определяется внешней наблюдаемой проверкой\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"ACME state сохраняется и имеет единственного writer\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Домены регистрируются за приложением через PaaS\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Домены канонизируются одинаково при регистрации и в Ingress\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Class TLS и annotations Ingress управляются PaaS\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Маршруты Ingress однозначны и проверяются в пределах приложения\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Пользовательские манифесты ограничены начальным набором ресурсов\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Идентичность и принадлежность ресурсов учитываются PaaS\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Служебные метки и selectors формируются из состояния PaaS\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Сетевые связи приложений разрешаются явно\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Общий бизнесовый сервис переиспользуется\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Первое исполняемое ядро реализует согласованный UDS транспорт\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Служебное хранилище проверяет готовность без изменения схемы\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        },
+        {
+          "level": "WARNING",
+          "path": "shared-infrastructure/spec.md",
+          "message": "ADDED \"Схема служебного каталога обновляется отдельной командой\": Requirement text is very long (>500 characters). Move examples and edge cases into scenarios, or split it into separate requirements that each state one behavior."
+        }
+      ],
+      "durationMs": 570
+    }
+  ],
+  "summary": {
+    "totals": {
+      "items": 1,
+      "passed": 0,
+      "failed": 1
+    },
+    "byType": {
+      "change": {
+        "items": 1,
+        "passed": 0,
+        "failed": 1
+      }
+    }
+  },
+  "version": "1.0",
+  "root": {
+    "path": "/workspace/paas-restored/paas-common",
+    "source": "nearest"
+  }
+}
