@@ -92,7 +92,7 @@ Preview сохраняет 64 unused records / 256 MiB / TTL 30 минут. Вн
   и daemon CI. Runtime SELECT ограничен каталогом, историей и Goose version. Startup
   не требует доступа к private payloads и не расширяет права.
 - [OpenSpec strict](durable-admission-evidence/strict.json): PASS, `issues=[]`.
-- [Версии и команды](durable-admission-evidence/environment.txt),
+- [Версии и команды](durable-admission-evidence/environment.md),
   [SHA-256 исходников](durable-admission-evidence/source-sha256.json).
   Credentials и fixture URL в evidence не включены.
 
