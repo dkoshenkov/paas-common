@@ -1,0 +1,10 @@
+{
+	"Path": "go.yaml.in/yaml/v4",
+	"Version": "v4.0.0",
+	"Info": "/workspace/.paas-env/gopath/pkg/mod/cache/download/go.yaml.in/yaml/v4/@v/v4.0.0.info",
+	"GoMod": "/workspace/.paas-env/gopath/pkg/mod/cache/download/go.yaml.in/yaml/v4/@v/v4.0.0.mod",
+	"Zip": "/workspace/.paas-env/gopath/pkg/mod/cache/download/go.yaml.in/yaml/v4/@v/v4.0.0.zip",
+	"Dir": "/workspace/.paas-env/gopath/pkg/mod/go.yaml.in/yaml/v4@v4.0.0",
+	"Sum": "h1:/LG1pNO84Z4l603j/xMn69CcS5OYhMQ/f7l2LoQUGuw=",
+	"GoModSum": "h1:aZqd9kCMsGL7AuUv/m/PvWLdg5sjJsZ4oHDEnfPPfY0="
+}
