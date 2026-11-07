@@ -3,8 +3,8 @@ github.com/cenkalti/backoff/v4 v4.3.0/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyY
 github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/dkoshenkov/packages-go v0.3.1-0.20261024142719-ec269923c64b h1:E0QdWHcokw067SYXA9q9v0OOXnmq3w1tJLOm/r7DWp0=
-github.com/dkoshenkov/packages-go v0.3.1-0.20261024142719-ec269923c64b/go.mod h1:LWt9gAQRgrvBJz9rBbSMut42yH43B85i3B50Jga9BXI=
+github.com/dkoshenkov/packages-go v0.5.0 h1:RFq90Ljy2pKWFt5+e4SR/AFPHUgdOx0XkduBy4pUP0Q=
+github.com/dkoshenkov/packages-go v0.5.0/go.mod h1:OL4OleqIQIYa9u81D/RliHjl/RpRvm1qtxhTGl4De+c=
 github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
 github.com/fatih/color v1.18.0/go.mod h1:4FelSpRwEGDpQ12mAdzqdOukCy4u8WUtOY6lkT/6HfU=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=

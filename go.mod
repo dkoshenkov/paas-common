@@ -3,7 +3,7 @@ module github.com/dkoshenkov/paas-common
 go 1.27.3
 
 require (
-	github.com/dkoshenkov/packages-go v0.3.1-0.20261024142719-ec269923c64b
+	github.com/dkoshenkov/packages-go v0.5.0
 	google.golang.org/grpc v1.85.0
 	google.golang.org/protobuf v1.36.12
 )
