@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.0](https://github.com/dkoshenkov/paas-common/compare/v1.0.0...v1.1.0) (2026-11-07)
+
+
+### Features
+
+* **sdk:** add catalog contracts and bounded operation history ([4bbf001](https://github.com/dkoshenkov/paas-common/commit/4bbf00114e9fe86c6148e69e062c903a051c3c28))
+* **sdk:** add generated PaaS catalog contracts ([632bd4b](https://github.com/dkoshenkov/paas-common/commit/632bd4b493e84077620280c4eb0792d7c5542665))
+* **validation:** bound operation history snapshots ([51d773f](https://github.com/dkoshenkov/paas-common/commit/51d773fa405cfa694b75b1af0106534a3fe95520))
+
 ## [1.0.0](https://github.com/dkoshenkov/paas-common/compare/v0.3.2...v1.0.0) (2026-10-17)
 
 
