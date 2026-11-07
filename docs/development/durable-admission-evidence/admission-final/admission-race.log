@@ -1,0 +1,66 @@
+=== RUN   TestPostgresAdmissionReplayAndUnknownCommit
+--- PASS: TestPostgresAdmissionReplayAndUnknownCommit (0.58s)
+=== RUN   TestPostgresAdmissionRecheckAndClaims
+--- PASS: TestPostgresAdmissionRecheckAndClaims (0.31s)
+=== RUN   TestPostgresAdmissionTTLAndLock
+--- PASS: TestPostgresAdmissionTTLAndLock (2.97s)
+=== RUN   TestPostgresAdmissionQuotas
+--- PASS: TestPostgresAdmissionQuotas (0.66s)
+=== RUN   TestPostgresAdmissionActiveQuota
+--- PASS: TestPostgresAdmissionActiveQuota (1.16s)
+=== RUN   TestPostgresAdmissionRetirementAndCorruption
+--- PASS: TestPostgresAdmissionRetirementAndCorruption (0.31s)
+=== RUN   TestPostgresAdmissionMigrationV4
+--- PASS: TestPostgresAdmissionMigrationV4 (0.27s)
+=== RUN   TestPostgresAdmissionQuotaRaceAndCleanup
+--- PASS: TestPostgresAdmissionQuotaRaceAndCleanup (0.94s)
+=== RUN   TestPostgresAdmissionByteQuotas
+=== RUN   TestPostgresAdmissionByteQuotas/unused
+=== RUN   TestPostgresAdmissionByteQuotas/active
+--- PASS: TestPostgresAdmissionByteQuotas (4.71s)
+    --- PASS: TestPostgresAdmissionByteQuotas/unused (2.14s)
+    --- PASS: TestPostgresAdmissionByteQuotas/active (2.57s)
+=== RUN   TestPostgresAdmissionMalformedRecords
+=== RUN   TestPostgresAdmissionMalformedRecords/NULL
+=== RUN   TestPostgresAdmissionMalformedRecords/invalid-json
+=== RUN   TestPostgresAdmissionMalformedRecords/bad-accounting
+=== RUN   TestPostgresAdmissionMalformedRecords/profile
+=== RUN   TestPostgresAdmissionMalformedRecords/extended-ttl
+=== RUN   TestPostgresAdmissionMalformedRecords/missing-link
+--- PASS: TestPostgresAdmissionMalformedRecords (1.53s)
+    --- PASS: TestPostgresAdmissionMalformedRecords/NULL (0.23s)
+    --- PASS: TestPostgresAdmissionMalformedRecords/invalid-json (0.22s)
+    --- PASS: TestPostgresAdmissionMalformedRecords/bad-accounting (0.24s)
+    --- PASS: TestPostgresAdmissionMalformedRecords/profile (0.38s)
+    --- PASS: TestPostgresAdmissionMalformedRecords/extended-ttl (0.22s)
+    --- PASS: TestPostgresAdmissionMalformedRecords/missing-link (0.24s)
+=== RUN   TestPostgresAdmissionOwnershipAndRollback
+--- PASS: TestPostgresAdmissionOwnershipAndRollback (0.26s)
+=== RUN   TestPostgresAdmissionProcessWorker
+--- PASS: TestPostgresAdmissionProcessWorker (0.00s)
+=== RUN   TestPostgresAdmissionConcurrentProcesses
+--- PASS: TestPostgresAdmissionConcurrentProcesses (2.60s)
+=== RUN   TestPostgresAdmissionProcessDeath
+--- PASS: TestPostgresAdmissionProcessDeath (2.67s)
+=== RUN   TestAdmissionCanonicalJSON
+--- PASS: TestAdmissionCanonicalJSON (0.00s)
+=== RUN   TestAdmissionClaims
+=== RUN   TestAdmissionClaims/relative_path
+=== RUN   TestAdmissionClaims/owner
+=== RUN   TestAdmissionClaims/host_case
+=== RUN   TestAdmissionClaims/trailing_dot
+=== RUN   TestAdmissionClaims/prefix_trailing_slash
+=== RUN   TestAdmissionClaims/path_type
+--- PASS: TestAdmissionClaims (0.01s)
+    --- PASS: TestAdmissionClaims/relative_path (0.00s)
+    --- PASS: TestAdmissionClaims/owner (0.00s)
+    --- PASS: TestAdmissionClaims/host_case (0.00s)
+    --- PASS: TestAdmissionClaims/trailing_dot (0.00s)
+    --- PASS: TestAdmissionClaims/prefix_trailing_slash (0.00s)
+    --- PASS: TestAdmissionClaims/path_type (0.00s)
+=== RUN   TestAdmissionEnvelopeAndAccounting
+--- PASS: TestAdmissionEnvelopeAndAccounting (0.09s)
+=== RUN   TestAdmissionNormalizedRoutes
+--- PASS: TestAdmissionNormalizedRoutes (0.02s)
+PASS
+ok  	github.com/dkoshenkov/paas-daemon/internal/store	20.167s

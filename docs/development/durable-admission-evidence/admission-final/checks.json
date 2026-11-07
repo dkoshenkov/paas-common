@@ -1,0 +1,8 @@
+{
+  "build": 0,
+  "vet": 0,
+  "tidy": 0,
+  "fmt": 0,
+  "lint": 0,
+  "diff": 0
+}

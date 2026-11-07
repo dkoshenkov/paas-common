@@ -1,0 +1,26 @@
+[
+  {
+    "check": "build",
+    "exit": 0
+  },
+  {
+    "check": "test-race",
+    "exit": 0
+  },
+  {
+    "check": "vet",
+    "exit": 0
+  },
+  {
+    "check": "tidy",
+    "exit": 0
+  },
+  {
+    "check": "fmt",
+    "exit": 0
+  },
+  {
+    "check": "lint",
+    "exit": 0
+  }
+]

@@ -1,6 +1,6 @@
 # Tasks
 
-- Статус на 2026-11-05: 38/58 задач завершены. Подэтап 3.3.1–3.3.5
+- Статус на 2026-11-05: 43/63 задач завершены. Подэтап 3.3.1–3.3.5
   принят; source/SDK/log SHA-256 совпадают с evidence от 2026-10-22.
   Подэтап 3.3.6–3.3.10 одобрен пользователем в текущем диалоге. Реализация
   проверена на Go 1.27.3 и настоящем PostgreSQL/UDS; 3.3.6–3.3.10 завершены.
@@ -490,6 +490,22 @@ writers, preview/apply/worker/recovery в этот подэтап не вход�
 - [x] 3.3.8 Реализовать PostgreSQL Get/List истории через существующие pgxpool/Squirrel: canonical scoped state cursor, byte ordering, limit+1, soft delete, parent-independent history и app-side snapshot/column validation; проверить 105+ записей, все state, foreign cursor, смену limit, удаление after, NULL/дубликаты/mismatch/oversize без side effects.
 - [x] 3.3.9 Подключить два прежних generated GET operations к daemon и проверке полного JSON response до headers; через реальные PostgreSQL/UDS/generated clients проверить 200/400/404/503/generic 500, canary, runtime bounds и отдельный process restart. Preview/apply не регистрировать, фиктивные операции не создавать; обновить README.
 - [x] 3.3.10 Провести build/test/race/vet/tidy/fmt/lint трёх модулей, Linux build ctl/daemon и strict OpenSpec validate; повторить реальные DB/UDS проверки старого каталога и новой истории, сохранить evidence/SHA-256, подтвердить неизменность прежних SDK/API файлов; не закрывать при skip вместо live DB.
+
+### Согласованный подэтап 3.3.11–3.3.15: внутреннее durable admission
+
+Статус: пользователь одобрил apply 2026-11-05 ответом «делай». Реализация
+и приёмка пяти задач завершены; evidence приведено ниже.
+Production POST preview/apply, CLI deploy, writer credentials и executor отсутствуют
+в этом объёме. Пять новых задач увеличивают план с 58 до 63; после приёмки выполнено 43.
+
+- [x] 3.3.11 По одобренному последнему разделу design закрепить миграцию схемы v4 (Goose) и внутренние versioned preview/admission/reservation/tombstone модели и контракт canonical payload/typed claims; проверить миграцию v3→v4/repeated, прежние GET и SELECT-only runtime, не менять generated SDK и не выдавать production DML.
+- [x] 3.3.12 Реализовать новый bounded READ COMMITTED writer protocol с общим transaction advisory lock и authoritative reads/clock_timestamp после ожидания; проверить отдельные процессы, предшествующий commit, cancellation/rollback и отсутствие внешних вызовов под lock.
+- [x] 3.3.13 Реализовать immutable preview persistence, проверяемую версию full-plan serialization и атомарные unused/active quotas; тестировать count/bytes с escaping, дубликаты/NULL/повреждения, TTL после ожидания lock, неизменность input и неиспользование history-only лимитов для preview.
+- [x] 3.3.14 Реализовать внутреннее admission/resolve по явному test planner/state без регистрации production handlers: сравнение canonical payload и typed claims по fixture-профилю, атомарные операция/связь/резервы; проверить конкурентный повтор, конфликт компонента/маршрута, commit с потерянным подтверждением и повтор того же preview ID без новой операции.
+- [x] 3.3.15 Реализовать внутренний cleanup/retirement и приёмку: гонка cleanup/apply, kill/restart, сохранение активного input/резервов, очищенные payloads и неповторяемые ID, независимость ownership от истории; real PostgreSQL/UDS, build/test/race/vet/tidy/fmt/lint, strict OpenSpec и CI. Не закрывать public planner/executor/Kubernetes recovery, установку и TUI на основании fixtures.
+
+Приёмка 3.3.11–3.3.15: docs/development/durable-admission-check-2026-11-05.md;
+реальные PostgreSQL/process/fault/race тесты и daemon CI PASS. Public runtime не включён.
 
 ## 4. Базы приложений и секреты
 

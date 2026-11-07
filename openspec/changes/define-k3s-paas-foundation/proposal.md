@@ -374,3 +374,36 @@ Common gRPC/proto сохраняются. Runtime-архитектура и endp
 правки сохраняются. Подэтап включает локальные build/test/race/vet/tidy-diff,
 проверку повторной генерации и линтер, насколько позволяет установленный
 toolchain. Commit, push, PR и release не входят.
+
+
+## Согласованный этап внутреннего durable admission — 2026-11-05
+
+После слияния common #20, daemon #3 и ctl #3 завершены read-only каталог и история.
+Пользователь 2026-11-05 одобрил рассмотренную архитектуру ответом «делай».
+Разрешена реализация только внутреннего этапа 3.3.11–3.3.15:
+неизменяемые preview snapshots, общий PostgreSQL writer lock, атомарное admission,
+повтор после неизвестного commit, независимые резервы и cleanup/tombstones.
+
+Архитектурное ревью выявило границу: при отложенном Kubernetes-исполнении нельзя
+добавлять публичное принятие фиктивного плана или очередь ACCEPTED «на будущее».
+Поэтому согласованный этап проверяет внутреннюю основу через явно тестовый planner
+и реальные PostgreSQL failure/concurrency tests. Production POST handlers,
+CLI deploy/apply, writer credentials и worker не включаются. Read-only daemon
+и прежний SDK сохраняются; fixtures не закрывают production planner/recovery.
+
+Затронутые репозитории: common — central OpenSpec; daemon —
+внутреннее store/migration/tests; ctl — проверка совместимости без искусственных
+изменений кода. Возможная последующая публичная интеграция зависит от настоящих
+catalog/policy writers, planner/recheck и безопасного executor/recovery.
+
+Согласованные решения внутреннего этапа: READ COMMITTED + единый advisory lock,
+Go-validation без DB constraints, версия full-plan serialization, постоянные
+компактные ID tombstones, активная квота 16 операций/256 MiB и write deadline 2s.
+Существующие preview 64/256 MiB/30 минут сохраняются. Полные инварианты, риски,
+Mermaid-последовательность и критерии приёмки — в последнем разделе design.md.
+Новый scope не объявляет завершёнными 3.3 или 5.1 и не разрешает deployment.
+
+
+Внутренний этап 3.3.11–3.3.15 реализован и проверен 2026-11-05; daemon draft #5,
+приёмка в docs/development/durable-admission-check-2026-11-05.md. Это не запуск
+production preview/apply: HTTP/CLI/executor и установка по-прежнему отсутствуют.
