@@ -1,0 +1,50 @@
+go version go1.27.3 linux/amd64
+all modules verified
+=== RUN   TestHTTPWireLimit
+    contract_test.go:34: wirebytes=8388608 consumed=8388608 err=<nil>
+    contract_test.go:34: wirebytes=8388609 consumed=8388608 err=http: request body too large
+--- PASS: TestHTTPWireLimit (0.22s)
+=== RUN   TestDepthCounterexamples
+=== RUN   TestDepthCounterexamples/flow64
+    gate_test.go:94: bytes=129 produced_tree_depth=64 err=<nil>
+=== RUN   TestDepthCounterexamples/flow65
+    gate_test.go:94: bytes=131 produced_tree_depth=0 err=go-yaml load error in scanner (while increasing flow level) at L1.C65: exceeded max depth of 64
+=== RUN   TestDepthCounterexamples/block64
+    gate_test.go:94: bytes=4354 produced_tree_depth=64 err=<nil>
+=== RUN   TestDepthCounterexamples/block65
+    gate_test.go:94: bytes=4487 produced_tree_depth=0 err=go-yaml load error in scanner (while increasing indent level) at L65.C129-C130: exceeded max depth of 64
+=== RUN   TestDepthCounterexamples/mixed65
+    gate_test.go:94: bytes=1220 produced_tree_depth=65 err=<nil>
+=== RUN   TestDepthCounterexamples/mixed128
+    gate_test.go:94: bytes=4482 produced_tree_depth=128 err=<nil>
+=== RUN   TestDepthCounterexamples/indentless64
+    gate_test.go:94: bytes=2210 produced_tree_depth=64 err=<nil>
+=== RUN   TestDepthCounterexamples/indentless66
+    gate_test.go:94: bytes=2345 produced_tree_depth=66 err=<nil>
+--- PASS: TestDepthCounterexamples (0.03s)
+    --- PASS: TestDepthCounterexamples/flow64 (0.00s)
+    --- PASS: TestDepthCounterexamples/flow65 (0.00s)
+    --- PASS: TestDepthCounterexamples/block64 (0.00s)
+    --- PASS: TestDepthCounterexamples/block65 (0.00s)
+    --- PASS: TestDepthCounterexamples/mixed65 (0.00s)
+    --- PASS: TestDepthCounterexamples/mixed128 (0.01s)
+    --- PASS: TestDepthCounterexamples/indentless64 (0.00s)
+    --- PASS: TestDepthCounterexamples/indentless66 (0.00s)
+=== RUN   TestAliasesAndMerge
+    gate_test.go:108: alias rejected: go-yaml load error in composer at L2.C4: alias-data: aliases are disabled
+    gate_test.go:113: MERGE COUNTEREXAMPLE: disable-merge accepted tree, nodes=8; explicit reject hook still needed
+--- PASS: TestAliasesAndMerge (0.00s)
+=== RUN   TestDocumentBudget
+    gate_test.go:153: rejected129 before deeply nested body: count=129 node_kind=0
+--- PASS: TestDocumentBudget (0.00s)
+=== RUN   TestNoNodeBudget
+    gate_test.go:177: wide input tree nodes=300003 depth_callbacks=1; depth API cannot limit width
+--- PASS: TestNoNodeBudget (5.83s)
+PASS
+ok  	paas-yaml-gate	7.149s
+=== RUN   TestRequiredEarlyDepth64
+    contract_test.go:16: BLOCKED: parser returned a complete tree of depth 65 despite depth limit64
+--- FAIL: TestRequiredEarlyDepth64 (0.00s)
+FAIL
+FAIL	paas-yaml-gate	0.007s
+FAIL

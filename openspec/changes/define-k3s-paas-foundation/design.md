@@ -1617,3 +1617,92 @@ READ COMMITTED/lock, real commit-loss/restart, count/byte quotas, corruption,
 retirement и прежние UDS GET проверены локально и в GitHub CI на этом HEAD.
 Отчёт и SHA-256: docs/development/durable-admission-check-2026-11-05.md.
 Выполнено 43/63 задач, общий 3.3 и публичное выполнение остаются открытыми.
+
+
+## Одобрение внутреннего parser/planner 3.3.16–3.3.19 — 2026-11-05
+
+Пользователь одобрил ближайший профиль из common PR #25. Подробное исследование:
+[следующий preview](../../../docs/development/next-preview-plan-2026-11-05.md).
+Этот раздел фиксирует границу одобрения, не объявляет все рекомендации документа
+нормативными и не является результатом реализации. Прежние 3.3.11–3.3.15 приняты;
+полный public preview/apply и общий 3.3 остаются открытыми.
+
+### Одобренный объём и технический gate
+
+Разрешён внутренний чистый planner: исходные файлы и явный снимок состояния на
+входе; безопасная диагностика, полный приватный план и публичная проекция на
+выходе. Нет HTTP handlers, SQL writes, Kubernetes requests/mutations, CLI deploy
+или фиктивных production ACCEPTED. Fixture input не становится production source.
+
+Первый шаг — изолированный YAML probe с воспроизводимыми adversarial tests.
+Проверяются отказ на duplicate mapping keys, aliases/merge и нестандартные tags,
+а также точная общая глубина mapping/sequence 64 во время разбора, до полного
+построения дерева. Сохраняются прежние 8 MiB escaped input, 64 files, 128 documents
+(включая пустые), имена 512 UTF-8 bytes. Смешанные flow/block и indentless sequences
+входят в gate; отдельные счётчики flow/block не доказывают общую глубину.
+Простой обход готового Node tree и отсутствие expansion после Decode недостаточны.
+Самописный YAML parser, временный fork или cgo этим одобрением не разрешены.
+
+Если выбранный API не обеспечивает ранние ограничения, фиксируются точная причина,
+минимальный reproducer и варианты решения. Зависимый полный parser/planner не
+начинается до устранения gate; state-модель и независимая проверка документов могут
+продолжаться. Отрицательный probe — evidence блокера, не PASS задачи 3.3.16.
+Выбор библиотеки должен следовать доказательству пригодности, а не одному наличию tag.
+
+### Локальная schema и границы нормализации
+
+Одобрен version pin k3s v1.37.2+k3s1 / upstream Kubernetes schema v1.37.2 для
+локального профиля. Четыре прежних GVK и правило одного Deployment сохраняются.
+Закреплённые OpenAPI v3 artifacts проверяются по provenance/hash; локальная
+schema validation не объявляется полной проверкой admission/defaulting сервера.
+Typed decode k8s.io/api сам по себе не выполняет серверный defaulting.
+
+Сохраняются ранее обязательные PaaS Namespace/identity/selectors, Service type
+ClusterIP, ServiceAccount/token/Secret bindings и согласованный маршрутный профиль.
+Применяются лишь явно заданные PaaS defaults; replicas/rollout/imagePullPolicy и
+Service allocation не вычисляются как будто выполнен API server. Per-field
+update/defaulting semantics должны быть определены до готовности полного planner;
+неизвестное значение не превращается в NO_CHANGE или применимый полный план.
+Restricted enforce уже обязателен проектом; предложенные точная версия evaluator,
+новые input metadata/scheduling policies и зависимости остаются рекомендациями,
+если не следуют из прежних требований. Их нельзя молча принять или ослабить.
+
+### Состояние, сравнение и одобренные пределы
+
+State явно задаёт target identity/Namespace, policy, ownership/reservations,
+resource observations и предпосылки дополнительных действий. Для каждого раздела
+нужна область полноты; absent допустим только при подтверждённом отсутствии,
+unknown не заменяется пустым slice. Учитываются чужие конфликтующие и оставленные
+вне пакета ресурсы. Secret values в state не требуются; разрешения не выводятся
+из пользовательских labels. Нет скрытого удаления прежних ресурсов.
+
+Сравнение различает absent, null и explicit value; порядок lists сохраняется,
+включая schema set/map lists. Maps канонизируются, целые числа не теряются через
+float64. Это консервативное сравнение может требовать новый preview при перестановке
+семантически эквивалентных элементов; сортировка lists не вводится незаметно.
+Полный план сохраняет сравниваемые current/target, зависимости, claims, warnings
+и дополнительные действия. Только прежние явно заданные исключения сравнения
+допустимы; произвольное поле timestamp по имени не исключается.
+
+Одобрены максимум 128 diagnostics и независимые пределы 32 MiB canonical JSON
+для полного private plan и всего state, включая metadata и все разделы, с UTF-8
+escaping. Проверки размера действуют при чтении/построении, до неограниченного
+накопления; это логические бюджеты, не обещание такого же RAM/RSS. Overflow,
+неполнота и противоречие state дают fail-closed, без применимого плана или успешного
+усечения diagnostics. History-only пределы не переносятся на preview. Прежние
+unused/active quotas не увеличиваются. Production HTTP mapping здесь не вводится.
+
+Остальные рекомендации PR #25 — YAML/JSON node counts, 4096 observations/claims,
+256 KiB diagnostics, длины code/message/field_path, 1 MiB response, новые error
+codes, scalar/quoted-merge corner cases и новые protected-field policies —
+не объявляются одобренными только этой записью. Если они необходимы следующему
+шагу и не следуют из действующей спецификации, требуется отдельное согласование.
+
+### Приёмка и порядок работ
+
+3.3.16 — положительное evidence ранних parser limits; 3.3.17 — типизированный
+bounded state с completeness; 3.3.18 — только после gate полный чистый planner;
+3.3.19 — adversarial/property/redaction tests, проверки Go и OpenSpec, независимое
+review и CI на точных head SHA. Пропуск policy/defaulting gate не разрешает
+закрывать 3.3.18 частичным planner. Не заявлять public readiness, server conformance
+или проверку исполнения Kubernetes на основании локальных fixtures.

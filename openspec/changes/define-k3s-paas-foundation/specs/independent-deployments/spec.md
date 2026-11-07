@@ -1259,3 +1259,35 @@ preview → operation и долговременные резервы в PostgreS
 Числа внутренних active quotas, представление private full plan и tombstone trade-off
 согласованы в design.md для этого этапа и SHALL соблюдаться при apply; существующие
 preview квоты/TTL и публичные HTTP-коды не изменяются этим требованием.
+
+
+### Requirement: Внутренний planner ограничен доказанным профилем
+
+Одобренный 2026-11-05 этап 3.3.16–3.3.19 SHALL строить план из исходного пакета
+и явного полного состояния без внешних эффектов. Он SHALL NOT подменять
+production preview/apply или проверку исполнения Kubernetes.
+
+#### Scenario: YAML gate до реализации полного planner
+- **WHEN** проверяется пригодность parser для согласованного профиля
+- **THEN** duplicates, aliases/merge и нестандартные tags SHALL отклоняться
+- **AND** общая глубина 64 и прежние документные лимиты SHALL обеспечиваться во время разбора, до полного построения дерева
+- **AND** отрицательный probe SHALL блокировать зависимый полный planner, а post-Decode обход SHALL NOT считаться доказательством gate
+
+#### Scenario: Локальная schema не подменяет API server
+- **WHEN** planner проверяет пакет по k3s v1.37.2+k3s1 / upstream schema v1.37.2
+- **THEN** он SHALL сохранять прежние GVK, PaaS policies и явно согласованные defaults
+- **AND** typed decode или локальная schema SHALL NOT объявляться полным server defaulting/admission
+- **AND** неразрешённая семантика поля SHALL NOT превращаться в фиктивный NO_CHANGE
+
+#### Scenario: Полнота state и сравнение
+- **WHEN** planner получает state или сравнивает полный план
+- **THEN** absent и unknown SHALL различаться, отсутствие SHALL требовать подтверждённой полноты или авторитетного lookup
+- **AND** retained и конфликтующие чужие ресурсы SHALL учитываться, скрытый DELETE SHALL NOT создаваться
+- **AND** absent/null/value SHALL различаться, порядок lists SHALL сохраняться, включая set/map lists
+
+#### Scenario: Ограничения результата без успешного усечения
+- **WHEN** planner строит диагностику, state или полный private plan
+- **THEN** diagnostics SHALL ограничиваться 128 записями, state и private plan — каждый 32 MiB canonical JSON с escaping
+- **AND** размеры SHALL проверяться при чтении/построении до неограниченного накопления
+- **AND** overflow или неполнота SHALL давать fail-closed без применимого плана и успешного усечения diagnostics
+- **AND** history-only limits и остальные предложенные численные бюджеты SHALL NOT автоматически становиться ограничениями этого профиля

@@ -1,6 +1,6 @@
 # Tasks
 
-- Статус на 2026-11-05: 43/63 задач завершены. Подэтап 3.3.1–3.3.5
+- Статус на 2026-11-05: 43/67 задач завершены. Подэтап 3.3.1–3.3.5
   принят; source/SDK/log SHA-256 совпадают с evidence от 2026-10-22.
   Подэтап 3.3.6–3.3.10 одобрен пользователем в текущем диалоге. Реализация
   проверена на Go 1.27.3 и настоящем PostgreSQL/UDS; 3.3.6–3.3.10 завершены.
@@ -506,6 +506,18 @@ Production POST preview/apply, CLI deploy, writer credentials и executor отс
 
 Приёмка 3.3.11–3.3.15: docs/development/durable-admission-check-2026-11-05.md;
 реальные PostgreSQL/process/fault/race тесты и daemon CI PASS. Public runtime не включён.
+
+### Одобренный подэтап 3.3.16–3.3.19: внутренний parser/planner
+
+Профиль PR #25 одобрен 2026-11-05 в границах последнего раздела design.
+Четыре задачи открыты: 43/67. Production endpoints, Kubernetes execution и
+дополнительные неодобренные policy/budgets не входят. Независимая state-модель
+может разрабатываться параллельно probe, зависимый полный planner ждёт gate.
+
+- [ ] 3.3.16 Доказать YAML gate изолированным probe: duplicate keys, aliases/merge, нестандартные tags, общая depth 64 до полного дерева и прежние document/input limits; проверить flow/block/indentless adversarial cases. При отсутствии подходящего API сохранить reproducer и блокер, не закрывать задачу и не начинать зависимый полный planner; fork/cgo отдельно согласовать.
+- [ ] 3.3.17 Реализовать явный versioned state с scope completeness, absent/unknown, retained/foreign observations, ownership/policy и prerequisites; обеспечить 32 MiB canonical JSON до неограниченного накопления, fail-closed для противоречий/overflow, отсутствие Secret values и выдуманных production прав. Проверить absent/null/value и сохранение порядка lists.
+- [ ] 3.3.18 После положительного 3.3.16 и определения необходимой field semantics реализовать чистый parser/normalizer/planner по закреплённой schema v1.37.2 и прежним PaaS policies без server-defaulting обещаний; полный plan до 32 MiB, diagnostics до 128, безопасная public projection, retained-resource checks и meaningful comparison. Не закрывать при частичной policy/defaulting реализации; HTTP/SQL/Kubernetes effects не добавлять.
+- [ ] 3.3.19 Принять только доказанный внутренний профиль: adversarial/property/redaction/overflow tests, Go build/test/race/vet/tidy/fmt/lint затронутых модулей, OpenSpec strict, независимое review и CI на точных head SHA. Сохранить evidence и явно открытые blockers; fixtures не закрывают production sources, public preview/apply, server conformance или executor/recovery.
 
 ## 4. Базы приложений и секреты
 

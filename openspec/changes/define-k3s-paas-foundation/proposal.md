@@ -407,3 +407,24 @@ Mermaid-последовательность и критерии приёмки 
 Внутренний этап 3.3.11–3.3.15 реализован и проверен 2026-11-05; daemon draft #5,
 приёмка в docs/development/durable-admission-check-2026-11-05.md. Это не запуск
 production preview/apply: HTTP/CLI/executor и установка по-прежнему отсутствуют.
+
+
+## Одобренный внутренний parser/planner — 2026-11-05
+
+Пользователь одобрил ближайший внутренний профиль, рассмотренный в common PR #25
+([подробные рекомендации](../../../docs/development/next-preview-plan-2026-11-05.md)).
+Одобрение охватывает проверку duplicates/aliases/nonstandard tags и ранней глубины
+YAML, k3s v1.37.2+k3s1 / локальную schema v1.37.2 без Kubernetes-мутаций,
+различение absent/unknown, сохранение порядка lists, максимум 128 diagnostics
+и отдельные пределы 32 MiB для полного плана и state с fail-closed overflow.
+
+Этап 3.3.16–3.3.19 сначала доказывает пригодность parser API. При блокере ранних
+ограничений зависимая реализация полного planner не начинается; post-Decode обход
+не заменяет gate. State-модель можно разрабатывать независимо в согласованном
+объёме. Fork/cgo, новые protected-field policies и остальные численные предложения
+PR #25 не считаются автоматически одобренными. Точная граница — в design.md.
+
+Common обновляет OpenSpec; daemon реализует изолированный parser probe и затем
+разрешённые state/planner primitives; ctl проверяет совместимость без новой CLI.
+Production POST/SQL writers, чтение Kubernetes, deployment, executor/recovery
+и изменение generated SDK не входят. Все четыре задачи открыты до evidence.
