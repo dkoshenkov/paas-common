@@ -1,0 +1,370 @@
+diff --git a/README.md b/README.md
+--- a/README.md
++++ b/README.md
+@@ -5,6 +5,8 @@
+ Набор переиспользуемых Go-пакетов.
+ 
+ ## Пакеты
++
++- [pgxtx](./pgxtx/README.md) — согласованные снимки PostgreSQL через pgxpool.
+ 
+ - `flagx` — typed-обертка над `pflag` с `Default/Validate/OneOf`.
+ - `configx` — загрузка конфига в struct из `flag > vault > env > yaml`.
+diff --git a/go.mod b/go.mod
+--- a/go.mod
++++ b/go.mod
+@@ -6,6 +6,7 @@
+ 	github.com/fxamacker/cbor/v2 v2.10.0
+ 	github.com/google/uuid v1.6.0
+ 	github.com/hashicorp/vault/api v1.23.0
++	github.com/jackc/pgx/v5 v5.11.0
+ 	github.com/rs/cors v1.11.1
+ 	github.com/rs/zerolog v1.34.0
+ 	github.com/spf13/pflag v1.0.10
+@@ -30,6 +31,9 @@
+ 	github.com/hashicorp/go-secure-stdlib/strutil v0.1.2 // indirect
+ 	github.com/hashicorp/go-sockaddr v1.0.7 // indirect
+ 	github.com/hashicorp/hcl v1.0.1-vault-7 // indirect
++	github.com/jackc/pgpassfile v1.0.0 // indirect
++	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
++	github.com/jackc/puddle/v2 v2.2.2 // indirect
+ 	github.com/mattn/go-colorable v0.1.14 // indirect
+ 	github.com/mattn/go-isatty v0.0.20 // indirect
+ 	github.com/mitchellh/go-homedir v1.1.0 // indirect
+@@ -44,6 +48,7 @@
+ 	github.com/subosito/gotenv v1.6.0 // indirect
+ 	github.com/x448/float16 v0.8.4 // indirect
+ 	go.yaml.in/yaml/v3 v3.0.4 // indirect
++	golang.org/x/sync v0.23.0 // indirect
+ 	golang.org/x/sys v0.48.0 // indirect
+ 	golang.org/x/text v0.42.0 // indirect
+ 	golang.org/x/time v0.12.0 // indirect
+diff --git a/go.sum b/go.sum
+--- a/go.sum
++++ b/go.sum
+@@ -1,6 +1,7 @@
+ github.com/cenkalti/backoff/v4 v4.3.0 h1:MyRJ/UdXutAwSAT+s3wNd7MfTIcy71VQueUuFK343L8=
+ github.com/cenkalti/backoff/v4 v4.3.0/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyYozVcomhLiZE=
+ github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
++github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
+ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+ github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
+@@ -45,6 +46,14 @@
+ github.com/hashicorp/hcl v1.0.1-vault-7/go.mod h1:XYhtn6ijBSAj6n4YqAaf7RBPS4I06AItNorpy+MoQNM=
+ github.com/hashicorp/vault/api v1.23.0 h1:gXgluBsSECfRWTSW9niY2jwg2e9mMJc4WoHNv4g3h6A=
+ github.com/hashicorp/vault/api v1.23.0/go.mod h1:zransKiB9ftp+kgY8ydjnvCU7Wk8i9L0DYWpXeMj9ko=
++github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=
++github.com/jackc/pgpassfile v1.0.0/go.mod h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=
++github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 h1:iCEnooe7UlwOQYpKFhBabPMi4aNAfoODPEFNiAnClxo=
++github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761/go.mod h1:5TJZWKEWniPve33vlWYSoGYefn3gLQRzjfDlhSJ9ZKM=
++github.com/jackc/pgx/v5 v5.11.0 h1:IzBBtyK9AHqf98cctWFifYSci2hgQR/cd56wB4p+ogg=
++github.com/jackc/pgx/v5 v5.11.0/go.mod h1:mal1tBGAFfLHvZzaYh77YS/eC6IX9OWbRV1QIIM0Jn4=
++github.com/jackc/puddle/v2 v2.2.2 h1:PR8nw+E/1w0GLuRFSmiioY6UooMp6KJv0/61nB7icHo=
++github.com/jackc/puddle/v2 v2.2.2/go.mod h1:vriiEXHvEE654aYKXXjOvZM39qJ0q+azkZFrfEOc3H4=
+ github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
+ github.com/kr/pretty v0.3.1/go.mod h1:hoEshYVHaxMs3cyo3Yncou5ZscifuDolrwPKZanG3xk=
+ github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
+@@ -86,6 +95,9 @@
+ github.com/spf13/pflag v1.0.10/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
+ github.com/spf13/viper v1.21.0 h1:x5S+0EU27Lbphp4UKm1C+1oQO+rKx36vfCoaVebLFSU=
+ github.com/spf13/viper v1.21.0/go.mod h1:P0lhsswPGWD/1lZJ9ny3fYnVqxiegrlNrEmgLjbTCAY=
++github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
++github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
++github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
+ github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
+ github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
+ github.com/subosito/gotenv v1.6.0 h1:9NlTDc1FTs4qu0DDq7AEtTPNw6SVm7uBMsUCUjABIf8=
+@@ -96,6 +108,8 @@
+ go.yaml.in/yaml/v3 v3.0.4/go.mod h1:DhzuOOF2ATzADvBadXxruRBLzYTpT36CKvDb3+aBEFg=
+ golang.org/x/net v0.60.0 h1:79p50tfZlm0J9YfoDsSi639qSXNGVwEzOPLCxM2FsYU=
+ golang.org/x/net v0.60.0/go.mod h1:2DA/G1UfVbCpQPeWTmMPGY7Cs2PkBkwu743bVX5PIVg=
++golang.org/x/sync v0.23.0 h1:KameEIfc1IkluZyXWLn39Wd4tURc6GbCiISGiZm2bQk=
++golang.org/x/sync v0.23.0/go.mod h1:sUUOizhqBxiL6pEWpqNLUiaJn1ShEbZ6BBqskPbjZm0=
+ golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+ golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+ golang.org/x/sys v0.12.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+@@ -106,7 +120,8 @@
+ golang.org/x/time v0.12.0 h1:ScB/8o8olJvc+CQPWrK3fPZNfh7qgwCrY0zJmoEQLSE=
+ golang.org/x/time v0.12.0/go.mod h1:CDIdPxbZBQxdj6cxyCIdrNogrJKMJ7pr37NYpMcMDSg=
+ gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+-gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 h1:YR8cESwS4TdDjEe65xsg0ogRM/Nc3DYOhEAlW+xobZo=
+-gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
++gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
++gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c/go.mod h1:JHkPIbrfpd72SG/EVd6muEfDQjcINNoR0C8j2r3qZ4Q=
++gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
+ gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
+ gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
+diff --git a/pgxtx/README.md b/pgxtx/README.md
+new file mode 100644
+--- /dev/null
++++ b/pgxtx/README.md
+@@ -0,0 +1,26 @@
++# pgxtx
++
++`ReadSnapshot` выполняет несколько запросов PostgreSQL в одной нативной
++транзакции pgx с режимом `READ ONLY REPEATABLE READ`. Подходит, например,
++для чтения количества строк и страницы результатов в одном снимке.
++
++```go
++names, err := pgxtx.ReadSnapshot(ctx, pool, time.Second, func(tx pgx.Tx) ([]string, error) {
++    rows, err := tx.Query(ctx, "SELECT name FROM items ORDER BY name")
++    if err != nil {
++        return nil, err
++    }
++    return pgx.CollectRows(rows, pgx.RowTo[string])
++})
++```
++
++Callback завершает все запросы и закрывает открытые rows до возврата.
++Транзакцией владеет пакет. Освобождение через rollback имеет собственный
++положительный таймаут и выполняется также при отмене или panic. Значение
++возвращается только после успешного освобождения. При любой ошибке возвращается
++нулевое значение типа. Если ошибками завершились и callback, и rollback,
++вызывающий получает исходную ошибку callback.
++
++Интеграционные тесты создают и удаляют тестовую таблицу. Для проверки на
++выделенной базе задайте `PGXTX_TEST_DATABASE_URL` и выполните
++`go test -race -count=1 -v ./pgxtx`.
+diff --git a/pgxtx/snapshot.go b/pgxtx/snapshot.go
+new file mode 100644
+--- /dev/null
++++ b/pgxtx/snapshot.go
+@@ -0,0 +1,38 @@
++// Package pgxtx provides transaction helpers for native pgx connections.
++package pgxtx
++
++import (
++	"context"
++	"errors"
++	"time"
++
++	"github.com/jackc/pgx/v5"
++	"github.com/jackc/pgx/v5/pgxpool"
++)
++
++// ReadSnapshot runs read in a read-only, repeatable-read transaction.
++// The callback must finish all queries and must not commit or roll back tx.
++// The result is returned only after a successful rollback. A callback error or
++// panic keeps precedence over any cleanup failure. rollbackTimeout must be positive.
++func ReadSnapshot[T any](ctx context.Context, pool *pgxpool.Pool, rollbackTimeout time.Duration, read func(pgx.Tx) (T, error)) (value T, err error) {
++	var zero T
++	if rollbackTimeout <= 0 {
++		return zero, errors.New("pgxtx: rollback timeout must be positive")
++	}
++	tx, err := pool.BeginTx(ctx, pgx.TxOptions{IsoLevel: pgx.RepeatableRead, AccessMode: pgx.ReadOnly})
++	if err != nil {
++		return zero, err
++	}
++	defer func() {
++		cleanup, cancel := context.WithTimeout(context.WithoutCancel(ctx), rollbackTimeout)
++		defer cancel()
++		if rollbackErr := tx.Rollback(cleanup); err == nil && rollbackErr != nil {
++			value, err = zero, rollbackErr
++		}
++	}()
++	value, err = read(tx)
++	if err != nil {
++		return zero, err
++	}
++	return value, nil
++}
+diff --git a/pgxtx/snapshot_test.go b/pgxtx/snapshot_test.go
+new file mode 100644
+--- /dev/null
++++ b/pgxtx/snapshot_test.go
+@@ -0,0 +1,194 @@
++package pgxtx_test
++
++import (
++	"context"
++	"errors"
++	"fmt"
++	"os"
++	"testing"
++	"time"
++
++	"github.com/dkoshenkov/packages-go/pgxtx"
++	"github.com/jackc/pgx/v5"
++	"github.com/jackc/pgx/v5/pgconn"
++	"github.com/jackc/pgx/v5/pgxpool"
++)
++
++func TestSnapshotRequiresPositiveRollbackTimeout(t *testing.T) {
++	for _, timeout := range []time.Duration{0, -time.Second} {
++		_, err := pgxtx.ReadSnapshot(t.Context(), nil, timeout, func(pgx.Tx) (int, error) {
++			t.Fatal("callback ran")
++			return 1, nil
++		})
++		if err == nil {
++			t.Fatal("accepted invalid timeout", timeout)
++		}
++	}
++}
++
++func TestPostgresSnapshot(t *testing.T) {
++	dsn := os.Getenv("PGXTX_TEST_DATABASE_URL")
++	if dsn == "" {
++		t.Skip("set PGXTX_TEST_DATABASE_URL to a disposable PostgreSQL database")
++	}
++	ctx, cancel := context.WithTimeout(t.Context(), 30*time.Second)
++	defer cancel()
++	config, err := pgxpool.ParseConfig(dsn)
++	if err != nil {
++		t.Fatal(err)
++	}
++	config.MaxConns = 1
++	pool, err := pgxpool.NewWithConfig(ctx, config)
++	if err != nil {
++		t.Fatal(err)
++	}
++	defer pool.Close()
++	writer, err := pgx.Connect(ctx, dsn)
++	if err != nil {
++		t.Fatal(err)
++	}
++	defer func() {
++		if err := writer.Close(ctx); err != nil {
++			t.Error(err)
++		}
++	}()
++	table := pgx.Identifier{fmt.Sprintf("pgxtx_test_%d", time.Now().UnixNano())}.Sanitize()
++	if _, err := writer.Exec(ctx, "CREATE TABLE "+table+" (value int)"); err != nil {
++		t.Fatal(err)
++	}
++	defer func() {
++		if _, err := writer.Exec(ctx, "DROP TABLE "+table); err != nil {
++			t.Error(err)
++		}
++	}()
++	if _, err := writer.Exec(ctx, "INSERT INTO "+table+" VALUES (1)"); err != nil {
++		t.Fatal(err)
++	}
++
++	got, err := pgxtx.ReadSnapshot(ctx, pool, time.Second, func(tx pgx.Tx) (int, error) {
++		var first, second int
++		if err := tx.QueryRow(ctx, "SELECT value FROM "+table).Scan(&first); err != nil {
++			return 0, err
++		}
++		if _, err := writer.Exec(ctx, "UPDATE "+table+" SET value=2"); err != nil {
++			return 0, err
++		}
++		if err := tx.QueryRow(ctx, "SELECT value FROM "+table).Scan(&second); err != nil {
++			return 0, err
++		}
++		if first != 1 || first != second {
++			return 0, fmt.Errorf("inconsistent snapshot: %d then %d", first, second)
++		}
++		return second, nil
++	})
++	if got != 1 || err != nil {
++		t.Fatal(got, err)
++	}
++	got, err = pgxtx.ReadSnapshot(ctx, pool, time.Second, func(tx pgx.Tx) (int, error) {
++		_, err := tx.Exec(ctx, "UPDATE "+table+" SET value=3")
++		return 99, err
++	})
++	var pgerr *pgconn.PgError
++	if got != 0 || !errors.As(err, &pgerr) || pgerr.Code != "25006" {
++		t.Fatal("expected read-only SQLSTATE 25006", got, err)
++	}
++
++	pid := func() int {
++		t.Helper()
++		var pid int
++		if err := pool.QueryRow(ctx, "SELECT pg_backend_pid()").Scan(&pid); err != nil {
++			t.Fatal(err)
++		}
++		return pid
++	}
++	before := pid()
++	canceled, stop := context.WithCancel(ctx)
++	got, err = pgxtx.ReadSnapshot(canceled, pool, time.Second, func(pgx.Tx) (int, error) {
++		stop()
++		return 12, context.Canceled
++	})
++	if got != 0 || !errors.Is(err, context.Canceled) || before != pid() {
++		t.Fatal("canceled read did not release its connection", got, err)
++	}
++	got, err = pgxtx.ReadSnapshot(canceled, pool, time.Nanosecond, func(pgx.Tx) (int, error) {
++		t.Fatal("callback after begin failure")
++		return 5, nil
++	})
++	if got != 0 || !errors.Is(err, context.Canceled) {
++		t.Fatal("begin", got, err)
++	}
++
++	if recovered := func() (p any) {
++		defer func() { p = recover() }()
++		if _, err := pgxtx.ReadSnapshot(ctx, pool, time.Second, func(pgx.Tx) (int, error) { panic("snapshot panic") }); err != nil {
++			t.Fatal(err)
++		}
++		return nil
++	}(); recovered != "snapshot panic" || before != pid() {
++		t.Fatal("panic did not preserve panic and connection", recovered)
++	}
++
++	original := errors.New("domain error")
++	for _, callbackErr := range []error{nil, original} {
++		got, err = pgxtx.ReadSnapshot(ctx, pool, time.Second, func(tx pgx.Tx) (int, error) {
++			// Close the server connection while the snapshot is open; rollback must fail.
++			if err := tx.Conn().Close(ctx); err != nil {
++				return 0, err
++			}
++			return 99, callbackErr
++		})
++		if got != 0 || err == nil || (callbackErr != nil && !errors.Is(err, callbackErr)) {
++			t.Fatal("failed rollback", got, err)
++		}
++		_ = pid() // MaxConns=1: the unusable connection must be released/replaced.
++	}
++}
++
++type rollbackDeadline struct {
++	expires  time.Time
++	canceled bool
++}
++
++func (p *rollbackDeadline) TraceQueryStart(ctx context.Context, _ *pgx.Conn, d pgx.TraceQueryStartData) context.Context {
++	if d.SQL == "rollback" {
++		p.expires, _ = ctx.Deadline()
++		p.canceled = ctx.Err() != nil
++	}
++	return ctx
++}
++
++func (*rollbackDeadline) TraceQueryEnd(context.Context, *pgx.Conn, pgx.TraceQueryEndData) {}
++
++func TestPostgresSnapshotCleanupDeadline(t *testing.T) {
++	dsn := os.Getenv("PGXTX_TEST_DATABASE_URL")
++	if dsn == "" {
++		t.Skip("set PGXTX_TEST_DATABASE_URL to a disposable PostgreSQL database")
++	}
++	cfg, err := pgxpool.ParseConfig(dsn)
++	if err != nil {
++		t.Fatal(err)
++	}
++	observation := new(rollbackDeadline)
++	cfg.ConnConfig.Tracer = observation
++	pool, err := pgxpool.NewWithConfig(t.Context(), cfg)
++	if err != nil {
++		t.Fatal(err)
++	}
++	defer pool.Close()
++	ctx, cancel := context.WithCancel(t.Context())
++	defer cancel()
++	const budget = 250 * time.Millisecond
++	var returned time.Time
++	_, err = pgxtx.ReadSnapshot(ctx, pool, budget, func(pgx.Tx) (int, error) {
++		cancel()
++		returned = time.Now()
++		return 0, ctx.Err()
++	})
++	if !errors.Is(err, context.Canceled) {
++		t.Fatal(err)
++	}
++	// A real ROLLBACK must carry a fresh deadline even when the caller has canceled.
++	if observation.canceled || observation.expires.Before(returned.Add(budget)) || observation.expires.After(time.Now().Add(budget)) {
++		t.Fatalf("rollback used incorrect context: canceled=%v deadline=%v", observation.canceled, observation.expires)
++	}
++}

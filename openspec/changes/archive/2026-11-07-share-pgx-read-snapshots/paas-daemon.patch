@@ -1,0 +1,386 @@
+diff --git a/internal/store/store.go b/internal/store/store.go
+--- a/internal/store/store.go
++++ b/internal/store/store.go
+@@ -7,6 +7,7 @@
+ 	"errors"
+ 	"time"
+ 
++	"github.com/dkoshenkov/packages-go/pgxtx"
+ 	"github.com/jackc/pgx/v5"
+ 	"github.com/jackc/pgx/v5/pgxpool"
+ 
+@@ -89,19 +90,24 @@
+ 	return nil
+ }
+ 
+-func (s *Store) begin(ctx context.Context) (pgx.Tx, error) {
++// readSnapshot keeps PaaS schema checks and data queries in the same snapshot.
++func readSnapshot[T any](ctx context.Context, s *Store, read func(context.Context, pgx.Tx) (T, error)) (T, error) {
++	var zero T
+ 	if s == nil {
+-		return nil, ErrUnavailable
+-	}
+-	tx, err := s.pool.BeginTx(ctx, pgx.TxOptions{IsoLevel: pgx.RepeatableRead, AccessMode: pgx.ReadOnly})
+-	if err != nil {
+-		return nil, ErrUnavailable
+-	}
+-	if err := checkSchema(ctx, tx); err != nil {
+-		_ = tx.Rollback(ctx)
+-		return nil, err
+-	}
+-	return tx, nil
++		return zero, ErrUnavailable
++	}
++	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
++	defer cancel()
++	value, err := pgxtx.ReadSnapshot(ctx, s.pool, 2*time.Second, func(tx pgx.Tx) (T, error) {
++		if err := checkSchema(ctx, tx); err != nil {
++			return zero, err
++		}
++		return read(ctx, tx)
++	})
++	if err != nil && !errors.Is(err, ErrNotFound) && !errors.Is(err, ErrCorrupt) {
++		return zero, ErrUnavailable
++	}
++	return value, err
+ }
+ 
+ var builder = sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
+@@ -146,21 +152,10 @@
+ 	return uint64(*n)
+ }
+ 
+-func rollback(tx pgx.Tx) {
+-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+-	defer cancel()
+-	_ = tx.Rollback(ctx)
+-}
+-
+ func (s *Store) App(ctx context.Context, id string) (t.CatalogTypesAppSummary, error) {
+-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+-	defer cancel()
+-	tx, err := s.begin(ctx)
+-	if err != nil {
+-		return t.CatalogTypesAppSummary{}, err
+-	}
+-	defer rollback(tx)
+-	return readApp(ctx, tx, id)
++	return readSnapshot(ctx, s, func(ctx context.Context, tx pgx.Tx) (t.CatalogTypesAppSummary, error) {
++		return readApp(ctx, tx, id)
++	})
+ }
+ 
+ func readApp(ctx context.Context, tx pgx.Tx, id string) (t.CatalogTypesAppSummary, error) {
+@@ -201,88 +196,78 @@
+ 	if err != nil {
+ 		return page, err
+ 	}
+-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+-	defer cancel()
+-	tx, err := s.begin(ctx)
+-	if err != nil {
+-		return page, err
+-	}
+-	defer rollback(tx)
+-	limit := pageLimit(q.Limit)
+-	b := builder.Select("app_id", "name").From("public.paas_apps").Where(sq.Eq{"deleted_at": nil}).OrderBy("app_id COLLATE \"C\"").Limit(limit + 1)
+-	if after != "" {
+-		b = b.Where(sq.Gt{"app_id": after})
+-	}
+-	query, args, err := b.ToSql()
+-	if err != nil {
+-		return page, ErrCorrupt
+-	}
+-	rows, err := tx.Query(ctx, query, args...)
+-	if err != nil {
+-		return page, ErrUnavailable
+-	}
+-	defer rows.Close()
+-	for rows.Next() {
+-		var app t.CatalogTypesAppSummary
+-		if rows.Scan(&app.AppId, &app.Name) != nil {
++	return readSnapshot(ctx, s, func(ctx context.Context, tx pgx.Tx) (t.CatalogTypesAppPage, error) {
++		limit := pageLimit(q.Limit)
++		b := builder.Select("app_id", "name").From("public.paas_apps").Where(sq.Eq{"deleted_at": nil}).OrderBy("app_id COLLATE \"C\"").Limit(limit + 1)
++		if after != "" {
++			b = b.Where(sq.Gt{"app_id": after})
++		}
++		query, args, err := b.ToSql()
++		if err != nil {
+ 			return page, ErrCorrupt
+ 		}
+-		if v.AppSummary(app) != nil || (len(page.Items) > 0 && page.Items[len(page.Items)-1].AppId >= app.AppId) {
++		rows, err := tx.Query(ctx, query, args...)
++		if err != nil {
++			return page, ErrUnavailable
++		}
++		defer rows.Close()
++		for rows.Next() {
++			var app t.CatalogTypesAppSummary
++			if rows.Scan(&app.AppId, &app.Name) != nil {
++				return page, ErrCorrupt
++			}
++			if v.AppSummary(app) != nil || (len(page.Items) > 0 && page.Items[len(page.Items)-1].AppId >= app.AppId) {
++				return page, ErrCorrupt
++			}
++			page.Items = append(page.Items, app)
++		}
++		if rows.Err() != nil {
++			return page, ErrUnavailable
++		}
++		if uint64(len(page.Items)) > limit {
++			page.Items = page.Items[:limit]
++			next := encodeCursor(cursor{Version: 1, Kind: "apps", After: page.Items[len(page.Items)-1].AppId})
++			page.NextCursor = &next
++		}
++		if v.AppPage(page) != nil {
+ 			return page, ErrCorrupt
+ 		}
+-		page.Items = append(page.Items, app)
+-	}
+-	if rows.Err() != nil {
+-		return page, ErrUnavailable
+-	}
+-	if uint64(len(page.Items)) > limit {
+-		page.Items = page.Items[:limit]
+-		next := encodeCursor(cursor{Version: 1, Kind: "apps", After: page.Items[len(page.Items)-1].AppId})
+-		page.NextCursor = &next
+-	}
+-	if v.AppPage(page) != nil {
+-		return page, ErrCorrupt
+-	}
+-	return page, nil
++		return page, nil
++	})
+ }
+ 
+ func (s *Store) Component(ctx context.Context, app, id string) (t.CatalogTypesComponentSummary, error) {
+-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+-	defer cancel()
+-	tx, err := s.begin(ctx)
+-	if err != nil {
+-		return t.CatalogTypesComponentSummary{}, err
+-	}
+-	defer rollback(tx)
+-	if _, err := readApp(ctx, tx, app); err != nil {
+-		return t.CatalogTypesComponentSummary{}, err
+-	}
+-	query, args, err := builder.Select("app_id", "component_id", "name").From("public.paas_components").Where(sq.Eq{"app_id": app, "component_id": id, "deleted_at": nil}).Limit(2).ToSql()
+-	if err != nil {
+-		return t.CatalogTypesComponentSummary{}, ErrCorrupt
+-	}
+-	rows, err := tx.Query(ctx, query, args...)
+-	if err != nil {
+-		return t.CatalogTypesComponentSummary{}, ErrUnavailable
+-	}
+-	component, err := pgx.CollectExactlyOneRow(rows, pgx.RowToStructByPos[t.CatalogTypesComponentSummary])
+-	if errors.Is(err, pgx.ErrNoRows) {
+-		return component, ErrNotFound
+-	}
+-	if err != nil {
+-		var scanError pgx.ScanArgError
+-		if errors.As(err, &scanError) {
++	return readSnapshot(ctx, s, func(ctx context.Context, tx pgx.Tx) (t.CatalogTypesComponentSummary, error) {
++		if _, err := readApp(ctx, tx, app); err != nil {
++			return t.CatalogTypesComponentSummary{}, err
++		}
++		query, args, err := builder.Select("app_id", "component_id", "name").From("public.paas_components").Where(sq.Eq{"app_id": app, "component_id": id, "deleted_at": nil}).Limit(2).ToSql()
++		if err != nil {
++			return t.CatalogTypesComponentSummary{}, ErrCorrupt
++		}
++		rows, err := tx.Query(ctx, query, args...)
++		if err != nil {
++			return t.CatalogTypesComponentSummary{}, ErrUnavailable
++		}
++		component, err := pgx.CollectExactlyOneRow(rows, pgx.RowToStructByPos[t.CatalogTypesComponentSummary])
++		if errors.Is(err, pgx.ErrNoRows) {
++			return component, ErrNotFound
++		}
++		if err != nil {
++			var scanError pgx.ScanArgError
++			if errors.As(err, &scanError) {
++				return component, ErrCorrupt
++			}
++			if rows.Err() != nil {
++				return component, ErrUnavailable
++			}
+ 			return component, ErrCorrupt
+ 		}
+-		if rows.Err() != nil {
+-			return component, ErrUnavailable
+-		}
+-		return component, ErrCorrupt
+-	}
+-	if v.ComponentSummary(component) != nil {
+-		return component, ErrCorrupt
+-	}
+-	return component, nil
++		if v.ComponentSummary(component) != nil {
++			return component, ErrCorrupt
++		}
++		return component, nil
++	})
+ }
+ 
+ func (s *Store) Components(ctx context.Context, q t.CatalogComponentsListQuery) (t.CatalogTypesComponentPage, error) {
+@@ -294,50 +279,45 @@
+ 	if err != nil {
+ 		return page, err
+ 	}
+-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+-	defer cancel()
+-	tx, err := s.begin(ctx)
+-	if err != nil {
+-		return page, err
+-	}
+-	defer rollback(tx)
+-	if _, err := readApp(ctx, tx, q.AppId); err != nil {
+-		return page, err
+-	}
+-	limit := pageLimit(q.Limit)
+-	b := builder.Select("app_id", "component_id", "name").From("public.paas_components").Where(sq.Eq{"app_id": q.AppId, "deleted_at": nil}).OrderBy("component_id COLLATE \"C\"").Limit(limit + 1)
+-	if after != "" {
+-		b = b.Where(sq.Gt{"component_id": after})
+-	}
+-	query, args, err := b.ToSql()
+-	if err != nil {
+-		return page, ErrCorrupt
+-	}
+-	rows, err := tx.Query(ctx, query, args...)
+-	if err != nil {
+-		return page, ErrUnavailable
+-	}
+-	defer rows.Close()
+-	for rows.Next() {
+-		var component t.CatalogTypesComponentSummary
+-		if rows.Scan(&component.AppId, &component.ComponentId, &component.Name) != nil {
++	return readSnapshot(ctx, s, func(ctx context.Context, tx pgx.Tx) (t.CatalogTypesComponentPage, error) {
++		if _, err := readApp(ctx, tx, q.AppId); err != nil {
++			return page, err
++		}
++		limit := pageLimit(q.Limit)
++		b := builder.Select("app_id", "component_id", "name").From("public.paas_components").Where(sq.Eq{"app_id": q.AppId, "deleted_at": nil}).OrderBy("component_id COLLATE \"C\"").Limit(limit + 1)
++		if after != "" {
++			b = b.Where(sq.Gt{"component_id": after})
++		}
++		query, args, err := b.ToSql()
++		if err != nil {
+ 			return page, ErrCorrupt
+ 		}
+-		if v.ComponentSummary(component) != nil || (len(page.Items) > 0 && page.Items[len(page.Items)-1].ComponentId >= component.ComponentId) {
++		rows, err := tx.Query(ctx, query, args...)
++		if err != nil {
++			return page, ErrUnavailable
++		}
++		defer rows.Close()
++		for rows.Next() {
++			var component t.CatalogTypesComponentSummary
++			if rows.Scan(&component.AppId, &component.ComponentId, &component.Name) != nil {
++				return page, ErrCorrupt
++			}
++			if v.ComponentSummary(component) != nil || (len(page.Items) > 0 && page.Items[len(page.Items)-1].ComponentId >= component.ComponentId) {
++				return page, ErrCorrupt
++			}
++			page.Items = append(page.Items, component)
++		}
++		if rows.Err() != nil {
++			return page, ErrUnavailable
++		}
++		if uint64(len(page.Items)) > limit {
++			page.Items = page.Items[:limit]
++			next := encodeCursor(cursor{Version: 1, Kind: "components", AppID: q.AppId, After: page.Items[len(page.Items)-1].ComponentId})
++			page.NextCursor = &next
++		}
++		if v.ComponentPage(page) != nil {
+ 			return page, ErrCorrupt
+ 		}
+-		page.Items = append(page.Items, component)
+-	}
+-	if rows.Err() != nil {
+-		return page, ErrUnavailable
+-	}
+-	if uint64(len(page.Items)) > limit {
+-		page.Items = page.Items[:limit]
+-		next := encodeCursor(cursor{Version: 1, Kind: "components", AppID: q.AppId, After: page.Items[len(page.Items)-1].ComponentId})
+-		page.NextCursor = &next
+-	}
+-	if v.ComponentPage(page) != nil {
+-		return page, ErrCorrupt
+-	}
+-	return page, nil
+-}
++		return page, nil
++	})
++}
+diff --git a/internal/store/history.go b/internal/store/history.go
+--- a/internal/store/history.go
++++ b/internal/store/history.go
+@@ -5,7 +5,6 @@
+ 	"encoding/base64"
+ 	"encoding/json"
+ 	"encoding/json/jsontext"
+-	"time"
+ 
+ 	"github.com/jackc/pgx/v5"
+ 
+@@ -44,22 +43,17 @@
+ // readOperations checks every selected row, including the pagination lookahead,
+ // within the same read-only snapshot as the schema and grant check.
+ func (s *Store) readOperations(ctx context.Context, b sq.SelectBuilder) ([]t.TypesOperation, error) {
+-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+-	defer cancel()
+-	tx, err := s.begin(ctx)
+-	if err != nil {
+-		return nil, err
+-	}
+-	defer rollback(tx)
+-	query, args, err := b.ToSql()
+-	if err != nil {
+-		return nil, ErrCorrupt
+-	}
+-	rows, err := tx.Query(ctx, query, args...)
+-	if err != nil {
+-		return nil, ErrUnavailable
+-	}
+-	return collectOperations(rows)
++	return readSnapshot(ctx, s, func(ctx context.Context, tx pgx.Tx) ([]t.TypesOperation, error) {
++		query, args, err := b.ToSql()
++		if err != nil {
++			return nil, ErrCorrupt
++		}
++		rows, err := tx.Query(ctx, query, args...)
++		if err != nil {
++			return nil, ErrUnavailable
++		}
++		return collectOperations(rows)
++	})
+ }
+ 
+ func collectOperations(rows pgx.Rows) ([]t.TypesOperation, error) {
+diff --git a/internal/store/snapshot_test.go b/internal/store/snapshot_test.go
+new file mode 100644
+--- /dev/null
++++ b/internal/store/snapshot_test.go
+@@ -0,0 +1,22 @@
++package store
++
++import (
++	"context"
++	"errors"
++	"testing"
++
++	"github.com/jackc/pgx/v5"
++)
++
++func TestSnapshotRollbackFailureIsUnavailable(t *testing.T) {
++	st := testDatabase(t).prepare(t)
++	result, err := readSnapshot(t.Context(), st, func(ctx context.Context, tx pgx.Tx) (int, error) {
++		return 1, tx.Conn().Close(ctx)
++	})
++	if result != 0 || !errors.Is(err, ErrUnavailable) {
++		t.Fatal("expected unavailable and zero result", result, err)
++	}
++	if err := st.Ready(t.Context()); err != nil {
++		t.Fatal("pool did not recover", err)
++	}
++}

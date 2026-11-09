@@ -6,10 +6,18 @@
 OpenSpec всей платформы находится в `openspec/`, отдельные backlog-файлы —
 в `docs/backlog/`. Команды OpenSpec запускаются из корня этого репозитория.
 
+Текущая продуктовая линия `1.x.x` поддерживает одну ноду; мультинод запланирован
+для `v2` и требует отдельного согласования. API в `1.x.x` развивается с сохранением
+обратной совместимости.
+
+[Однонодовая PaaS в схемах](docs/single-node.md) показывает путь запроса к
+работающему API, целевое размещение компонентов в k3s и порядок деплоя.
+
 ## Структура
 
 - `docs/api/common` — общие Flux spec; `http/api.yaml` — entrypoint HTTP-профиля.
-- `docs/api/paas` — Flux spec preview/apply, operations get/list и каталога; `paas/api.yaml` — entrypoint.
+- `docs/api/paas/api.yaml` — активные контракты каталога, настроек, БД, деплоя, миграций, истории, доменов и общих сервисов.
+- `docs/api/github/api.yaml` — отдельный контракт получения публичных SSH-ключей GitHub для ctl.
 - `docs/proto` — сгенерированные protobuf-описания.
 - `docs/oapi/http` — сгенерированные OpenAPI-описания health/ready.
 - `docs/oapi/paas` — OpenAPI утверждённого сценария PaaS.
@@ -21,9 +29,7 @@ OpenSpec всей платформы находится в `openspec/`, отде
 - Go 1.27.3 или новее.
 - `github.com/dkoshenkov/packages-go v0.3.1-0.20261024142719-ec269923c64b`
   (merged commit PR #13 до публикации релиза).
-- Flux из чистого commit `7bf0d07b74871baa601b6388b53560ec6f6cbe01`
-  (`v0.4.0`). Makefile проверяет revision перед генерацией; сборка `flux dev`
-  из того же чистого commit также принимается.
+- Flux v0.7.0, commit `791064940350c2561c1c98d3a559e64e90e23d43`. Makefile сверяет путь Go-модуля и его контрольную сумму в готовом бинарнике либо точный commit и чистое дерево для локальной сборки.
 
 По умолчанию Makefile ожидает `./flux`; бинарник в репозитории отсутствует.
 Передайте путь через `GENERATOR=/path/to/flux`. `protoc` и его Go-плагины
@@ -35,14 +41,12 @@ PostgreSQL/UDS и govulncheck. Результаты и команды — в
 
 ## Генерация
 
-Из корня `paas-common` собрать генератор из уже проверенного соседнего checkout
-Flux. Перед сборкой `git -C ../../flux rev-parse HEAD` должен показать закреплённый
-commit, а `git -C ../../flux status --short` — пустое рабочее дерево:
+Из корня `paas-common` установите закреплённый Go-модуль Flux во временный каталог. При приватном доступе потребуются настроенные учётные данные Git и GOPRIVATE для Flux.
 
 ```sh
 flux_build_dir=$(mktemp -d /private/tmp/paas-flux.XXXXXX)
-(cd ../../flux && GOWORK=off go build -mod=readonly -o "$flux_build_dir/flux" ./cmd)
-make sdk GENERATOR="$flux_build_dir/flux"
+GOWORK=off GOBIN="$flux_build_dir" go install github.com/dkoshenkov/flux/cmd@v0.7.0
+make sdk GENERATOR="$flux_build_dir/cmd"
 ```
 
 `make sdk` генерирует common и PaaS HTTP/OpenAPI. Исходные health/ready используют
@@ -59,23 +63,31 @@ make sdk-oapi   # OpenAPI-описания в docs/oapi/http и docs/oapi/paas
 
 Существующие `docs/proto` и `pkg/grpc` сохраняются без регенерации.
 `make sdk-proto` / `make sdk-grpc` завершаются с явной диагностикой:
-новый proto/gRPC-профиль отложен, текущий Flux не поддерживает target `proto`.
+новый proto/gRPC-профиль отложен до отдельного согласования.
 `common/migration.yaml` остаётся неподключённым историческим черновиком;
 команды Up/Down не добавляются в SDK этой генерацией.
 
 ## Первый PaaS HTTP SDK
 
 `pkg/http/paas/{client,server,types}` и `docs/oapi/paas` генерируются из
-`docs/api/paas/{deployments,operations,catalog,catalog_types,types}.yaml` через entrypoint
+`docs/api/paas/{deployments,operations,catalog,catalog_types,settings,settings_types,migrations,migration_types,types}.yaml` через entrypoint
 `docs/api/paas/paas/api.yaml`. Common SDK остаётся в прежних Go-пакетах.
 Активный SDK включает:
 
 - `POST /deployments/preview`: пакет `app_id`, `component_id`, `files[{name,content}]`;
 - `POST /deployments/apply`: `preview_id`, типизированные `200`/`202` и ошибки;
+- `GET /components/images` показывает управляемые контейнеры и их образы. Для сокращённого обновления `POST /deployments/image/preview` принимает `app_id`, `component_id`, `deployment_name`, `container_name`, `image`. Оператор подтверждает полученный `preview_id` через обычный `POST /deployments/apply`. Для смены образа нужен подтверждённый успешный rollout этого экземпляра. Маршрут объявлен в отдельном Flux-сервисе `imagepreview`, поэтому прежние реализации `DeploymentsServer` сохраняют совместимость.
 - `GET /operations/get?operation_id=...`: операция либо типизированная ошибка;
 - `GET /operations/list`: список операций с фильтром state и пагинацией;
 - `GET /apps/list`, `GET /apps/get`: чтение каталога приложений;
-- `GET /components/list`, `GET /components/get`: чтение каталога компонентов.
+- `GET /components/list`, `GET /components/get`: чтение каталога компонентов;
+- `POST /apps/create`, `POST /components/create` регистрируют по `request_id`;
+- `GET /components/policy`, `POST /components/set-policy` читают и изменяют полный снимок политики;
+- `GET /apps/migrator`, `POST /apps/set-migrator`, `POST /apps/remove-migrator` работают с образом мигратора и revision.
+
+Каждый POST settings принимает до 1 MiB исходного JSON и возвращает типизированный 413 при превышении. Сервис settings имеет отдельный generated-интерфейс. Предыдущие реализации остальных сервисов сохраняют свои методы. До включения writers обновите читателей истории до версии, поддерживающей `Diagnostic.file` до 512 байт UTF-8. Семантику settings проверяют явные функции в `pkg/http/paas/validation`. Для корректно оформленной записи режима allowlist они возвращают `ErrEgressAllowlistUnavailable`.
+
+Сервис `migrations` добавляет отдельные preview/apply ручного up и деплоя с миграцией. Для двух типов целей доступны `GET /operations/inspect`, `/operations/history` и `/operations/migration-log`. `OperationRecord` проверяет новую запись до 64 KiB, `ReadableOperationRecord` также принимает проверенную legacy-проекцию с добавленным полем target_type (до 65 562 байт). `MigrationLogPage` сверяет operation_id, after и limit запроса. Две обычные команды деплоя и прежние get/list сохраняют свой контракт. [Приёмка SDK](docs/development/migration-sdk-check-2026-11-08.md).
 
 **Несовместимость с прежним черновиком:** активный deployment-контракт больше не
 содержит Compose, path-параметры, List/Get/Create/Rollback. `apps.yaml` и `logs.yaml`
@@ -130,7 +142,7 @@ SDK принимает внедрённый `*http.Client`; транспорт U
 | `Plan` | Non-null массивы, уникальность/порядок ресурсов по group/kind/namespace/name, action/changed_fields, INITIAL_MIGRATION и отсутствие дубликатов дополнительных действий. |
 | `PreviewResponse` | Ровно одна из двух форм ответа, diagnostics, public plan, наличие ID и формат expires_at. |
 | `Operation` | Пять state, формат timestamps, finished_at терминальных состояний, объяснение FAILED/RECOVERY_REQUIRED, связь OUTCOME_UNKNOWN с восстановлением. |
-| `ErrorResponse` | Непустые code/message, diagnostics и ID блокирующей операции для COMPONENT_BUSY. |
+| `ErrorResponse` | Непустые code/message, diagnostics и ID блокирующей операции для COMPONENT_BUSY, DATABASE_BUSY и ROUTE_BUSY. |
 
 Функции возвращают первую ошибку с путём поля и не изменяют снимок. Тексты
 ошибок не включают значения пользовательских полей. На сервере envelope-проверку
@@ -188,7 +200,7 @@ Consumer дополнительно сверяет ID ответа и число
 
 Каталог содержит ID и отображаемые имена. Запись не подтверждает readiness или
 готовность Namespace. В `paas-daemon` реализованы PostgreSQL-хранилище,
-служебные миграции v2 и четыре GET каталога; завершена приёмка 3.3.1–3.3.5.
+миграции каталога v1–v2 и четыре GET каталога; завершена приёмка 3.3.1–3.3.5.
 Production API создания/изменения/удаления записей ещё отсутствует.
 Прежние Compose apps/logs drafts не подключены. Контракт каталога добавляет четыре
 маршрута и новые DTO; старый legacy App не переиспользуется. Отчёт:
@@ -209,7 +221,8 @@ validation.OperationPage после decoding явно. Consumer дополнит
 requested state/limit. Новый список не фиксирует snapshot на весь обход;
 последующий Get может показать новый state или 404 после очистки истории.
 Go OperationsServer теперь требует List; существующие реализации должны добавить
-этот метод. Wire contract Get сохранён. Хранилище/пагинация/очистка истории операций и
-лимиты размера её диагностики остаются открытыми; PostgreSQL-каталог
-приложений/компонентов реализован отдельно. Отчёт:
+этот метод. Wire contract Get сохранён. Daemon читает историю из PostgreSQL (миграция v3). Перед выдачей он вызывает
+`validation.HistoryOperation` для каждой прочитанной строки, включая следующую
+за страницей. Запись операций при apply и фоновая очистка остаются открытыми.
+Подробности контракта — в отчёте
 [SDK списка операций](docs/development/sdk-operation-list-check-2026-10-20.md).

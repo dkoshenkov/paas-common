@@ -12,9 +12,10 @@
   build/test/race/vet/tidy/fmt/lint/govulncheck и daemon PostgreSQL/UDS/restart
   fixture. Сканер сообщил `No vulnerabilities found` во всех модулях.
 - `paas-common` обновлён с `v0.2.0` до `v0.3.0` на этапе 2.2 OpenSpec.
-  Теперь `paas-common` и `paas-daemon` закрепляют
+  При проверке 24 октября `paas-common` и `paas-daemon` закрепляли
   `v0.3.1-0.20261024142719-ec269923c64b` по merged commit PR #13.
-  `paas-ctl` получает runtime через зависимость от `paas-common`.
+  На 8 ноября `go list -m` показывает эту ревизию в common и ctl. Daemon использует `v0.6.0` с `pgxtx.ReadSnapshot`.
+  Результат govulncheck выше относится к исходному срезу зависимостей.
 - Generated HTTP SDK использует существующий `middlewarex/httpx`.
   PaaS-формат transport errors подключается через `WithErrorEncoder`
   и `pkg/http/paas/transport.EncodeError`; расширение API библиотеки для него
@@ -51,3 +52,10 @@
 - До обновления PaaS HTTP-тесты прошли с исправленным runtime через replacement
   во временном проверочном модуле. Теперь рабочие зависимости обновлены;
   полный новый baseline проверен на Go 1.27.3.
+
+## PGO-004 — Нативный read-only снимок pgx
+
+Пользователь одобрил реализацию и локальную интеграцию 2026-11-07.
+Пакет вошёл в [packages-go PR #16](https://github.com/dkoshenkov/packages-go/pull/16).
+Рабочий daemon закрепил v0.6.0 и использует `pgxtx.ReadSnapshot` во всех пяти
+операциях чтения каталога и истории. [Результаты и проверенные патчи](../../openspec/changes/archive/2026-11-07-share-pgx-read-snapshots/design.md).

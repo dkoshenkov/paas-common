@@ -1057,9 +1057,9 @@ Get/List SHALL выбирать только активные записи; уд
 
 ### Requirement: Runtime читает ограниченные снимки истории операций
 
-Статус: предложено 2026-10-23; требует одобрения подэтапа 3.3.6–3.3.10.
+Реализовано и проверено 2026-11-07. [Результаты приёмки](../../../../../docs/development/operation-history-check-2026-11-07.md).
 
-После одобрения daemon SHALL подключить прежние GET /operations/get и
+Daemon SHALL подключить прежние GET /operations/get и
 /operations/list к отдельной таблице служебного PostgreSQL с сохранёнными
 Operation. DTO/routes/statuses SHALL сохраняться. БД SHALL хранить scalar
 operation_id/state и JSON snapshot как BYTEA без CHECK/FK/NOT NULL/PK/UNIQUE,
@@ -1068,9 +1068,9 @@ operation_id/state и JSON snapshot как BYTEA без CHECK/FK/NOT NULL/PK/UNI
 дубликат/нарушение порядка страницы SHALL давать безопасную внутреннюю ошибку
 без пропуска/обрезки строки. Проверка SHALL включать lookahead.
 
-Предлагаемые пределы runtime-профиля: operation_id 96 UTF-8 байт, app_id и
+Пределы runtime-профиля: operation_id 96 UTF-8 байт, app_id и
 component_id по 256, stage 64, diagnostics максимум 32, code 64, message 1024,
-file 256, field_path 512, timestamp 40; строки SHALL соблюдать UTF-8 и отсутствие
+file 512, field_path 512, timestamp 40; строки SHALL соблюдать UTF-8 и отсутствие
 управляющих символов, а прежние правила обязательности/JSON Pointer/UTC/state
 SHALL сохраняться. Сохранённый snapshot и сериализованный Operation SHALL
 помещаться каждый в 64 KiB, полный JSON OperationPage — в 8 MiB с escaping.
@@ -1116,8 +1116,7 @@ UDS/generated clients, перезапуск процесса, пагинацию
 Три PaaS-модуля SHALL требовать Go 1.27.3. `paas-common` и `paas-daemon`
 SHALL закреплять packages-go с исправлением фактического чтения JSON body
 из commit `ec269923c64b1acd19047a7a49bfc71d2154cad5`. Генерация HTTP/OpenAPI
-SHALL использовать чистый Flux v0.4.0, revision
-`7bf0d07b74871baa601b6388b53560ec6f6cbe01`, с проверкой revision в Makefile.
+SHALL использовать Flux v0.7.0, revision `791064940350c2561c1c98d3a559e64e90e23d43`. Makefile SHALL проверять в Go BuildInfo путь CLI и SHA модуля релиза либо точную VCS revision и чистоту сборки.
 Активные entrypoints SHALL сохранять прежний API; подключение Compose-черновиков
 apps/logs и GitHub-клиента требует отдельного согласованного этапа.
 
@@ -1130,3 +1129,117 @@ apps/logs и GitHub-клиента требует отдельного согл�
 - **WHEN** загрузка Go 1.27.3 не выполняется из-за ограничения среды
 - **THEN** проверки на этом baseline остаются открытыми с воспроизводимыми командами
 - **AND** предварительная генерация другой patch-версией Go не объявляется полной приёмкой
+
+
+### Requirement: Первая группа SDK для регистрации и политик
+
+SDK SHALL предоставить отдельный Flux service `settings`. Все массивы в обязательных
+полях представляются JSON-массивами, optional-поля передаются по присутствию.
+Ошибки используют существующий ErrorResponse. Успешный ответ чтения всегда
+содержит начальную либо актуальную ревизию даже для пустой конфигурации.
+Форму запросов, ошибки протокола и типы проверяет generated HTTP. Контекстные
+правила реализует сервирующий daemon. Каждый POST settings SHALL ограничивать полное тело одним MiB. Потоковое превышение SHALL давать 413 BODY_TOO_LARGE до записи. JSON сохраняемой политики SHALL укладываться в тот же предел; слишком большая хранимая запись SHALL давать безопасный 500.
+
+| Метод и путь | Тело или query | Успех | Ошибки |
+| --- | --- | --- | --- |
+| POST /apps/create | request_id, name | 201 AppSummary, 200 прежний Summary при повторе | 400, 409 REQUEST_ID_CONFLICT, 413, 503 |
+| POST /components/create | request_id, app_id, name | 201 ComponentSummary, 200 прежний Summary при повторе | 400, 404, 409 REQUEST_ID_CONFLICT, 413, 503 |
+| GET /components/policy | app_id, component_id | 200 {app_id, component_id, revision, policy} | 400, 404, 503 |
+| POST /components/set-policy | app_id, component_id, expected_revision, policy | 200 {app_id, component_id, revision, policy} | 400, 404, 409 POLICY_CHANGED или EGRESS_ALLOWLIST_UNAVAILABLE, 413, 503 |
+| GET /apps/migrator | app_id | 200 {app_id, revision, migrator?} | 400, 404, 503 |
+| POST /apps/set-migrator | app_id, expected_revision, migrator | 200 {app_id, revision, migrator?} | 400, 404, 409 POLICY_CHANGED, 413, 503 |
+| POST /apps/remove-migrator | app_id, expected_revision | 200 {app_id, revision, migrator?} без migrator | 400, 404, 409 POLICY_CHANGED, 413, 503 |
+
+`request_id`, `revision`, `expected_revision` SHALL быть непрозрачными непустыми
+строками до 96 UTF-8 байт без управляющих символов. Revisions настроек приложения и
+компонента имеют разную область. Имена каталога сохраняют предел 128 UTF-8
+байт. Ключ повторной регистрации приложения имеет область /apps/create; для
+компонента — /components/create и app_id. Тот же payload возвращает прежнюю
+запись, отличающийся получает 409. Выданные сервером ID совместимы с Kubernetes
+label value; имя приложения и предоставленный клиентом ключ не доказывают подготовку
+Namespace. Неизвестный/чужой компонент даёт 404. Точная проверка revision и запись
+намерения выполняются атомарно; после потери ответа клиент перечитывает настройку.
+
+Политика компонента SHALL содержать `database_grants[]`, `external{mode,domains[]}`
+и `service_grants[]`. DB grant идентифицирует `deployment_name`, `container_kind`
+(container или init), `container_name`. Указывается ровно один вариант —
+непустой список уникальных `keys[]` **либо** `whole_secret:true`. Secret принадлежит
+своей app_database. Имя контейнера совпадает точно, а привязка соответствует
+конкретному Deployment и его учтённому instance. Повторное создание после удаления
+не наследует прежние права. Пустая политика содержит пустые массивы и external
+none. Service grant указывает `target_app_id, target_component_id, service_name`.
+Мигратор содержит только `image` — именованную OCI-ссылку с digest SHA-256.
+Отсутствующая конфигурация обозначается отсутствием поля migrator. Удаление настройки
+сохраняет подготовленную БД, роли, Secrets и права. Значения credentials через эти
+семь маршрутов не передаются.
+
+#### Scenario: Повтор регистрации
+- **WHEN** повторяется запрос с прежним request_id в той же области
+- **THEN** одинаковый payload даёт 200 и выданный ранее ID, различный — 409 REQUEST_ID_CONFLICT
+
+#### Scenario: Конфликт при изменении настроек
+- **WHEN** клиент записывает политику по устаревшей revision
+- **THEN** сервер возвращает 409 POLICY_CHANGED и сохраняет действующую политику
+
+#### Scenario: Изоляция целевых полномочий
+- **WHEN** обычный контейнер получает разрешение на ключ своего app_database
+- **THEN** разрешение неприменимо к init-контейнеру, другому Deployment или Secret мигратора; привязка по имени сама не внедряет Secret в Pod
+
+### Requirement: Стадии и квоты производителя операций
+
+Runtime writer SHALL использовать последовательность PREPARE_RESOURCES, условный
+INITIAL_MIGRATION, APPLY_RESOURCES, WAIT_READY. В ACCEPTED до начала действия
+stage отсутствует. Восстановление сохраняет достигнутый этап и исходный
+десятиминутный deadline WAIT_READY по времени сервера. Для replicas >= 1 ожидаются
+новая generation, целевые updated/ready/available и снятие прежних replicas.
+Для backend Service проверяются EndpointSlice, Pod UID и порт; у worker без
+Service достаточно Deployment. TLS наблюдается отдельно. После таймаута исход
+сверяется; неизвестные последствия оставляют RECOVERY_REQUIRED.
+
+Узел SHALL разрешать до четырёх ACCEPTED/RUNNING/RECOVERY_REQUIRED суммарно,
+до 256 MiB для их первоначальных снимков и отдельный резерв публичного состояния
+до 4 × 64 KiB. Проверка и занятие квот атомарны. Повтор для уже принятого preview
+возвращает прежний ID даже при заполненной квоте. Новое принятие сверх квоты
+даёт 503 ACTIVE_CAPACITY_EXCEEDED; очередь не создаётся. Прежние preview TTL
+30 минут, квота 64/256 MiB и срок хранения терминальной истории 30 дней сохраняются.
+
+Для нового producer SHALL действовать пределы 32 Diagnostic, code 64, message 1024,
+file/field_path 512 UTF-8 байт и Operation 64 KiB после JSON escaping. Внутреннее
+сравнение плана охватывает полный список WARN. Детерминированное сокращение
+с DIAGNOSTICS_TRUNCATED сохраняет первый ERROR и применимые OUTCOME-коды; если
+нельзя целиком предъявить требующие подтверждения исправления, выдаётся ERROR без
+применимого preview_id. Обновлённый history reader развёртывается раньше writer.
+Старые неизвестные stage/code остаются читаемыми. Коды проверок, конфликтов и
+исполнения перечислены в [согласованном профиле](../../../../../docs/development/manifest-policy-proposal-2026-11-07.md#этапы-диагностика-и-предел-активных-операций).
+
+#### Scenario: Квота при неизвестном исходе
+- **WHEN** после рестарта сохраняется RECOVERY_REQUIRED и приняты ещё три операции
+- **THEN** пятая независимая новая попытка получает 503 до принятия, повтор старого принятия возвращает ту же операцию
+
+#### Scenario: Совместимость расширенной диагностики
+- **WHEN** читатель получает допустимую запись с исходным именем файла между 257 и 512 UTF-8 байт
+- **THEN** имя возвращается целиком с прежними правилами координат и общего размера JSON
+
+### Requirement: SDK ручной миграции и комбинированного деплоя
+
+Отдельный service migrations SHALL предоставить POST /migrations/preview и /migrations/apply, POST /deployments/preview-with-migration и /deployments/apply-with-migration, GET /operations/inspect, /operations/history и /operations/migration-log. Контракты обычного деплоя, старые клиентские интерфейсы и wire-форма старой Operation SHALL сохраняться. Тип цели APP исключает component_id; у COMPONENT он обязателен. Изменение состояния control plane, схема для двух целей и запуск Pod требуют отдельного исполняемого этапа. Семантика состояний, ошибок и ограниченного журнала установлена в [контракте миграций](../../../../../docs/development/app-migration-contract-proposal.md).
+
+#### Scenario: Отдельная миграция и выбор образа
+- **WHEN** оператор запрашивает preview для подготовленной БД по app_id и ожидаемой revision мигратора
+- **THEN** сервис возвращает закреплённый именованный SHA-256 и MANUAL или отклоняет запрос по состоянию/ревизии
+- **AND** apply по пригодному preview возвращает 202 OperationRecord с целью APP, повтор — прежний результат 200; попытка apply по чужому виду preview даёт 409 PREVIEW_KIND_MISMATCH
+
+#### Scenario: Подтверждение миграции вместе с деплоем
+- **WHEN** выбран комбинированный preview с ограниченным пакетом YAML
+- **THEN** успешный план содержит ровно одно действие INITIAL_MIGRATION или REQUESTED_MIGRATION того же приложения, а невалидный пакет возвращает только diagnostics с ERROR
+- **AND** запись о принятии имеет цель COMPONENT; обычный повторный деплой сохраняет поведение без Job мигратора
+
+#### Scenario: Чтение общего журнала истории
+- **WHEN** читатель использует новые inspect/history
+- **THEN** обе цели выдаются как OperationRecord, до 64 KiB на новую запись и 8 MiB на страницу, cursor имеет собственную область. Только старая проверенная Operation размером до 65 536 байт при добавлении target_type=COMPONENT SHALL быть доступна до 65 562 байт; данные сохраняются полностью
+- **AND** старые get/list видят только COMPONENT, APP по старому get даёт 404 и не занимает позицию в старой странице
+
+#### Scenario: Безопасный журнал Job
+- **WHEN** оператор запрашивает migration-log у операции с миграцией
+- **THEN** страница содержит до 50 безопасных структурированных событий с seq, UTC at, code и опциональной неотрицательной version; default 20, after по умолчанию 0
+- **AND** хранится до 128 событий и 32 KiB, с терминальным событием и truncated при переполнении; сырой stdout, stderr, SQL и DSN исключены
