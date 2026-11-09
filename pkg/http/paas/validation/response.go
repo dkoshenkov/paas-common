@@ -38,6 +38,10 @@ func Operation(op paastypes.TypesOperation) error {
 	if op.OperationId == "" || op.AppId == "" || op.ComponentId == "" {
 		return fmt.Errorf("operation identity: required nonempty IDs")
 	}
+	return operationState(op)
+}
+
+func operationState(op paastypes.TypesOperation) error {
 	terminal := false
 	switch op.State {
 	case "ACCEPTED", "RUNNING", "RECOVERY_REQUIRED":
@@ -90,9 +94,9 @@ func ErrorResponse(response paastypes.TypesErrorResponse) error {
 	if response.ConflictingOperationId != nil && *response.ConflictingOperationId == "" {
 		return fmt.Errorf("conflicting_operation_id: require a nonempty ID when present")
 	}
-	if response.Code == "COMPONENT_BUSY" {
+	if response.Code == "COMPONENT_BUSY" || response.Code == "DATABASE_BUSY" || response.Code == "ROUTE_BUSY" {
 		if response.ConflictingOperationId == nil {
-			return fmt.Errorf("conflicting_operation_id: required for COMPONENT_BUSY")
+			return fmt.Errorf("conflicting_operation_id: required for a busy resource")
 		}
 	} else if response.Code == "PLAN_CHANGED" && response.ConflictingOperationId != nil {
 		return fmt.Errorf("conflicting_operation_id: PLAN_CHANGED does not describe a blocking operation")

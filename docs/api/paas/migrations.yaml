@@ -1,0 +1,138 @@
+services:
+  migrations:
+    endpoints:
+      - name: Preview
+        method: POST
+        path: /migrations/preview
+        body:
+          type: ./migration_types.yaml#PreviewRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./migration_types.yaml#Preview
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Apply
+        method: POST
+        path: /migrations/apply
+        body:
+          type: ./types.yaml#ApplyRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./migration_types.yaml#OperationRecord
+          "202": ./migration_types.yaml#OperationRecord
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "410": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: PreviewDeployment
+        method: POST
+        path: /deployments/preview-with-migration
+        body:
+          type: ./migration_types.yaml#DeployRequest
+          maxBytes: 8388608
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./migration_types.yaml#DeployPreview
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: ApplyDeployment
+        method: POST
+        path: /deployments/apply-with-migration
+        body:
+          type: ./types.yaml#ApplyRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./migration_types.yaml#OperationRecord
+          "202": ./migration_types.yaml#OperationRecord
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "410": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Inspect
+        method: GET
+        path: /operations/inspect
+        parameters:
+          - name: operation_id
+            field: operationId
+            in: query
+            type: string
+            required: true
+          - name: include_database_actions
+            field: includeDatabaseActions
+            in: query
+            type: bool
+            required: false
+        responses:
+          "200": ./migration_types.yaml#OperationRecord
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: History
+        method: GET
+        path: /operations/history
+        parameters:
+          - name: state
+            field: state
+            in: query
+            type: string
+            required: false
+          - name: limit
+            field: limit
+            in: query
+            type: int
+            required: false
+          - name: cursor
+            field: cursor
+            in: query
+            type: string
+            required: false
+          - name: include_database_actions
+            field: includeDatabaseActions
+            in: query
+            type: bool
+            required: false
+        responses:
+          "200": ./migration_types.yaml#OperationPage
+          "400": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: MigrationLog
+        method: GET
+        path: /operations/migration-log
+        parameters:
+          - name: operation_id
+            field: operationId
+            in: query
+            type: string
+            required: true
+          - name: after
+            field: after
+            in: query
+            type: int
+            required: false
+          - name: limit
+            field: limit
+            in: query
+            type: int
+            required: false
+        responses:
+          "200": ./migration_types.yaml#LogPage
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse

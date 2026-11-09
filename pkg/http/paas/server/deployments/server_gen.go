@@ -124,6 +124,15 @@ func (r DeploymentsPreviewResponse404) MarshalJSON() ([]byte, error) {
 	return json.Marshal(r.Body)
 }
 
+type DeploymentsPreviewResponse409 struct {
+	Body paastypes.TypesErrorResponse
+}
+
+func (DeploymentsPreviewResponse409) isDeploymentsPreviewResponse() {}
+func (r DeploymentsPreviewResponse409) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.Body)
+}
+
 type DeploymentsPreviewResponse413 struct {
 	Body paastypes.TypesErrorResponse
 }
@@ -217,6 +226,8 @@ func RegisterDeploymentsHandlersWithMiddlewares(mux *http.ServeMux, server Deplo
 				return httpx.WithStatus[DeploymentsPreviewResponse](400, resp), nil
 			case DeploymentsPreviewResponse404:
 				return httpx.WithStatus[DeploymentsPreviewResponse](404, resp), nil
+			case DeploymentsPreviewResponse409:
+				return httpx.WithStatus[DeploymentsPreviewResponse](409, resp), nil
 			case DeploymentsPreviewResponse413:
 				return httpx.WithStatus[DeploymentsPreviewResponse](413, resp), nil
 			case DeploymentsPreviewResponse503:

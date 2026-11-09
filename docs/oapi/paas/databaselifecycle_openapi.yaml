@@ -1,0 +1,257 @@
+openapi: 3.0.3
+info:
+  title: "databaseLifecycle API"
+  version: "1.0.0"
+paths:
+  "/apps/database/delete":
+    post:
+      operationId: "DatabaseLifecycleDelete"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseLifecycleDeleteDatabaseRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatabaseLifecycleDatabaseLifecycleOperation"
+        "202":
+          description: "HTTP 202 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatabaseLifecycleDatabaseLifecycleOperation"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/apps/database/lifecycle":
+    get:
+      operationId: "DatabaseLifecycleGet"
+      parameters:
+        - name: "app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatabaseLifecycleDatabaseLifecycleSnapshot"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/apps/database/revoke-access":
+    post:
+      operationId: "DatabaseLifecycleRevokeAccess"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatabaseLifecycleRevokeDatabaseAccessRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatabaseLifecycleDatabaseLifecycleOperation"
+        "202":
+          description: "HTTP 202 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatabaseLifecycleDatabaseLifecycleOperation"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    DatabaseLifecycleDatabaseLifecycleOperation:
+      type: object
+      required:
+        - "operation_id"
+      properties:
+        operation_id:
+          type: string
+    DatabaseLifecycleDatabaseLifecycleSnapshot:
+      type: object
+      required:
+        - "app_id"
+        - "application_access"
+        - "database_name"
+        - "database_state"
+        - "migrator_access"
+        - "revision"
+      properties:
+        active_operation_id:
+          type: string
+        app_id:
+          type: string
+        application_access:
+          type: string
+        database_name:
+          type: string
+        database_state:
+          type: string
+        migrator_access:
+          type: string
+        revision:
+          type: string
+    DatabaseLifecycleDeleteDatabaseRequest:
+      type: object
+      required:
+        - "app_id"
+        - "confirm_database_name"
+        - "expected_revision"
+        - "request_id"
+      properties:
+        app_id:
+          type: string
+        confirm_database_name:
+          type: string
+        expected_revision:
+          type: string
+        request_id:
+          type: string
+    DatabaseLifecycleRevokeDatabaseAccessRequest:
+      type: object
+      required:
+        - "app_id"
+        - "expected_revision"
+        - "purpose"
+        - "request_id"
+      properties:
+        app_id:
+          type: string
+        expected_revision:
+          type: string
+        purpose:
+          type: string
+        request_id:
+          type: string
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string

@@ -1,0 +1,76 @@
+services:
+  shared:
+    endpoints:
+      - name: List
+        method: GET
+        path: /shared-services/list
+        parameters:
+          - name: consumer_app_id
+            field: consumerAppId
+            in: query
+            type: string
+            required: false
+          - name: cursor
+            field: cursor
+            in: query
+            type: string
+            required: false
+          - name: limit
+            field: limit
+            in: query
+            type: int
+            required: false
+        responses:
+          "200": ./shared_types.yaml#SharedServicePage
+          "400": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Access
+        method: GET
+        path: /shared-services/access
+        parameters:
+          - name: shared_service_id
+            field: sharedServiceId
+            in: query
+            type: string
+            required: true
+          - name: consumer_app_id
+            field: consumerAppId
+            in: query
+            type: string
+            required: true
+        responses:
+          "200": ./shared_types.yaml#SharedServiceAccessStatus
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Register
+        method: POST
+        path: /shared-services/register
+        body:
+          type: ./shared_types.yaml#RegisterSharedServiceRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./shared_types.yaml#SharedService
+          "201": ./shared_types.yaml#SharedService
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: SetAccess
+        method: POST
+        path: /shared-services/set-access
+        body:
+          type: ./shared_types.yaml#SetSharedServiceAccessRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./shared_types.yaml#SharedServiceAccess
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse

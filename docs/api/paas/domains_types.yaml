@@ -1,0 +1,17 @@
+types:
+  DomainRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      domain: {type: string}
+  DomainSnapshot:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      domain: {type: string}
+  DomainsSnapshot:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      domains: {type: "[]string"}
+      tls_profile: {type: string, required: false}

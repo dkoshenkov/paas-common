@@ -116,3 +116,27 @@ func TestConsumerRejectsSemanticallyInvalidResponse(t *testing.T) {
 		t.Fatal("structurally valid but semantically invalid state was trusted")
 	}
 }
+
+type previewConflictService struct{}
+
+func (previewConflictService) Preview(context.Context, paastypes.TypesPreviewRequest) (deployments.DeploymentsPreviewResponse, error) {
+	return deployments.DeploymentsPreviewResponse409{Body: paastypes.TypesErrorResponse{Code: "DATABASE_DELETED", Message: "unavailable", Diagnostics: []paastypes.TypesDiagnostic{}}}, nil
+}
+
+func (previewConflictService) Apply(context.Context, paastypes.TypesApplyRequest) (deployments.DeploymentsApplyResponse, error) {
+	return nil, errors.New("unused fixture endpoint")
+}
+
+func TestPreviewConflictRoundTrip(t *testing.T) {
+	mux := http.NewServeMux()
+	deployments.RegisterDeploymentsHandlers(mux, previewConflictService{})
+	c, err := client.NewDeploymentsClient("http://paas.test", &http.Client{Transport: localTransport{handler: mux}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	response, err := c.Preview(t.Context(), request())
+	conflict, ok := response.(client.DeploymentsPreviewResponse409)
+	if err != nil || !ok || conflict.Body.Code != "DATABASE_DELETED" {
+		t.Fatalf("conflict: %#v %v", response, err)
+	}
+}

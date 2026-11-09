@@ -1,0 +1,9 @@
+types:
+  ImagePreviewRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      component_id: {type: string}
+      deployment_name: {type: string}
+      container_name: {type: string}
+      image: {type: string}

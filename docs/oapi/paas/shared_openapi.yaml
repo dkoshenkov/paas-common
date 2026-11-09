@@ -1,0 +1,340 @@
+openapi: 3.0.3
+info:
+  title: "shared API"
+  version: "1.0.0"
+paths:
+  "/shared-services/access":
+    get:
+      operationId: "SharedAccess"
+      parameters:
+        - name: "consumer_app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "shared_service_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SharedTypesSharedServiceAccessStatus"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/shared-services/list":
+    get:
+      operationId: "SharedList"
+      parameters:
+        - name: "consumer_app_id"
+          in: query
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "cursor"
+          in: query
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "limit"
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SharedTypesSharedServicePage"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/shared-services/register":
+    post:
+      operationId: "SharedRegister"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SharedTypesRegisterSharedServiceRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SharedTypesSharedService"
+        "201":
+          description: "HTTP 201 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SharedTypesSharedService"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/shared-services/set-access":
+    post:
+      operationId: "SharedSetAccess"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SharedTypesSetSharedServiceAccessRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SharedTypesSharedServiceAccess"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    SharedTypesRegisterSharedServiceRequest:
+      type: object
+      required:
+        - "component_id"
+        - "owner_app_id"
+        - "request_id"
+        - "service_name"
+      properties:
+        component_id:
+          type: string
+        owner_app_id:
+          type: string
+        request_id:
+          type: string
+        service_name:
+          type: string
+    SharedTypesSetSharedServiceAccessRequest:
+      type: object
+      required:
+        - "allow"
+        - "consumer_app_id"
+        - "expected_revision"
+        - "shared_service_id"
+      properties:
+        allow:
+          type: boolean
+        consumer_app_id:
+          type: string
+        expected_revision:
+          type: string
+        shared_service_id:
+          type: string
+    SharedTypesSharedService:
+      type: object
+      required:
+        - "address"
+        - "component_id"
+        - "owner_app_id"
+        - "revision"
+        - "service_name"
+        - "shared_service_id"
+      properties:
+        address:
+          type: string
+        component_id:
+          type: string
+        owner_app_id:
+          type: string
+        revision:
+          type: string
+        service_name:
+          type: string
+        shared_service_id:
+          type: string
+    SharedTypesSharedServiceAccess:
+      type: object
+      required:
+        - "allow"
+        - "consumer_app_id"
+        - "revision"
+        - "shared_service_id"
+      properties:
+        allow:
+          type: boolean
+        consumer_app_id:
+          type: string
+        revision:
+          type: string
+        shared_service_id:
+          type: string
+    SharedTypesSharedServiceAccessStatus:
+      type: object
+      required:
+        - "consumer_app_id"
+        - "desired_allow"
+        - "desired_revision"
+        - "shared_service_id"
+        - "state"
+      properties:
+        applied_allow:
+          type: boolean
+        applied_revision:
+          type: string
+        blocked_reason:
+          type: string
+        consumer_app_id:
+          type: string
+        desired_allow:
+          type: boolean
+        desired_revision:
+          type: string
+        shared_service_id:
+          type: string
+        state:
+          type: string
+    SharedTypesSharedServicePage:
+      type: object
+      required:
+        - "items"
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SharedTypesSharedService"
+        next_cursor:
+          type: string
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string

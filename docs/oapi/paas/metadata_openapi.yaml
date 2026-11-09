@@ -1,0 +1,184 @@
+openapi: 3.0.3
+info:
+  title: "metadata API"
+  version: "1.0.0"
+paths:
+  "/apps/database/metadata":
+    get:
+      operationId: "MetadataAppDatabaseMetadata"
+      parameters:
+        - name: "app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetadataTypesAppDatabaseMetadata"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/components/images":
+    get:
+      operationId: "MetadataComponentImages"
+      parameters:
+        - name: "app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "component_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetadataTypesComponentImages"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    MetadataTypesAppDatabaseMetadata:
+      type: object
+      required:
+        - "app_id"
+        - "keys"
+        - "secret_name"
+      properties:
+        app_id:
+          type: string
+        keys:
+          type: array
+          items:
+            type: string
+        secret_name:
+          type: string
+    MetadataTypesComponentImages:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "deployments"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        deployments:
+          type: array
+          items:
+            $ref: "#/components/schemas/MetadataTypesDeploymentImages"
+    MetadataTypesContainerImage:
+      type: object
+      required:
+        - "image"
+        - "name"
+        - "type"
+      properties:
+        image:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    MetadataTypesDeploymentImages:
+      type: object
+      required:
+        - "containers"
+        - "name"
+      properties:
+        containers:
+          type: array
+          items:
+            $ref: "#/components/schemas/MetadataTypesContainerImage"
+        name:
+          type: string
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string

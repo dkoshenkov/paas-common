@@ -1,0 +1,24 @@
+types:
+  ComponentImages:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      component_id: {type: string}
+      deployments: {type: "[]./metadata_types.yaml#DeploymentImages"}
+  DeploymentImages:
+    kind: struct
+    fields:
+      name: {type: string}
+      containers: {type: "[]./metadata_types.yaml#ContainerImage"}
+  ContainerImage:
+    kind: struct
+    fields:
+      name: {type: string}
+      type: {type: string}
+      image: {type: string}
+  AppDatabaseMetadata:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      secret_name: {type: string}
+      keys: {type: "[]string"}

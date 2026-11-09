@@ -1,0 +1,18 @@
+services:
+  imagepreview:
+    endpoints:
+      - name: Preview
+        method: POST
+        path: /deployments/image/preview
+        body:
+          type: ./imagepreview_types.yaml#ImagePreviewRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./types.yaml#PreviewResponse
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse

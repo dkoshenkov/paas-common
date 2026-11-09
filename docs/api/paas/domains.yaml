@@ -1,0 +1,48 @@
+services:
+  domains:
+    endpoints:
+      - name: List
+        method: GET
+        path: /apps/domains
+        parameters:
+          - name: app_id
+            field: appId
+            in: query
+            type: string
+            required: true
+        responses:
+          "200": ./domains_types.yaml#DomainsSnapshot
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Register
+        method: POST
+        path: /apps/domains/register
+        body:
+          type: ./domains_types.yaml#DomainRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./domains_types.yaml#DomainSnapshot
+          "201": ./domains_types.yaml#DomainSnapshot
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Remove
+        method: POST
+        path: /apps/domains/remove
+        body:
+          type: ./domains_types.yaml#DomainRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./domains_types.yaml#DomainSnapshot
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse

@@ -1,0 +1,78 @@
+services:
+  databaseLifecycle:
+    endpoints:
+      - name: Get
+        method: GET
+        path: /apps/database/lifecycle
+        parameters:
+          - name: app_id
+            field: appId
+            in: query
+            type: string
+            required: true
+        responses:
+          "200": ./database_lifecycle.yaml#DatabaseLifecycleSnapshot
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: RevokeAccess
+        method: POST
+        path: /apps/database/revoke-access
+        body:
+          type: ./database_lifecycle.yaml#RevokeDatabaseAccessRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./database_lifecycle.yaml#DatabaseLifecycleOperation
+          "202": ./database_lifecycle.yaml#DatabaseLifecycleOperation
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: Delete
+        method: POST
+        path: /apps/database/delete
+        body:
+          type: ./database_lifecycle.yaml#DeleteDatabaseRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./database_lifecycle.yaml#DatabaseLifecycleOperation
+          "202": ./database_lifecycle.yaml#DatabaseLifecycleOperation
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+types:
+  DatabaseLifecycleSnapshot:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      database_name: {type: string}
+      revision: {type: string}
+      database_state: {type: string}
+      application_access: {type: string}
+      migrator_access: {type: string}
+      active_operation_id: {type: string, required: false}
+  RevokeDatabaseAccessRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      expected_revision: {type: string}
+      request_id: {type: string}
+      purpose: {type: string}
+  DeleteDatabaseRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      expected_revision: {type: string}
+      request_id: {type: string}
+      confirm_database_name: {type: string}
+  DatabaseLifecycleOperation:
+    kind: struct
+    fields:
+      operation_id: {type: string}

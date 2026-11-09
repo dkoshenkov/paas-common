@@ -1,0 +1,620 @@
+openapi: 3.0.3
+info:
+  title: "settings API"
+  version: "1.0.0"
+paths:
+  "/apps/create":
+    post:
+      operationId: "SettingsCreateApp"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsTypesCreateAppRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogTypesAppSummary"
+        "201":
+          description: "HTTP 201 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogTypesAppSummary"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/apps/migrator":
+    get:
+      operationId: "SettingsAppMigrator"
+      parameters:
+        - name: "app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SettingsTypesMigratorSnapshot"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/apps/remove-migrator":
+    post:
+      operationId: "SettingsRemoveAppMigrator"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsTypesRemoveMigratorRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SettingsTypesMigratorSnapshot"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/apps/set-migrator":
+    post:
+      operationId: "SettingsSetAppMigrator"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsTypesSetMigratorRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SettingsTypesMigratorSnapshot"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/components/create":
+    post:
+      operationId: "SettingsCreateComponent"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsTypesCreateComponentRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogTypesComponentSummary"
+        "201":
+          description: "HTTP 201 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogTypesComponentSummary"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/components/policy":
+    get:
+      operationId: "SettingsComponentPolicy"
+      parameters:
+        - name: "app_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "component_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SettingsTypesComponentPolicyObservedSnapshot"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/components/set-policy":
+    post:
+      operationId: "SettingsSetComponentPolicy"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsTypesSetPolicyRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SettingsTypesComponentPolicySnapshot"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    CatalogTypesAppSummary:
+      type: object
+      required:
+        - "app_id"
+        - "name"
+      properties:
+        app_id:
+          type: string
+        name:
+          type: string
+    CatalogTypesComponentSummary:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "name"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        name:
+          type: string
+    SettingsTypesComponentNetworkStatus:
+      type: object
+      required:
+        - "desired_revision"
+        - "state"
+      properties:
+        applied_revision:
+          type: string
+        desired_revision:
+          type: string
+        reason:
+          type: string
+        state:
+          type: string
+    SettingsTypesComponentPolicy:
+      type: object
+      required:
+        - "database_grants"
+        - "external"
+        - "service_grants"
+      properties:
+        database_grants:
+          type: array
+          items:
+            $ref: "#/components/schemas/SettingsTypesDatabaseGrant"
+        external:
+          allOf:
+            -
+              $ref: "#/components/schemas/SettingsTypesExternal"
+            - not:
+                enum: [null]
+        service_grants:
+          type: array
+          items:
+            $ref: "#/components/schemas/SettingsTypesServiceGrant"
+    SettingsTypesComponentPolicyObservedSnapshot:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "policy"
+        - "revision"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        network_status:
+          allOf:
+            -
+              $ref: "#/components/schemas/SettingsTypesComponentNetworkStatus"
+            - not:
+                enum: [null]
+        policy:
+          allOf:
+            -
+              $ref: "#/components/schemas/SettingsTypesComponentPolicy"
+            - not:
+                enum: [null]
+        revision:
+          type: string
+    SettingsTypesComponentPolicySnapshot:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "policy"
+        - "revision"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        policy:
+          allOf:
+            -
+              $ref: "#/components/schemas/SettingsTypesComponentPolicy"
+            - not:
+                enum: [null]
+        revision:
+          type: string
+    SettingsTypesCreateAppRequest:
+      type: object
+      required:
+        - "name"
+        - "request_id"
+      properties:
+        name:
+          type: string
+        request_id:
+          type: string
+    SettingsTypesCreateComponentRequest:
+      type: object
+      required:
+        - "app_id"
+        - "name"
+        - "request_id"
+      properties:
+        app_id:
+          type: string
+        name:
+          type: string
+        request_id:
+          type: string
+    SettingsTypesDatabaseGrant:
+      type: object
+      required:
+        - "container_kind"
+        - "container_name"
+        - "deployment_name"
+      properties:
+        container_kind:
+          type: string
+        container_name:
+          type: string
+        deployment_name:
+          type: string
+        keys:
+          type: array
+          items:
+            type: string
+        whole_secret:
+          type: boolean
+    SettingsTypesExternal:
+      type: object
+      required:
+        - "domains"
+        - "mode"
+      properties:
+        domains:
+          type: array
+          items:
+            type: string
+        mode:
+          type: string
+    SettingsTypesMigrator:
+      type: object
+      required:
+        - "image"
+      properties:
+        image:
+          type: string
+    SettingsTypesMigratorSnapshot:
+      type: object
+      required:
+        - "app_id"
+        - "revision"
+      properties:
+        app_id:
+          type: string
+        migrator:
+          allOf:
+            -
+              $ref: "#/components/schemas/SettingsTypesMigrator"
+            - not:
+                enum: [null]
+        revision:
+          type: string
+    SettingsTypesRemoveMigratorRequest:
+      type: object
+      required:
+        - "app_id"
+        - "expected_revision"
+      properties:
+        app_id:
+          type: string
+        expected_revision:
+          type: string
+    SettingsTypesServiceGrant:
+      type: object
+      required:
+        - "service_name"
+        - "target_app_id"
+        - "target_component_id"
+      properties:
+        service_name:
+          type: string
+        target_app_id:
+          type: string
+        target_component_id:
+          type: string
+    SettingsTypesSetMigratorRequest:
+      type: object
+      required:
+        - "app_id"
+        - "expected_revision"
+        - "migrator"
+      properties:
+        app_id:
+          type: string
+        expected_revision:
+          type: string
+        migrator:
+          allOf:
+            -
+              $ref: "#/components/schemas/SettingsTypesMigrator"
+            - not:
+                enum: [null]
+    SettingsTypesSetPolicyRequest:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "expected_revision"
+        - "policy"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        expected_revision:
+          type: string
+        policy:
+          allOf:
+            -
+              $ref: "#/components/schemas/SettingsTypesComponentPolicy"
+            - not:
+                enum: [null]
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string

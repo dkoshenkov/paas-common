@@ -1,0 +1,25 @@
+services:
+  metadata:
+    endpoints:
+      - name: ComponentImages
+        method: GET
+        path: /components/images
+        parameters:
+          - {name: app_id, field: appId, in: query, type: string, required: true}
+          - {name: component_id, field: componentId, in: query, type: string, required: true}
+        responses:
+          "200": ./metadata_types.yaml#ComponentImages
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+      - name: AppDatabaseMetadata
+        method: GET
+        path: /apps/database/metadata
+        parameters:
+          - {name: app_id, field: appId, in: query, type: string, required: true}
+        responses:
+          "200": ./metadata_types.yaml#AppDatabaseMetadata
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse

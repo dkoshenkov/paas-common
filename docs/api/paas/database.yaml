@@ -1,0 +1,35 @@
+services:
+  database:
+    endpoints:
+      - name: Credentials
+        method: POST
+        path: /apps/database/credentials
+        responseMetadata: true
+        body:
+          type: ./database.yaml#CredentialsRequest
+          maxBytes: 1048576
+          objectOnly: true
+          unknownFields: reject
+        responses:
+          "200": ./database.yaml#CredentialsResponse
+          "400": ./types.yaml#ErrorResponse
+          "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
+          "413": ./types.yaml#ErrorResponse
+          "503": ./types.yaml#ErrorResponse
+types:
+  CredentialsRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      purpose: {type: string}
+  CredentialsResponse:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      purpose: {type: string}
+      host: {type: string}
+      port: {type: int}
+      database: {type: string}
+      username: {type: string}
+      password: {type: string}

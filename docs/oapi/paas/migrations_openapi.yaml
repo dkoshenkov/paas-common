@@ -1,0 +1,667 @@
+openapi: 3.0.3
+info:
+  title: "migrations API"
+  version: "1.0.0"
+paths:
+  "/deployments/apply-with-migration":
+    post:
+      operationId: "MigrationsApplyDeployment"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TypesApplyRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesOperationRecord"
+        "202":
+          description: "HTTP 202 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesOperationRecord"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "410":
+          description: "HTTP 410 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/deployments/preview-with-migration":
+    post:
+      operationId: "MigrationsPreviewDeployment"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 8388608
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MigrationTypesDeployRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesDeployPreview"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/migrations/apply":
+    post:
+      operationId: "MigrationsApply"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TypesApplyRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesOperationRecord"
+        "202":
+          description: "HTTP 202 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesOperationRecord"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "410":
+          description: "HTTP 410 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/migrations/preview":
+    post:
+      operationId: "MigrationsPreview"
+      requestBody:
+        required: true
+        x-flux-max-bytes: 1048576
+        x-flux-allow-empty: false
+        x-flux-object-only: true
+        x-flux-unknown-fields: reject
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MigrationTypesPreviewRequest"
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesPreview"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "409":
+          description: "HTTP 409 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "413":
+          description: "HTTP 413 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/operations/history":
+    get:
+      operationId: "MigrationsHistory"
+      parameters:
+        - name: "cursor"
+          in: query
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+        - name: "include_database_actions"
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: "limit"
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: "state"
+          in: query
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesOperationPage"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/operations/inspect":
+    get:
+      operationId: "MigrationsInspect"
+      parameters:
+        - name: "include_database_actions"
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: "operation_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesOperationRecord"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+  "/operations/migration-log":
+    get:
+      operationId: "MigrationsMigrationLog"
+      parameters:
+        - name: "after"
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: "limit"
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: "operation_id"
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "HTTP 200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MigrationTypesLogPage"
+        "400":
+          description: "HTTP 400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "404":
+          description: "HTTP 404 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+        "503":
+          description: "HTTP 503 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypesErrorResponse"
+components:
+  schemas:
+    MigrationTypesAdditionalAction:
+      type: object
+      required:
+        - "app_id"
+        - "kind"
+      properties:
+        app_id:
+          type: string
+        kind:
+          type: string
+    MigrationTypesAppMigration:
+      type: object
+      required:
+        - "app_id"
+        - "image"
+        - "reason"
+        - "revision"
+      properties:
+        app_id:
+          type: string
+        image:
+          type: string
+        reason:
+          type: string
+        revision:
+          type: string
+    MigrationTypesDatabaseAction:
+      type: object
+      required:
+        - "action"
+      properties:
+        action:
+          type: string
+        purpose:
+          type: string
+    MigrationTypesDeployPreview:
+      type: object
+      required:
+        - "diagnostics"
+      properties:
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        expires_at:
+          type: string
+        migration:
+          allOf:
+            -
+              $ref: "#/components/schemas/MigrationTypesAppMigration"
+            - not:
+                enum: [null]
+        plan:
+          allOf:
+            -
+              $ref: "#/components/schemas/MigrationTypesPlan"
+            - not:
+                enum: [null]
+        preview_id:
+          type: string
+    MigrationTypesDeployRequest:
+      type: object
+      required:
+        - "app_id"
+        - "component_id"
+        - "expected_migrator_revision"
+        - "files"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        expected_migrator_revision:
+          type: string
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesManifestFile"
+    MigrationTypesLogEvent:
+      type: object
+      required:
+        - "at"
+        - "code"
+        - "seq"
+      properties:
+        at:
+          type: string
+        code:
+          type: string
+        seq:
+          type: integer
+        version:
+          type: integer
+    MigrationTypesLogPage:
+      type: object
+      required:
+        - "items"
+        - "operation_id"
+        - "truncated"
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MigrationTypesLogEvent"
+        next_after:
+          type: integer
+        operation_id:
+          type: string
+        truncated:
+          type: boolean
+    MigrationTypesMigration:
+      type: object
+      required:
+        - "image"
+        - "reason"
+        - "revision"
+      properties:
+        image:
+          type: string
+        reason:
+          type: string
+        revision:
+          type: string
+    MigrationTypesOperationPage:
+      type: object
+      required:
+        - "items"
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MigrationTypesOperationRecord"
+        next_cursor:
+          type: string
+    MigrationTypesOperationRecord:
+      type: object
+      required:
+        - "app_id"
+        - "created_at"
+        - "diagnostics"
+        - "operation_id"
+        - "state"
+        - "target_type"
+        - "updated_at"
+      properties:
+        app_id:
+          type: string
+        component_id:
+          type: string
+        created_at:
+          type: string
+        database_action:
+          allOf:
+            -
+              $ref: "#/components/schemas/MigrationTypesDatabaseAction"
+            - not:
+                enum: [null]
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        finished_at:
+          type: string
+        migration:
+          allOf:
+            -
+              $ref: "#/components/schemas/MigrationTypesMigration"
+            - not:
+                enum: [null]
+        operation_id:
+          type: string
+        stage:
+          type: string
+        state:
+          type: string
+        target_type:
+          type: string
+        updated_at:
+          type: string
+    MigrationTypesPlan:
+      type: object
+      required:
+        - "additional_actions"
+        - "resources"
+      properties:
+        additional_actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/MigrationTypesAdditionalAction"
+        resources:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesResourceChange"
+    MigrationTypesPreview:
+      type: object
+      required:
+        - "diagnostics"
+        - "expires_at"
+        - "migration"
+        - "preview_id"
+      properties:
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        expires_at:
+          type: string
+        migration:
+          allOf:
+            -
+              $ref: "#/components/schemas/MigrationTypesAppMigration"
+            - not:
+                enum: [null]
+        preview_id:
+          type: string
+    MigrationTypesPreviewRequest:
+      type: object
+      required:
+        - "app_id"
+        - "expected_migrator_revision"
+      properties:
+        app_id:
+          type: string
+        expected_migrator_revision:
+          type: string
+    TypesApplyRequest:
+      type: object
+      required:
+        - "preview_id"
+      properties:
+        preview_id:
+          type: string
+    TypesDiagnostic:
+      type: object
+      required:
+        - "code"
+        - "message"
+        - "severity"
+      properties:
+        code:
+          type: string
+        column:
+          type: integer
+        document:
+          type: integer
+        field_path:
+          type: string
+        file:
+          type: string
+        line:
+          type: integer
+        message:
+          type: string
+        severity:
+          type: string
+    TypesErrorResponse:
+      type: object
+      required:
+        - "code"
+        - "diagnostics"
+        - "message"
+      properties:
+        code:
+          type: string
+        conflicting_operation_id:
+          type: string
+        diagnostics:
+          type: array
+          items:
+            $ref: "#/components/schemas/TypesDiagnostic"
+        message:
+          type: string
+    TypesManifestFile:
+      type: object
+      required:
+        - "content"
+        - "name"
+      properties:
+        content:
+          type: string
+        name:
+          type: string
+    TypesResourceChange:
+      type: object
+      required:
+        - "action"
+        - "api_version"
+        - "changed_fields"
+        - "kind"
+        - "name"
+        - "namespace"
+      properties:
+        action:
+          type: string
+        api_version:
+          type: string
+        changed_fields:
+          type: array
+          items:
+            type: string
+        kind:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string

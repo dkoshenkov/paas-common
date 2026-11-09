@@ -1,0 +1,90 @@
+types:
+  PreviewRequest:
+    kind: struct
+    fields:
+      app_id: {type: "string"}
+      expected_migrator_revision: {type: "string"}
+  DeployRequest:
+    kind: struct
+    fields:
+      app_id: {type: "string"}
+      component_id: {type: "string"}
+      files: {type: "[]./types.yaml#ManifestFile"}
+      expected_migrator_revision: {type: "string"}
+  AppMigration:
+    kind: struct
+    fields:
+      app_id: {type: "string"}
+      image: {type: "string"}
+      revision: {type: "string"}
+      reason: {type: "string"}
+  Preview:
+    kind: struct
+    fields:
+      preview_id: {type: "string"}
+      expires_at: {type: "string"}
+      diagnostics: {type: "[]./types.yaml#Diagnostic"}
+      migration: {type: "./migration_types.yaml#AppMigration"}
+  AdditionalAction:
+    kind: struct
+    fields:
+      app_id: {type: "string"}
+      kind: {type: "string"}
+  Plan:
+    kind: struct
+    fields:
+      resources: {type: "[]./types.yaml#ResourceChange"}
+      additional_actions: {type: "[]./migration_types.yaml#AdditionalAction"}
+  DeployPreview:
+    kind: struct
+    fields:
+      diagnostics: {type: "[]./types.yaml#Diagnostic"}
+      preview_id: {type: "string", required: false}
+      expires_at: {type: "string", required: false}
+      plan: {type: "./migration_types.yaml#Plan", required: false}
+      migration: {type: "./migration_types.yaml#AppMigration", required: false}
+  Migration:
+    kind: struct
+    fields:
+      image: {type: "string"}
+      revision: {type: "string"}
+      reason: {type: "string"}
+  DatabaseAction:
+    kind: struct
+    fields:
+      action: {type: "string"}
+      purpose: {type: "string", required: false}
+  OperationRecord:
+    kind: struct
+    fields:
+      operation_id: {type: "string"}
+      target_type: {type: "string"}
+      app_id: {type: "string"}
+      component_id: {type: "string", required: false}
+      state: {type: "string"}
+      stage: {type: "string", required: false}
+      diagnostics: {type: "[]./types.yaml#Diagnostic"}
+      created_at: {type: "string"}
+      updated_at: {type: "string"}
+      finished_at: {type: "string", required: false}
+      migration: {type: "./migration_types.yaml#Migration", required: false}
+      database_action: {type: "./migration_types.yaml#DatabaseAction", required: false}
+  OperationPage:
+    kind: struct
+    fields:
+      items: {type: "[]./migration_types.yaml#OperationRecord"}
+      next_cursor: {type: "string", required: false}
+  LogEvent:
+    kind: struct
+    fields:
+      seq: {type: "int"}
+      at: {type: "string"}
+      code: {type: "string"}
+      version: {type: "int", required: false}
+  LogPage:
+    kind: struct
+    fields:
+      operation_id: {type: "string"}
+      items: {type: "[]./migration_types.yaml#LogEvent"}
+      next_after: {type: "int", required: false}
+      truncated: {type: "bool"}

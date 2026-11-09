@@ -1,0 +1,47 @@
+types:
+  RegisterSharedServiceRequest:
+    kind: struct
+    fields:
+      request_id: {type: string}
+      owner_app_id: {type: string}
+      component_id: {type: string}
+      service_name: {type: string}
+  SharedService:
+    kind: struct
+    fields:
+      shared_service_id: {type: string}
+      owner_app_id: {type: string}
+      component_id: {type: string}
+      service_name: {type: string}
+      address: {type: string}
+      revision: {type: string}
+  SharedServicePage:
+    kind: struct
+    fields:
+      items: {type: "[]./shared_types.yaml#SharedService"}
+      next_cursor: {type: string, required: false}
+  SetSharedServiceAccessRequest:
+    kind: struct
+    fields:
+      shared_service_id: {type: string}
+      consumer_app_id: {type: string}
+      allow: {type: bool}
+      expected_revision: {type: string}
+  SharedServiceAccess:
+    kind: struct
+    fields:
+      shared_service_id: {type: string}
+      consumer_app_id: {type: string}
+      allow: {type: bool}
+      revision: {type: string}
+  SharedServiceAccessStatus:
+    kind: struct
+    fields:
+      shared_service_id: {type: string}
+      consumer_app_id: {type: string}
+      desired_allow: {type: bool}
+      desired_revision: {type: string}
+      applied_allow: {type: bool, required: false}
+      applied_revision: {type: string, required: false}
+      state: {type: string}
+      blocked_reason: {type: string, required: false}

@@ -1,0 +1,9 @@
+types:
+  Key:
+    kind: struct
+    fields:
+      id: int64
+      key: string
+  Keys:
+    kind: alias
+    type: "[]./types.yaml#Key"

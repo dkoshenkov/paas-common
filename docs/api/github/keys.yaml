@@ -1,0 +1,13 @@
+services:
+  github:
+    endpoints:
+      - name: getKeys
+        method: GET
+        path: /users/{username}/keys
+        responseMetadata: true
+        parameters:
+          - {name: username, in: path, type: string, required: true}
+          - {name: page, in: query, type: int, required: true}
+          - {name: per_page, field: perPage, in: query, type: int}
+        responses:
+          "200": ./types.yaml#Keys

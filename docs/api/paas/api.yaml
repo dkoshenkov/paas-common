@@ -1,6 +1,20 @@
 imports:
+  - ./database.yaml
+  - ./database_lifecycle.yaml
   - ./deployments.yaml
+  - ./imagepreview.yaml
+  - ./imagepreview_types.yaml
   - ./operations.yaml
+  - ./migrations.yaml
+  - ./migration_types.yaml
+  - ./settings.yaml
+  - ./settings_types.yaml
+  - ./shared.yaml
+  - ./shared_types.yaml
+  - ./domains.yaml
+  - ./domains_types.yaml
+  - ./metadata.yaml
+  - ./metadata_types.yaml
   - ./catalog.yaml
   - ./catalog_types.yaml
   - ./types.yaml

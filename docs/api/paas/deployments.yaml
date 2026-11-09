@@ -13,6 +13,7 @@ services:
           "200": ./types.yaml#PreviewResponse
           "400": ./types.yaml#ErrorResponse
           "404": ./types.yaml#ErrorResponse
+          "409": ./types.yaml#ErrorResponse
           "413": ./types.yaml#ErrorResponse
           "503": ./types.yaml#ErrorResponse
       - name: Apply

@@ -559,6 +559,3140 @@ func (v *CatalogTypesComponentSummary) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type DatabaseCredentialsRequest struct {
+	AppId   string `json:"app_id"`
+	Purpose string `json:"purpose"`
+}
+
+func (v DatabaseCredentialsRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Purpose)
+		if err != nil {
+			return nil, fmt.Errorf("encode field purpose: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field purpose value must not encode as null")
+		}
+		fields["purpose"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DatabaseCredentialsRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DatabaseCredentialsRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DatabaseCredentialsRequest: expected JSON object")
+	}
+	var decoded DatabaseCredentialsRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["purpose"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field purpose must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Purpose); err != nil {
+			return fmt.Errorf("decode field purpose: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field purpose")
+	}
+	*v = decoded
+	return nil
+}
+
+type DatabaseCredentialsResponse struct {
+	AppId    string `json:"app_id"`
+	Database string `json:"database"`
+	Host     string `json:"host"`
+	Password string `json:"password"`
+	Port     int    `json:"port"`
+	Purpose  string `json:"purpose"`
+	Username string `json:"username"`
+}
+
+func (v DatabaseCredentialsResponse) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Database)
+		if err != nil {
+			return nil, fmt.Errorf("encode field database: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field database value must not encode as null")
+		}
+		fields["database"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Host)
+		if err != nil {
+			return nil, fmt.Errorf("encode field host: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field host value must not encode as null")
+		}
+		fields["host"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Password)
+		if err != nil {
+			return nil, fmt.Errorf("encode field password: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field password value must not encode as null")
+		}
+		fields["password"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Port)
+		if err != nil {
+			return nil, fmt.Errorf("encode field port: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field port value must not encode as null")
+		}
+		fields["port"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Purpose)
+		if err != nil {
+			return nil, fmt.Errorf("encode field purpose: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field purpose value must not encode as null")
+		}
+		fields["purpose"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Username)
+		if err != nil {
+			return nil, fmt.Errorf("encode field username: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field username value must not encode as null")
+		}
+		fields["username"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DatabaseCredentialsResponse) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DatabaseCredentialsResponse: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DatabaseCredentialsResponse: expected JSON object")
+	}
+	var decoded DatabaseCredentialsResponse
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["database"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field database must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Database); err != nil {
+			return fmt.Errorf("decode field database: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field database")
+	}
+	if value, ok := fields["host"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field host must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Host); err != nil {
+			return fmt.Errorf("decode field host: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field host")
+	}
+	if value, ok := fields["password"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field password must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Password); err != nil {
+			return fmt.Errorf("decode field password: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field password")
+	}
+	if value, ok := fields["port"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field port must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Port); err != nil {
+			return fmt.Errorf("decode field port: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field port")
+	}
+	if value, ok := fields["purpose"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field purpose must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Purpose); err != nil {
+			return fmt.Errorf("decode field purpose: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field purpose")
+	}
+	if value, ok := fields["username"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field username must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Username); err != nil {
+			return fmt.Errorf("decode field username: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field username")
+	}
+	*v = decoded
+	return nil
+}
+
+type DatabaseLifecycleDatabaseLifecycleOperation struct {
+	OperationId string `json:"operation_id"`
+}
+
+func (v DatabaseLifecycleDatabaseLifecycleOperation) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.OperationId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field operation_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field operation_id value must not encode as null")
+		}
+		fields["operation_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DatabaseLifecycleDatabaseLifecycleOperation) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DatabaseLifecycleDatabaseLifecycleOperation: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DatabaseLifecycleDatabaseLifecycleOperation: expected JSON object")
+	}
+	var decoded DatabaseLifecycleDatabaseLifecycleOperation
+	if value, ok := fields["operation_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field operation_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.OperationId); err != nil {
+			return fmt.Errorf("decode field operation_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field operation_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type DatabaseLifecycleDatabaseLifecycleSnapshot struct {
+	ActiveOperationId *string `json:"active_operation_id"`
+	AppId             string  `json:"app_id"`
+	ApplicationAccess string  `json:"application_access"`
+	DatabaseName      string  `json:"database_name"`
+	DatabaseState     string  `json:"database_state"`
+	MigratorAccess    string  `json:"migrator_access"`
+	Revision          string  `json:"revision"`
+}
+
+func (v DatabaseLifecycleDatabaseLifecycleSnapshot) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	if v.ActiveOperationId != nil {
+		encoded, err := json.Marshal(v.ActiveOperationId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field active_operation_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field active_operation_id value must not encode as null")
+		}
+		fields["active_operation_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ApplicationAccess)
+		if err != nil {
+			return nil, fmt.Errorf("encode field application_access: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field application_access value must not encode as null")
+		}
+		fields["application_access"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.DatabaseName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field database_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field database_name value must not encode as null")
+		}
+		fields["database_name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.DatabaseState)
+		if err != nil {
+			return nil, fmt.Errorf("encode field database_state: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field database_state value must not encode as null")
+		}
+		fields["database_state"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.MigratorAccess)
+		if err != nil {
+			return nil, fmt.Errorf("encode field migrator_access: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field migrator_access value must not encode as null")
+		}
+		fields["migrator_access"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DatabaseLifecycleDatabaseLifecycleSnapshot) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DatabaseLifecycleDatabaseLifecycleSnapshot: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DatabaseLifecycleDatabaseLifecycleSnapshot: expected JSON object")
+	}
+	var decoded DatabaseLifecycleDatabaseLifecycleSnapshot
+	if value, ok := fields["active_operation_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field active_operation_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ActiveOperationId); err != nil {
+			return fmt.Errorf("decode field active_operation_id: %w", err)
+		}
+	}
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["application_access"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field application_access must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ApplicationAccess); err != nil {
+			return fmt.Errorf("decode field application_access: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field application_access")
+	}
+	if value, ok := fields["database_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field database_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DatabaseName); err != nil {
+			return fmt.Errorf("decode field database_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field database_name")
+	}
+	if value, ok := fields["database_state"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field database_state must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DatabaseState); err != nil {
+			return fmt.Errorf("decode field database_state: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field database_state")
+	}
+	if value, ok := fields["migrator_access"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field migrator_access must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.MigratorAccess); err != nil {
+			return fmt.Errorf("decode field migrator_access: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field migrator_access")
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type DatabaseLifecycleDeleteDatabaseRequest struct {
+	AppId               string `json:"app_id"`
+	ConfirmDatabaseName string `json:"confirm_database_name"`
+	ExpectedRevision    string `json:"expected_revision"`
+	RequestId           string `json:"request_id"`
+}
+
+func (v DatabaseLifecycleDeleteDatabaseRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ConfirmDatabaseName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field confirm_database_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field confirm_database_name value must not encode as null")
+		}
+		fields["confirm_database_name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_revision value must not encode as null")
+		}
+		fields["expected_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.RequestId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field request_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field request_id value must not encode as null")
+		}
+		fields["request_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DatabaseLifecycleDeleteDatabaseRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DatabaseLifecycleDeleteDatabaseRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DatabaseLifecycleDeleteDatabaseRequest: expected JSON object")
+	}
+	var decoded DatabaseLifecycleDeleteDatabaseRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["confirm_database_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field confirm_database_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ConfirmDatabaseName); err != nil {
+			return fmt.Errorf("decode field confirm_database_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field confirm_database_name")
+	}
+	if value, ok := fields["expected_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedRevision); err != nil {
+			return fmt.Errorf("decode field expected_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_revision")
+	}
+	if value, ok := fields["request_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field request_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.RequestId); err != nil {
+			return fmt.Errorf("decode field request_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field request_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type DatabaseLifecycleRevokeDatabaseAccessRequest struct {
+	AppId            string `json:"app_id"`
+	ExpectedRevision string `json:"expected_revision"`
+	Purpose          string `json:"purpose"`
+	RequestId        string `json:"request_id"`
+}
+
+func (v DatabaseLifecycleRevokeDatabaseAccessRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_revision value must not encode as null")
+		}
+		fields["expected_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Purpose)
+		if err != nil {
+			return nil, fmt.Errorf("encode field purpose: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field purpose value must not encode as null")
+		}
+		fields["purpose"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.RequestId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field request_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field request_id value must not encode as null")
+		}
+		fields["request_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DatabaseLifecycleRevokeDatabaseAccessRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DatabaseLifecycleRevokeDatabaseAccessRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DatabaseLifecycleRevokeDatabaseAccessRequest: expected JSON object")
+	}
+	var decoded DatabaseLifecycleRevokeDatabaseAccessRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["expected_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedRevision); err != nil {
+			return fmt.Errorf("decode field expected_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_revision")
+	}
+	if value, ok := fields["purpose"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field purpose must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Purpose); err != nil {
+			return fmt.Errorf("decode field purpose: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field purpose")
+	}
+	if value, ok := fields["request_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field request_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.RequestId); err != nil {
+			return fmt.Errorf("decode field request_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field request_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type DatabaseLifecycleDatabaseLifecycleGetQuery struct {
+	AppId string `json:"appId"`
+}
+
+func (v DatabaseLifecycleDatabaseLifecycleGetQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field appId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field appId value must not encode as null")
+		}
+		fields["appId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DatabaseLifecycleDatabaseLifecycleGetQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DatabaseLifecycleDatabaseLifecycleGetQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DatabaseLifecycleDatabaseLifecycleGetQuery: expected JSON object")
+	}
+	var decoded DatabaseLifecycleDatabaseLifecycleGetQuery
+	if value, ok := fields["appId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field appId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field appId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field appId")
+	}
+	*v = decoded
+	return nil
+}
+
+type DomainsDomainsListQuery struct {
+	AppId string `json:"appId"`
+}
+
+func (v DomainsDomainsListQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field appId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field appId value must not encode as null")
+		}
+		fields["appId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DomainsDomainsListQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DomainsDomainsListQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DomainsDomainsListQuery: expected JSON object")
+	}
+	var decoded DomainsDomainsListQuery
+	if value, ok := fields["appId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field appId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field appId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field appId")
+	}
+	*v = decoded
+	return nil
+}
+
+type DomainsTypesDomainRequest struct {
+	AppId  string `json:"app_id"`
+	Domain string `json:"domain"`
+}
+
+func (v DomainsTypesDomainRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Domain)
+		if err != nil {
+			return nil, fmt.Errorf("encode field domain: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field domain value must not encode as null")
+		}
+		fields["domain"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DomainsTypesDomainRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DomainsTypesDomainRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DomainsTypesDomainRequest: expected JSON object")
+	}
+	var decoded DomainsTypesDomainRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["domain"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field domain must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Domain); err != nil {
+			return fmt.Errorf("decode field domain: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field domain")
+	}
+	*v = decoded
+	return nil
+}
+
+type DomainsTypesDomainSnapshot struct {
+	AppId  string `json:"app_id"`
+	Domain string `json:"domain"`
+}
+
+func (v DomainsTypesDomainSnapshot) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Domain)
+		if err != nil {
+			return nil, fmt.Errorf("encode field domain: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field domain value must not encode as null")
+		}
+		fields["domain"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DomainsTypesDomainSnapshot) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DomainsTypesDomainSnapshot: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DomainsTypesDomainSnapshot: expected JSON object")
+	}
+	var decoded DomainsTypesDomainSnapshot
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["domain"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field domain must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Domain); err != nil {
+			return fmt.Errorf("decode field domain: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field domain")
+	}
+	*v = decoded
+	return nil
+}
+
+type DomainsTypesDomainsSnapshot struct {
+	AppId      string   `json:"app_id"`
+	Domains    []string `json:"domains"`
+	TlsProfile *string  `json:"tls_profile"`
+}
+
+func (v DomainsTypesDomainsSnapshot) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Domains)
+		if err != nil {
+			return nil, fmt.Errorf("encode field domains: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field domains value must not encode as null")
+		}
+		fields["domains"] = encoded
+	}
+	if v.TlsProfile != nil {
+		encoded, err := json.Marshal(v.TlsProfile)
+		if err != nil {
+			return nil, fmt.Errorf("encode field tls_profile: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field tls_profile value must not encode as null")
+		}
+		fields["tls_profile"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *DomainsTypesDomainsSnapshot) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode DomainsTypesDomainsSnapshot: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode DomainsTypesDomainsSnapshot: expected JSON object")
+	}
+	var decoded DomainsTypesDomainsSnapshot
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["domains"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field domains must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Domains); err != nil {
+			return fmt.Errorf("decode field domains: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field domains")
+	}
+	if value, ok := fields["tls_profile"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field tls_profile must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.TlsProfile); err != nil {
+			return fmt.Errorf("decode field tls_profile: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type ImagepreviewTypesImagePreviewRequest struct {
+	AppId          string `json:"app_id"`
+	ComponentId    string `json:"component_id"`
+	ContainerName  string `json:"container_name"`
+	DeploymentName string `json:"deployment_name"`
+	Image          string `json:"image"`
+}
+
+func (v ImagepreviewTypesImagePreviewRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ContainerName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field container_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field container_name value must not encode as null")
+		}
+		fields["container_name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.DeploymentName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field deployment_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field deployment_name value must not encode as null")
+		}
+		fields["deployment_name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Image)
+		if err != nil {
+			return nil, fmt.Errorf("encode field image: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field image value must not encode as null")
+		}
+		fields["image"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *ImagepreviewTypesImagePreviewRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode ImagepreviewTypesImagePreviewRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode ImagepreviewTypesImagePreviewRequest: expected JSON object")
+	}
+	var decoded ImagepreviewTypesImagePreviewRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["container_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field container_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ContainerName); err != nil {
+			return fmt.Errorf("decode field container_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field container_name")
+	}
+	if value, ok := fields["deployment_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field deployment_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DeploymentName); err != nil {
+			return fmt.Errorf("decode field deployment_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field deployment_name")
+	}
+	if value, ok := fields["image"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field image must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Image); err != nil {
+			return fmt.Errorf("decode field image: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field image")
+	}
+	*v = decoded
+	return nil
+}
+
+type MetadataMetadataAppDatabaseMetadataQuery struct {
+	AppId string `json:"appId"`
+}
+
+func (v MetadataMetadataAppDatabaseMetadataQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field appId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field appId value must not encode as null")
+		}
+		fields["appId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MetadataMetadataAppDatabaseMetadataQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MetadataMetadataAppDatabaseMetadataQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MetadataMetadataAppDatabaseMetadataQuery: expected JSON object")
+	}
+	var decoded MetadataMetadataAppDatabaseMetadataQuery
+	if value, ok := fields["appId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field appId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field appId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field appId")
+	}
+	*v = decoded
+	return nil
+}
+
+type MetadataMetadataComponentImagesQuery struct {
+	AppId       string `json:"appId"`
+	ComponentId string `json:"componentId"`
+}
+
+func (v MetadataMetadataComponentImagesQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field appId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field appId value must not encode as null")
+		}
+		fields["appId"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field componentId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field componentId value must not encode as null")
+		}
+		fields["componentId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MetadataMetadataComponentImagesQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MetadataMetadataComponentImagesQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MetadataMetadataComponentImagesQuery: expected JSON object")
+	}
+	var decoded MetadataMetadataComponentImagesQuery
+	if value, ok := fields["appId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field appId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field appId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field appId")
+	}
+	if value, ok := fields["componentId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field componentId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field componentId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field componentId")
+	}
+	*v = decoded
+	return nil
+}
+
+type MetadataTypesAppDatabaseMetadata struct {
+	AppId      string   `json:"app_id"`
+	Keys       []string `json:"keys"`
+	SecretName string   `json:"secret_name"`
+}
+
+func (v MetadataTypesAppDatabaseMetadata) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Keys)
+		if err != nil {
+			return nil, fmt.Errorf("encode field keys: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field keys value must not encode as null")
+		}
+		fields["keys"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.SecretName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field secret_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field secret_name value must not encode as null")
+		}
+		fields["secret_name"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MetadataTypesAppDatabaseMetadata) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MetadataTypesAppDatabaseMetadata: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MetadataTypesAppDatabaseMetadata: expected JSON object")
+	}
+	var decoded MetadataTypesAppDatabaseMetadata
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["keys"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field keys must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Keys); err != nil {
+			return fmt.Errorf("decode field keys: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field keys")
+	}
+	if value, ok := fields["secret_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field secret_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.SecretName); err != nil {
+			return fmt.Errorf("decode field secret_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field secret_name")
+	}
+	*v = decoded
+	return nil
+}
+
+type MetadataTypesComponentImages struct {
+	AppId       string                          `json:"app_id"`
+	ComponentId string                          `json:"component_id"`
+	Deployments []MetadataTypesDeploymentImages `json:"deployments"`
+}
+
+func (v MetadataTypesComponentImages) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Deployments)
+		if err != nil {
+			return nil, fmt.Errorf("encode field deployments: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field deployments value must not encode as null")
+		}
+		fields["deployments"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MetadataTypesComponentImages) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MetadataTypesComponentImages: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MetadataTypesComponentImages: expected JSON object")
+	}
+	var decoded MetadataTypesComponentImages
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["deployments"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field deployments must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Deployments); err != nil {
+			return fmt.Errorf("decode field deployments: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field deployments")
+	}
+	*v = decoded
+	return nil
+}
+
+type MetadataTypesContainerImage struct {
+	Image string `json:"image"`
+	Name  string `json:"name"`
+	Type  string `json:"type"`
+}
+
+func (v MetadataTypesContainerImage) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Image)
+		if err != nil {
+			return nil, fmt.Errorf("encode field image: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field image value must not encode as null")
+		}
+		fields["image"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Name)
+		if err != nil {
+			return nil, fmt.Errorf("encode field name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field name value must not encode as null")
+		}
+		fields["name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Type)
+		if err != nil {
+			return nil, fmt.Errorf("encode field type: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field type value must not encode as null")
+		}
+		fields["type"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MetadataTypesContainerImage) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MetadataTypesContainerImage: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MetadataTypesContainerImage: expected JSON object")
+	}
+	var decoded MetadataTypesContainerImage
+	if value, ok := fields["image"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field image must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Image); err != nil {
+			return fmt.Errorf("decode field image: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field image")
+	}
+	if value, ok := fields["name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Name); err != nil {
+			return fmt.Errorf("decode field name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field name")
+	}
+	if value, ok := fields["type"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field type must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Type); err != nil {
+			return fmt.Errorf("decode field type: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field type")
+	}
+	*v = decoded
+	return nil
+}
+
+type MetadataTypesDeploymentImages struct {
+	Containers []MetadataTypesContainerImage `json:"containers"`
+	Name       string                        `json:"name"`
+}
+
+func (v MetadataTypesDeploymentImages) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Containers)
+		if err != nil {
+			return nil, fmt.Errorf("encode field containers: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field containers value must not encode as null")
+		}
+		fields["containers"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Name)
+		if err != nil {
+			return nil, fmt.Errorf("encode field name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field name value must not encode as null")
+		}
+		fields["name"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MetadataTypesDeploymentImages) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MetadataTypesDeploymentImages: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MetadataTypesDeploymentImages: expected JSON object")
+	}
+	var decoded MetadataTypesDeploymentImages
+	if value, ok := fields["containers"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field containers must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Containers); err != nil {
+			return fmt.Errorf("decode field containers: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field containers")
+	}
+	if value, ok := fields["name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Name); err != nil {
+			return fmt.Errorf("decode field name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field name")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesAdditionalAction struct {
+	AppId string `json:"app_id"`
+	Kind  string `json:"kind"`
+}
+
+func (v MigrationTypesAdditionalAction) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Kind)
+		if err != nil {
+			return nil, fmt.Errorf("encode field kind: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field kind value must not encode as null")
+		}
+		fields["kind"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesAdditionalAction) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesAdditionalAction: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesAdditionalAction: expected JSON object")
+	}
+	var decoded MigrationTypesAdditionalAction
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["kind"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field kind must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Kind); err != nil {
+			return fmt.Errorf("decode field kind: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field kind")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesAppMigration struct {
+	AppId    string `json:"app_id"`
+	Image    string `json:"image"`
+	Reason   string `json:"reason"`
+	Revision string `json:"revision"`
+}
+
+func (v MigrationTypesAppMigration) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Image)
+		if err != nil {
+			return nil, fmt.Errorf("encode field image: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field image value must not encode as null")
+		}
+		fields["image"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Reason)
+		if err != nil {
+			return nil, fmt.Errorf("encode field reason: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field reason value must not encode as null")
+		}
+		fields["reason"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesAppMigration) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesAppMigration: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesAppMigration: expected JSON object")
+	}
+	var decoded MigrationTypesAppMigration
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["image"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field image must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Image); err != nil {
+			return fmt.Errorf("decode field image: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field image")
+	}
+	if value, ok := fields["reason"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field reason must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Reason); err != nil {
+			return fmt.Errorf("decode field reason: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field reason")
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesDatabaseAction struct {
+	Action  string  `json:"action"`
+	Purpose *string `json:"purpose"`
+}
+
+func (v MigrationTypesDatabaseAction) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Action)
+		if err != nil {
+			return nil, fmt.Errorf("encode field action: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field action value must not encode as null")
+		}
+		fields["action"] = encoded
+	}
+	if v.Purpose != nil {
+		encoded, err := json.Marshal(v.Purpose)
+		if err != nil {
+			return nil, fmt.Errorf("encode field purpose: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field purpose value must not encode as null")
+		}
+		fields["purpose"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesDatabaseAction) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesDatabaseAction: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesDatabaseAction: expected JSON object")
+	}
+	var decoded MigrationTypesDatabaseAction
+	if value, ok := fields["action"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field action must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Action); err != nil {
+			return fmt.Errorf("decode field action: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field action")
+	}
+	if value, ok := fields["purpose"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field purpose must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Purpose); err != nil {
+			return fmt.Errorf("decode field purpose: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesDeployPreview struct {
+	Diagnostics []TypesDiagnostic           `json:"diagnostics"`
+	ExpiresAt   *string                     `json:"expires_at"`
+	Migration   *MigrationTypesAppMigration `json:"migration"`
+	Plan        *MigrationTypesPlan         `json:"plan"`
+	PreviewId   *string                     `json:"preview_id"`
+}
+
+func (v MigrationTypesDeployPreview) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Diagnostics)
+		if err != nil {
+			return nil, fmt.Errorf("encode field diagnostics: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field diagnostics value must not encode as null")
+		}
+		fields["diagnostics"] = encoded
+	}
+	if v.ExpiresAt != nil {
+		encoded, err := json.Marshal(v.ExpiresAt)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expires_at: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expires_at value must not encode as null")
+		}
+		fields["expires_at"] = encoded
+	}
+	if v.Migration != nil {
+		encoded, err := json.Marshal(v.Migration)
+		if err != nil {
+			return nil, fmt.Errorf("encode field migration: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field migration value must not encode as null")
+		}
+		fields["migration"] = encoded
+	}
+	if v.Plan != nil {
+		encoded, err := json.Marshal(v.Plan)
+		if err != nil {
+			return nil, fmt.Errorf("encode field plan: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field plan value must not encode as null")
+		}
+		fields["plan"] = encoded
+	}
+	if v.PreviewId != nil {
+		encoded, err := json.Marshal(v.PreviewId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field preview_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field preview_id value must not encode as null")
+		}
+		fields["preview_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesDeployPreview) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesDeployPreview: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesDeployPreview: expected JSON object")
+	}
+	var decoded MigrationTypesDeployPreview
+	if value, ok := fields["diagnostics"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field diagnostics must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Diagnostics); err != nil {
+			return fmt.Errorf("decode field diagnostics: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field diagnostics")
+	}
+	if value, ok := fields["expires_at"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expires_at must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpiresAt); err != nil {
+			return fmt.Errorf("decode field expires_at: %w", err)
+		}
+	}
+	if value, ok := fields["migration"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field migration must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Migration); err != nil {
+			return fmt.Errorf("decode field migration: %w", err)
+		}
+	}
+	if value, ok := fields["plan"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field plan must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Plan); err != nil {
+			return fmt.Errorf("decode field plan: %w", err)
+		}
+	}
+	if value, ok := fields["preview_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field preview_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.PreviewId); err != nil {
+			return fmt.Errorf("decode field preview_id: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesDeployRequest struct {
+	AppId                    string              `json:"app_id"`
+	ComponentId              string              `json:"component_id"`
+	ExpectedMigratorRevision string              `json:"expected_migrator_revision"`
+	Files                    []TypesManifestFile `json:"files"`
+}
+
+func (v MigrationTypesDeployRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedMigratorRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_migrator_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_migrator_revision value must not encode as null")
+		}
+		fields["expected_migrator_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Files)
+		if err != nil {
+			return nil, fmt.Errorf("encode field files: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field files value must not encode as null")
+		}
+		fields["files"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesDeployRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesDeployRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesDeployRequest: expected JSON object")
+	}
+	var decoded MigrationTypesDeployRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["expected_migrator_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_migrator_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedMigratorRevision); err != nil {
+			return fmt.Errorf("decode field expected_migrator_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_migrator_revision")
+	}
+	if value, ok := fields["files"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field files must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Files); err != nil {
+			return fmt.Errorf("decode field files: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field files")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesLogEvent struct {
+	At      string `json:"at"`
+	Code    string `json:"code"`
+	Seq     int    `json:"seq"`
+	Version *int   `json:"version"`
+}
+
+func (v MigrationTypesLogEvent) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.At)
+		if err != nil {
+			return nil, fmt.Errorf("encode field at: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field at value must not encode as null")
+		}
+		fields["at"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Code)
+		if err != nil {
+			return nil, fmt.Errorf("encode field code: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field code value must not encode as null")
+		}
+		fields["code"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Seq)
+		if err != nil {
+			return nil, fmt.Errorf("encode field seq: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field seq value must not encode as null")
+		}
+		fields["seq"] = encoded
+	}
+	if v.Version != nil {
+		encoded, err := json.Marshal(v.Version)
+		if err != nil {
+			return nil, fmt.Errorf("encode field version: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field version value must not encode as null")
+		}
+		fields["version"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesLogEvent) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesLogEvent: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesLogEvent: expected JSON object")
+	}
+	var decoded MigrationTypesLogEvent
+	if value, ok := fields["at"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field at must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.At); err != nil {
+			return fmt.Errorf("decode field at: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field at")
+	}
+	if value, ok := fields["code"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field code must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Code); err != nil {
+			return fmt.Errorf("decode field code: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field code")
+	}
+	if value, ok := fields["seq"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field seq must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Seq); err != nil {
+			return fmt.Errorf("decode field seq: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field seq")
+	}
+	if value, ok := fields["version"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field version must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Version); err != nil {
+			return fmt.Errorf("decode field version: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesLogPage struct {
+	Items       []MigrationTypesLogEvent `json:"items"`
+	NextAfter   *int                     `json:"next_after"`
+	OperationId string                   `json:"operation_id"`
+	Truncated   bool                     `json:"truncated"`
+}
+
+func (v MigrationTypesLogPage) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Items)
+		if err != nil {
+			return nil, fmt.Errorf("encode field items: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field items value must not encode as null")
+		}
+		fields["items"] = encoded
+	}
+	if v.NextAfter != nil {
+		encoded, err := json.Marshal(v.NextAfter)
+		if err != nil {
+			return nil, fmt.Errorf("encode field next_after: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field next_after value must not encode as null")
+		}
+		fields["next_after"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.OperationId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field operation_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field operation_id value must not encode as null")
+		}
+		fields["operation_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Truncated)
+		if err != nil {
+			return nil, fmt.Errorf("encode field truncated: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field truncated value must not encode as null")
+		}
+		fields["truncated"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesLogPage) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesLogPage: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesLogPage: expected JSON object")
+	}
+	var decoded MigrationTypesLogPage
+	if value, ok := fields["items"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field items must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Items); err != nil {
+			return fmt.Errorf("decode field items: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field items")
+	}
+	if value, ok := fields["next_after"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field next_after must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.NextAfter); err != nil {
+			return fmt.Errorf("decode field next_after: %w", err)
+		}
+	}
+	if value, ok := fields["operation_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field operation_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.OperationId); err != nil {
+			return fmt.Errorf("decode field operation_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field operation_id")
+	}
+	if value, ok := fields["truncated"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field truncated must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Truncated); err != nil {
+			return fmt.Errorf("decode field truncated: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field truncated")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesMigration struct {
+	Image    string `json:"image"`
+	Reason   string `json:"reason"`
+	Revision string `json:"revision"`
+}
+
+func (v MigrationTypesMigration) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Image)
+		if err != nil {
+			return nil, fmt.Errorf("encode field image: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field image value must not encode as null")
+		}
+		fields["image"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Reason)
+		if err != nil {
+			return nil, fmt.Errorf("encode field reason: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field reason value must not encode as null")
+		}
+		fields["reason"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesMigration) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesMigration: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesMigration: expected JSON object")
+	}
+	var decoded MigrationTypesMigration
+	if value, ok := fields["image"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field image must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Image); err != nil {
+			return fmt.Errorf("decode field image: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field image")
+	}
+	if value, ok := fields["reason"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field reason must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Reason); err != nil {
+			return fmt.Errorf("decode field reason: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field reason")
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesOperationPage struct {
+	Items      []MigrationTypesOperationRecord `json:"items"`
+	NextCursor *string                         `json:"next_cursor"`
+}
+
+func (v MigrationTypesOperationPage) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Items)
+		if err != nil {
+			return nil, fmt.Errorf("encode field items: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field items value must not encode as null")
+		}
+		fields["items"] = encoded
+	}
+	if v.NextCursor != nil {
+		encoded, err := json.Marshal(v.NextCursor)
+		if err != nil {
+			return nil, fmt.Errorf("encode field next_cursor: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field next_cursor value must not encode as null")
+		}
+		fields["next_cursor"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesOperationPage) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesOperationPage: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesOperationPage: expected JSON object")
+	}
+	var decoded MigrationTypesOperationPage
+	if value, ok := fields["items"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field items must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Items); err != nil {
+			return fmt.Errorf("decode field items: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field items")
+	}
+	if value, ok := fields["next_cursor"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field next_cursor must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.NextCursor); err != nil {
+			return fmt.Errorf("decode field next_cursor: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesOperationRecord struct {
+	AppId          string                        `json:"app_id"`
+	ComponentId    *string                       `json:"component_id"`
+	CreatedAt      string                        `json:"created_at"`
+	DatabaseAction *MigrationTypesDatabaseAction `json:"database_action"`
+	Diagnostics    []TypesDiagnostic             `json:"diagnostics"`
+	FinishedAt     *string                       `json:"finished_at"`
+	Migration      *MigrationTypesMigration      `json:"migration"`
+	OperationId    string                        `json:"operation_id"`
+	Stage          *string                       `json:"stage"`
+	State          string                        `json:"state"`
+	TargetType     string                        `json:"target_type"`
+	UpdatedAt      string                        `json:"updated_at"`
+}
+
+func (v MigrationTypesOperationRecord) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	if v.ComponentId != nil {
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.CreatedAt)
+		if err != nil {
+			return nil, fmt.Errorf("encode field created_at: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field created_at value must not encode as null")
+		}
+		fields["created_at"] = encoded
+	}
+	if v.DatabaseAction != nil {
+		encoded, err := json.Marshal(v.DatabaseAction)
+		if err != nil {
+			return nil, fmt.Errorf("encode field database_action: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field database_action value must not encode as null")
+		}
+		fields["database_action"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Diagnostics)
+		if err != nil {
+			return nil, fmt.Errorf("encode field diagnostics: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field diagnostics value must not encode as null")
+		}
+		fields["diagnostics"] = encoded
+	}
+	if v.FinishedAt != nil {
+		encoded, err := json.Marshal(v.FinishedAt)
+		if err != nil {
+			return nil, fmt.Errorf("encode field finished_at: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field finished_at value must not encode as null")
+		}
+		fields["finished_at"] = encoded
+	}
+	if v.Migration != nil {
+		encoded, err := json.Marshal(v.Migration)
+		if err != nil {
+			return nil, fmt.Errorf("encode field migration: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field migration value must not encode as null")
+		}
+		fields["migration"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.OperationId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field operation_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field operation_id value must not encode as null")
+		}
+		fields["operation_id"] = encoded
+	}
+	if v.Stage != nil {
+		encoded, err := json.Marshal(v.Stage)
+		if err != nil {
+			return nil, fmt.Errorf("encode field stage: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field stage value must not encode as null")
+		}
+		fields["stage"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.State)
+		if err != nil {
+			return nil, fmt.Errorf("encode field state: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field state value must not encode as null")
+		}
+		fields["state"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.TargetType)
+		if err != nil {
+			return nil, fmt.Errorf("encode field target_type: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field target_type value must not encode as null")
+		}
+		fields["target_type"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.UpdatedAt)
+		if err != nil {
+			return nil, fmt.Errorf("encode field updated_at: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field updated_at value must not encode as null")
+		}
+		fields["updated_at"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesOperationRecord) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesOperationRecord: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesOperationRecord: expected JSON object")
+	}
+	var decoded MigrationTypesOperationRecord
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	}
+	if value, ok := fields["created_at"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field created_at must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.CreatedAt); err != nil {
+			return fmt.Errorf("decode field created_at: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field created_at")
+	}
+	if value, ok := fields["database_action"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field database_action must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DatabaseAction); err != nil {
+			return fmt.Errorf("decode field database_action: %w", err)
+		}
+	}
+	if value, ok := fields["diagnostics"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field diagnostics must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Diagnostics); err != nil {
+			return fmt.Errorf("decode field diagnostics: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field diagnostics")
+	}
+	if value, ok := fields["finished_at"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field finished_at must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.FinishedAt); err != nil {
+			return fmt.Errorf("decode field finished_at: %w", err)
+		}
+	}
+	if value, ok := fields["migration"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field migration must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Migration); err != nil {
+			return fmt.Errorf("decode field migration: %w", err)
+		}
+	}
+	if value, ok := fields["operation_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field operation_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.OperationId); err != nil {
+			return fmt.Errorf("decode field operation_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field operation_id")
+	}
+	if value, ok := fields["stage"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field stage must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Stage); err != nil {
+			return fmt.Errorf("decode field stage: %w", err)
+		}
+	}
+	if value, ok := fields["state"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field state must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.State); err != nil {
+			return fmt.Errorf("decode field state: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field state")
+	}
+	if value, ok := fields["target_type"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field target_type must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.TargetType); err != nil {
+			return fmt.Errorf("decode field target_type: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field target_type")
+	}
+	if value, ok := fields["updated_at"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field updated_at must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.UpdatedAt); err != nil {
+			return fmt.Errorf("decode field updated_at: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field updated_at")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesPlan struct {
+	AdditionalActions []MigrationTypesAdditionalAction `json:"additional_actions"`
+	Resources         []TypesResourceChange            `json:"resources"`
+}
+
+func (v MigrationTypesPlan) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AdditionalActions)
+		if err != nil {
+			return nil, fmt.Errorf("encode field additional_actions: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field additional_actions value must not encode as null")
+		}
+		fields["additional_actions"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Resources)
+		if err != nil {
+			return nil, fmt.Errorf("encode field resources: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field resources value must not encode as null")
+		}
+		fields["resources"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesPlan) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesPlan: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesPlan: expected JSON object")
+	}
+	var decoded MigrationTypesPlan
+	if value, ok := fields["additional_actions"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field additional_actions must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AdditionalActions); err != nil {
+			return fmt.Errorf("decode field additional_actions: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field additional_actions")
+	}
+	if value, ok := fields["resources"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field resources must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Resources); err != nil {
+			return fmt.Errorf("decode field resources: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field resources")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesPreview struct {
+	Diagnostics []TypesDiagnostic          `json:"diagnostics"`
+	ExpiresAt   string                     `json:"expires_at"`
+	Migration   MigrationTypesAppMigration `json:"migration"`
+	PreviewId   string                     `json:"preview_id"`
+}
+
+func (v MigrationTypesPreview) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Diagnostics)
+		if err != nil {
+			return nil, fmt.Errorf("encode field diagnostics: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field diagnostics value must not encode as null")
+		}
+		fields["diagnostics"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpiresAt)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expires_at: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expires_at value must not encode as null")
+		}
+		fields["expires_at"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Migration)
+		if err != nil {
+			return nil, fmt.Errorf("encode field migration: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field migration value must not encode as null")
+		}
+		fields["migration"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.PreviewId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field preview_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field preview_id value must not encode as null")
+		}
+		fields["preview_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesPreview) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesPreview: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesPreview: expected JSON object")
+	}
+	var decoded MigrationTypesPreview
+	if value, ok := fields["diagnostics"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field diagnostics must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Diagnostics); err != nil {
+			return fmt.Errorf("decode field diagnostics: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field diagnostics")
+	}
+	if value, ok := fields["expires_at"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expires_at must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpiresAt); err != nil {
+			return fmt.Errorf("decode field expires_at: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expires_at")
+	}
+	if value, ok := fields["migration"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field migration must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Migration); err != nil {
+			return fmt.Errorf("decode field migration: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field migration")
+	}
+	if value, ok := fields["preview_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field preview_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.PreviewId); err != nil {
+			return fmt.Errorf("decode field preview_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field preview_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationTypesPreviewRequest struct {
+	AppId                    string `json:"app_id"`
+	ExpectedMigratorRevision string `json:"expected_migrator_revision"`
+}
+
+func (v MigrationTypesPreviewRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedMigratorRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_migrator_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_migrator_revision value must not encode as null")
+		}
+		fields["expected_migrator_revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationTypesPreviewRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationTypesPreviewRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationTypesPreviewRequest: expected JSON object")
+	}
+	var decoded MigrationTypesPreviewRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["expected_migrator_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_migrator_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedMigratorRevision); err != nil {
+			return fmt.Errorf("decode field expected_migrator_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_migrator_revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationsMigrationsHistoryQuery struct {
+	Cursor                 *string `json:"cursor"`
+	IncludeDatabaseActions *bool   `json:"includeDatabaseActions"`
+	Limit                  *int    `json:"limit"`
+	State                  *string `json:"state"`
+}
+
+func (v MigrationsMigrationsHistoryQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	if v.Cursor != nil {
+		encoded, err := json.Marshal(v.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("encode field cursor: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field cursor value must not encode as null")
+		}
+		fields["cursor"] = encoded
+	}
+	if v.IncludeDatabaseActions != nil {
+		encoded, err := json.Marshal(v.IncludeDatabaseActions)
+		if err != nil {
+			return nil, fmt.Errorf("encode field includeDatabaseActions: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field includeDatabaseActions value must not encode as null")
+		}
+		fields["includeDatabaseActions"] = encoded
+	}
+	if v.Limit != nil {
+		encoded, err := json.Marshal(v.Limit)
+		if err != nil {
+			return nil, fmt.Errorf("encode field limit: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field limit value must not encode as null")
+		}
+		fields["limit"] = encoded
+	}
+	if v.State != nil {
+		encoded, err := json.Marshal(v.State)
+		if err != nil {
+			return nil, fmt.Errorf("encode field state: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field state value must not encode as null")
+		}
+		fields["state"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationsMigrationsHistoryQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationsMigrationsHistoryQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationsMigrationsHistoryQuery: expected JSON object")
+	}
+	var decoded MigrationsMigrationsHistoryQuery
+	if value, ok := fields["cursor"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field cursor must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Cursor); err != nil {
+			return fmt.Errorf("decode field cursor: %w", err)
+		}
+	}
+	if value, ok := fields["includeDatabaseActions"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field includeDatabaseActions must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.IncludeDatabaseActions); err != nil {
+			return fmt.Errorf("decode field includeDatabaseActions: %w", err)
+		}
+	}
+	if value, ok := fields["limit"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field limit must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Limit); err != nil {
+			return fmt.Errorf("decode field limit: %w", err)
+		}
+	}
+	if value, ok := fields["state"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field state must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.State); err != nil {
+			return fmt.Errorf("decode field state: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationsMigrationsInspectQuery struct {
+	IncludeDatabaseActions *bool  `json:"includeDatabaseActions"`
+	OperationId            string `json:"operationId"`
+}
+
+func (v MigrationsMigrationsInspectQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	if v.IncludeDatabaseActions != nil {
+		encoded, err := json.Marshal(v.IncludeDatabaseActions)
+		if err != nil {
+			return nil, fmt.Errorf("encode field includeDatabaseActions: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field includeDatabaseActions value must not encode as null")
+		}
+		fields["includeDatabaseActions"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.OperationId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field operationId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field operationId value must not encode as null")
+		}
+		fields["operationId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationsMigrationsInspectQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationsMigrationsInspectQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationsMigrationsInspectQuery: expected JSON object")
+	}
+	var decoded MigrationsMigrationsInspectQuery
+	if value, ok := fields["includeDatabaseActions"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field includeDatabaseActions must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.IncludeDatabaseActions); err != nil {
+			return fmt.Errorf("decode field includeDatabaseActions: %w", err)
+		}
+	}
+	if value, ok := fields["operationId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field operationId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.OperationId); err != nil {
+			return fmt.Errorf("decode field operationId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field operationId")
+	}
+	*v = decoded
+	return nil
+}
+
+type MigrationsMigrationsMigrationLogQuery struct {
+	After       *int   `json:"after"`
+	Limit       *int   `json:"limit"`
+	OperationId string `json:"operationId"`
+}
+
+func (v MigrationsMigrationsMigrationLogQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	if v.After != nil {
+		encoded, err := json.Marshal(v.After)
+		if err != nil {
+			return nil, fmt.Errorf("encode field after: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field after value must not encode as null")
+		}
+		fields["after"] = encoded
+	}
+	if v.Limit != nil {
+		encoded, err := json.Marshal(v.Limit)
+		if err != nil {
+			return nil, fmt.Errorf("encode field limit: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field limit value must not encode as null")
+		}
+		fields["limit"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.OperationId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field operationId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field operationId value must not encode as null")
+		}
+		fields["operationId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *MigrationsMigrationsMigrationLogQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode MigrationsMigrationsMigrationLogQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode MigrationsMigrationsMigrationLogQuery: expected JSON object")
+	}
+	var decoded MigrationsMigrationsMigrationLogQuery
+	if value, ok := fields["after"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field after must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.After); err != nil {
+			return fmt.Errorf("decode field after: %w", err)
+		}
+	}
+	if value, ok := fields["limit"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field limit must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Limit); err != nil {
+			return fmt.Errorf("decode field limit: %w", err)
+		}
+	}
+	if value, ok := fields["operationId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field operationId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.OperationId); err != nil {
+			return fmt.Errorf("decode field operationId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field operationId")
+	}
+	*v = decoded
+	return nil
+}
+
 type OperationsOperationsGetQuery struct {
 	OperationId string `json:"operationId"`
 }
@@ -677,6 +3811,2244 @@ func (v *OperationsOperationsListQuery) UnmarshalJSON(data []byte) error {
 		}
 		if err := json.Unmarshal(value, &decoded.State); err != nil {
 			return fmt.Errorf("decode field state: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsSettingsAppMigratorQuery struct {
+	AppId string `json:"appId"`
+}
+
+func (v SettingsSettingsAppMigratorQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field appId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field appId value must not encode as null")
+		}
+		fields["appId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsSettingsAppMigratorQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsSettingsAppMigratorQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsSettingsAppMigratorQuery: expected JSON object")
+	}
+	var decoded SettingsSettingsAppMigratorQuery
+	if value, ok := fields["appId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field appId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field appId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field appId")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsSettingsComponentPolicyQuery struct {
+	AppId       string `json:"appId"`
+	ComponentId string `json:"componentId"`
+}
+
+func (v SettingsSettingsComponentPolicyQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field appId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field appId value must not encode as null")
+		}
+		fields["appId"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field componentId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field componentId value must not encode as null")
+		}
+		fields["componentId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsSettingsComponentPolicyQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsSettingsComponentPolicyQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsSettingsComponentPolicyQuery: expected JSON object")
+	}
+	var decoded SettingsSettingsComponentPolicyQuery
+	if value, ok := fields["appId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field appId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field appId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field appId")
+	}
+	if value, ok := fields["componentId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field componentId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field componentId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field componentId")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesComponentNetworkStatus struct {
+	AppliedRevision *string `json:"applied_revision"`
+	DesiredRevision string  `json:"desired_revision"`
+	Reason          *string `json:"reason"`
+	State           string  `json:"state"`
+}
+
+func (v SettingsTypesComponentNetworkStatus) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	if v.AppliedRevision != nil {
+		encoded, err := json.Marshal(v.AppliedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field applied_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field applied_revision value must not encode as null")
+		}
+		fields["applied_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.DesiredRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field desired_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field desired_revision value must not encode as null")
+		}
+		fields["desired_revision"] = encoded
+	}
+	if v.Reason != nil {
+		encoded, err := json.Marshal(v.Reason)
+		if err != nil {
+			return nil, fmt.Errorf("encode field reason: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field reason value must not encode as null")
+		}
+		fields["reason"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.State)
+		if err != nil {
+			return nil, fmt.Errorf("encode field state: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field state value must not encode as null")
+		}
+		fields["state"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesComponentNetworkStatus) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesComponentNetworkStatus: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesComponentNetworkStatus: expected JSON object")
+	}
+	var decoded SettingsTypesComponentNetworkStatus
+	if value, ok := fields["applied_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field applied_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppliedRevision); err != nil {
+			return fmt.Errorf("decode field applied_revision: %w", err)
+		}
+	}
+	if value, ok := fields["desired_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field desired_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DesiredRevision); err != nil {
+			return fmt.Errorf("decode field desired_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field desired_revision")
+	}
+	if value, ok := fields["reason"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field reason must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Reason); err != nil {
+			return fmt.Errorf("decode field reason: %w", err)
+		}
+	}
+	if value, ok := fields["state"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field state must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.State); err != nil {
+			return fmt.Errorf("decode field state: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field state")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesComponentPolicy struct {
+	DatabaseGrants []SettingsTypesDatabaseGrant `json:"database_grants"`
+	External       SettingsTypesExternal        `json:"external"`
+	ServiceGrants  []SettingsTypesServiceGrant  `json:"service_grants"`
+}
+
+func (v SettingsTypesComponentPolicy) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.DatabaseGrants)
+		if err != nil {
+			return nil, fmt.Errorf("encode field database_grants: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field database_grants value must not encode as null")
+		}
+		fields["database_grants"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.External)
+		if err != nil {
+			return nil, fmt.Errorf("encode field external: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field external value must not encode as null")
+		}
+		fields["external"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ServiceGrants)
+		if err != nil {
+			return nil, fmt.Errorf("encode field service_grants: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field service_grants value must not encode as null")
+		}
+		fields["service_grants"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesComponentPolicy) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesComponentPolicy: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesComponentPolicy: expected JSON object")
+	}
+	var decoded SettingsTypesComponentPolicy
+	if value, ok := fields["database_grants"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field database_grants must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DatabaseGrants); err != nil {
+			return fmt.Errorf("decode field database_grants: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field database_grants")
+	}
+	if value, ok := fields["external"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field external must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.External); err != nil {
+			return fmt.Errorf("decode field external: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field external")
+	}
+	if value, ok := fields["service_grants"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field service_grants must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ServiceGrants); err != nil {
+			return fmt.Errorf("decode field service_grants: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field service_grants")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesComponentPolicyObservedSnapshot struct {
+	AppId         string                               `json:"app_id"`
+	ComponentId   string                               `json:"component_id"`
+	NetworkStatus *SettingsTypesComponentNetworkStatus `json:"network_status"`
+	Policy        SettingsTypesComponentPolicy         `json:"policy"`
+	Revision      string                               `json:"revision"`
+}
+
+func (v SettingsTypesComponentPolicyObservedSnapshot) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	if v.NetworkStatus != nil {
+		encoded, err := json.Marshal(v.NetworkStatus)
+		if err != nil {
+			return nil, fmt.Errorf("encode field network_status: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field network_status value must not encode as null")
+		}
+		fields["network_status"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Policy)
+		if err != nil {
+			return nil, fmt.Errorf("encode field policy: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field policy value must not encode as null")
+		}
+		fields["policy"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesComponentPolicyObservedSnapshot) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesComponentPolicyObservedSnapshot: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesComponentPolicyObservedSnapshot: expected JSON object")
+	}
+	var decoded SettingsTypesComponentPolicyObservedSnapshot
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["network_status"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field network_status must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.NetworkStatus); err != nil {
+			return fmt.Errorf("decode field network_status: %w", err)
+		}
+	}
+	if value, ok := fields["policy"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field policy must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Policy); err != nil {
+			return fmt.Errorf("decode field policy: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field policy")
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesComponentPolicySnapshot struct {
+	AppId       string                       `json:"app_id"`
+	ComponentId string                       `json:"component_id"`
+	Policy      SettingsTypesComponentPolicy `json:"policy"`
+	Revision    string                       `json:"revision"`
+}
+
+func (v SettingsTypesComponentPolicySnapshot) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Policy)
+		if err != nil {
+			return nil, fmt.Errorf("encode field policy: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field policy value must not encode as null")
+		}
+		fields["policy"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesComponentPolicySnapshot) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesComponentPolicySnapshot: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesComponentPolicySnapshot: expected JSON object")
+	}
+	var decoded SettingsTypesComponentPolicySnapshot
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["policy"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field policy must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Policy); err != nil {
+			return fmt.Errorf("decode field policy: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field policy")
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesCreateAppRequest struct {
+	Name      string `json:"name"`
+	RequestId string `json:"request_id"`
+}
+
+func (v SettingsTypesCreateAppRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Name)
+		if err != nil {
+			return nil, fmt.Errorf("encode field name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field name value must not encode as null")
+		}
+		fields["name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.RequestId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field request_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field request_id value must not encode as null")
+		}
+		fields["request_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesCreateAppRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesCreateAppRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesCreateAppRequest: expected JSON object")
+	}
+	var decoded SettingsTypesCreateAppRequest
+	if value, ok := fields["name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Name); err != nil {
+			return fmt.Errorf("decode field name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field name")
+	}
+	if value, ok := fields["request_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field request_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.RequestId); err != nil {
+			return fmt.Errorf("decode field request_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field request_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesCreateComponentRequest struct {
+	AppId     string `json:"app_id"`
+	Name      string `json:"name"`
+	RequestId string `json:"request_id"`
+}
+
+func (v SettingsTypesCreateComponentRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Name)
+		if err != nil {
+			return nil, fmt.Errorf("encode field name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field name value must not encode as null")
+		}
+		fields["name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.RequestId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field request_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field request_id value must not encode as null")
+		}
+		fields["request_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesCreateComponentRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesCreateComponentRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesCreateComponentRequest: expected JSON object")
+	}
+	var decoded SettingsTypesCreateComponentRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Name); err != nil {
+			return fmt.Errorf("decode field name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field name")
+	}
+	if value, ok := fields["request_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field request_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.RequestId); err != nil {
+			return fmt.Errorf("decode field request_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field request_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesDatabaseGrant struct {
+	ContainerKind  string    `json:"container_kind"`
+	ContainerName  string    `json:"container_name"`
+	DeploymentName string    `json:"deployment_name"`
+	Keys           *[]string `json:"keys"`
+	WholeSecret    *bool     `json:"whole_secret"`
+}
+
+func (v SettingsTypesDatabaseGrant) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.ContainerKind)
+		if err != nil {
+			return nil, fmt.Errorf("encode field container_kind: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field container_kind value must not encode as null")
+		}
+		fields["container_kind"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ContainerName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field container_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field container_name value must not encode as null")
+		}
+		fields["container_name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.DeploymentName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field deployment_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field deployment_name value must not encode as null")
+		}
+		fields["deployment_name"] = encoded
+	}
+	if v.Keys != nil {
+		encoded, err := json.Marshal(v.Keys)
+		if err != nil {
+			return nil, fmt.Errorf("encode field keys: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field keys value must not encode as null")
+		}
+		fields["keys"] = encoded
+	}
+	if v.WholeSecret != nil {
+		encoded, err := json.Marshal(v.WholeSecret)
+		if err != nil {
+			return nil, fmt.Errorf("encode field whole_secret: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field whole_secret value must not encode as null")
+		}
+		fields["whole_secret"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesDatabaseGrant) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesDatabaseGrant: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesDatabaseGrant: expected JSON object")
+	}
+	var decoded SettingsTypesDatabaseGrant
+	if value, ok := fields["container_kind"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field container_kind must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ContainerKind); err != nil {
+			return fmt.Errorf("decode field container_kind: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field container_kind")
+	}
+	if value, ok := fields["container_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field container_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ContainerName); err != nil {
+			return fmt.Errorf("decode field container_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field container_name")
+	}
+	if value, ok := fields["deployment_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field deployment_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DeploymentName); err != nil {
+			return fmt.Errorf("decode field deployment_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field deployment_name")
+	}
+	if value, ok := fields["keys"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field keys must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Keys); err != nil {
+			return fmt.Errorf("decode field keys: %w", err)
+		}
+	}
+	if value, ok := fields["whole_secret"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field whole_secret must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.WholeSecret); err != nil {
+			return fmt.Errorf("decode field whole_secret: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesExternal struct {
+	Domains []string `json:"domains"`
+	Mode    string   `json:"mode"`
+}
+
+func (v SettingsTypesExternal) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Domains)
+		if err != nil {
+			return nil, fmt.Errorf("encode field domains: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field domains value must not encode as null")
+		}
+		fields["domains"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Mode)
+		if err != nil {
+			return nil, fmt.Errorf("encode field mode: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field mode value must not encode as null")
+		}
+		fields["mode"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesExternal) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesExternal: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesExternal: expected JSON object")
+	}
+	var decoded SettingsTypesExternal
+	if value, ok := fields["domains"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field domains must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Domains); err != nil {
+			return fmt.Errorf("decode field domains: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field domains")
+	}
+	if value, ok := fields["mode"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field mode must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Mode); err != nil {
+			return fmt.Errorf("decode field mode: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field mode")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesMigrator struct {
+	Image string `json:"image"`
+}
+
+func (v SettingsTypesMigrator) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Image)
+		if err != nil {
+			return nil, fmt.Errorf("encode field image: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field image value must not encode as null")
+		}
+		fields["image"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesMigrator) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesMigrator: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesMigrator: expected JSON object")
+	}
+	var decoded SettingsTypesMigrator
+	if value, ok := fields["image"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field image must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Image); err != nil {
+			return fmt.Errorf("decode field image: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field image")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesMigratorSnapshot struct {
+	AppId    string                 `json:"app_id"`
+	Migrator *SettingsTypesMigrator `json:"migrator"`
+	Revision string                 `json:"revision"`
+}
+
+func (v SettingsTypesMigratorSnapshot) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	if v.Migrator != nil {
+		encoded, err := json.Marshal(v.Migrator)
+		if err != nil {
+			return nil, fmt.Errorf("encode field migrator: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field migrator value must not encode as null")
+		}
+		fields["migrator"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesMigratorSnapshot) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesMigratorSnapshot: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesMigratorSnapshot: expected JSON object")
+	}
+	var decoded SettingsTypesMigratorSnapshot
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["migrator"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field migrator must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Migrator); err != nil {
+			return fmt.Errorf("decode field migrator: %w", err)
+		}
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesRemoveMigratorRequest struct {
+	AppId            string `json:"app_id"`
+	ExpectedRevision string `json:"expected_revision"`
+}
+
+func (v SettingsTypesRemoveMigratorRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_revision value must not encode as null")
+		}
+		fields["expected_revision"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesRemoveMigratorRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesRemoveMigratorRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesRemoveMigratorRequest: expected JSON object")
+	}
+	var decoded SettingsTypesRemoveMigratorRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["expected_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedRevision); err != nil {
+			return fmt.Errorf("decode field expected_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_revision")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesServiceGrant struct {
+	ServiceName       string `json:"service_name"`
+	TargetAppId       string `json:"target_app_id"`
+	TargetComponentId string `json:"target_component_id"`
+}
+
+func (v SettingsTypesServiceGrant) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.ServiceName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field service_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field service_name value must not encode as null")
+		}
+		fields["service_name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.TargetAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field target_app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field target_app_id value must not encode as null")
+		}
+		fields["target_app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.TargetComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field target_component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field target_component_id value must not encode as null")
+		}
+		fields["target_component_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesServiceGrant) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesServiceGrant: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesServiceGrant: expected JSON object")
+	}
+	var decoded SettingsTypesServiceGrant
+	if value, ok := fields["service_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field service_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ServiceName); err != nil {
+			return fmt.Errorf("decode field service_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field service_name")
+	}
+	if value, ok := fields["target_app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field target_app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.TargetAppId); err != nil {
+			return fmt.Errorf("decode field target_app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field target_app_id")
+	}
+	if value, ok := fields["target_component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field target_component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.TargetComponentId); err != nil {
+			return fmt.Errorf("decode field target_component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field target_component_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesSetMigratorRequest struct {
+	AppId            string                `json:"app_id"`
+	ExpectedRevision string                `json:"expected_revision"`
+	Migrator         SettingsTypesMigrator `json:"migrator"`
+}
+
+func (v SettingsTypesSetMigratorRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_revision value must not encode as null")
+		}
+		fields["expected_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Migrator)
+		if err != nil {
+			return nil, fmt.Errorf("encode field migrator: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field migrator value must not encode as null")
+		}
+		fields["migrator"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesSetMigratorRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesSetMigratorRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesSetMigratorRequest: expected JSON object")
+	}
+	var decoded SettingsTypesSetMigratorRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["expected_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedRevision); err != nil {
+			return fmt.Errorf("decode field expected_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_revision")
+	}
+	if value, ok := fields["migrator"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field migrator must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Migrator); err != nil {
+			return fmt.Errorf("decode field migrator: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field migrator")
+	}
+	*v = decoded
+	return nil
+}
+
+type SettingsTypesSetPolicyRequest struct {
+	AppId            string                       `json:"app_id"`
+	ComponentId      string                       `json:"component_id"`
+	ExpectedRevision string                       `json:"expected_revision"`
+	Policy           SettingsTypesComponentPolicy `json:"policy"`
+}
+
+func (v SettingsTypesSetPolicyRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.AppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field app_id value must not encode as null")
+		}
+		fields["app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_revision value must not encode as null")
+		}
+		fields["expected_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Policy)
+		if err != nil {
+			return nil, fmt.Errorf("encode field policy: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field policy value must not encode as null")
+		}
+		fields["policy"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SettingsTypesSetPolicyRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SettingsTypesSetPolicyRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SettingsTypesSetPolicyRequest: expected JSON object")
+	}
+	var decoded SettingsTypesSetPolicyRequest
+	if value, ok := fields["app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppId); err != nil {
+			return fmt.Errorf("decode field app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field app_id")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["expected_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedRevision); err != nil {
+			return fmt.Errorf("decode field expected_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_revision")
+	}
+	if value, ok := fields["policy"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field policy must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Policy); err != nil {
+			return fmt.Errorf("decode field policy: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field policy")
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedSharedAccessQuery struct {
+	ConsumerAppId   string `json:"consumerAppId"`
+	SharedServiceId string `json:"sharedServiceId"`
+}
+
+func (v SharedSharedAccessQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.ConsumerAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field consumerAppId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field consumerAppId value must not encode as null")
+		}
+		fields["consumerAppId"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.SharedServiceId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field sharedServiceId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field sharedServiceId value must not encode as null")
+		}
+		fields["sharedServiceId"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedSharedAccessQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedSharedAccessQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedSharedAccessQuery: expected JSON object")
+	}
+	var decoded SharedSharedAccessQuery
+	if value, ok := fields["consumerAppId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field consumerAppId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ConsumerAppId); err != nil {
+			return fmt.Errorf("decode field consumerAppId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field consumerAppId")
+	}
+	if value, ok := fields["sharedServiceId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field sharedServiceId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.SharedServiceId); err != nil {
+			return fmt.Errorf("decode field sharedServiceId: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field sharedServiceId")
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedSharedListQuery struct {
+	ConsumerAppId *string `json:"consumerAppId"`
+	Cursor        *string `json:"cursor"`
+	Limit         *int    `json:"limit"`
+}
+
+func (v SharedSharedListQuery) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	if v.ConsumerAppId != nil {
+		encoded, err := json.Marshal(v.ConsumerAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field consumerAppId: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field consumerAppId value must not encode as null")
+		}
+		fields["consumerAppId"] = encoded
+	}
+	if v.Cursor != nil {
+		encoded, err := json.Marshal(v.Cursor)
+		if err != nil {
+			return nil, fmt.Errorf("encode field cursor: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field cursor value must not encode as null")
+		}
+		fields["cursor"] = encoded
+	}
+	if v.Limit != nil {
+		encoded, err := json.Marshal(v.Limit)
+		if err != nil {
+			return nil, fmt.Errorf("encode field limit: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field limit value must not encode as null")
+		}
+		fields["limit"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedSharedListQuery) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedSharedListQuery: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedSharedListQuery: expected JSON object")
+	}
+	var decoded SharedSharedListQuery
+	if value, ok := fields["consumerAppId"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field consumerAppId must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ConsumerAppId); err != nil {
+			return fmt.Errorf("decode field consumerAppId: %w", err)
+		}
+	}
+	if value, ok := fields["cursor"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field cursor must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Cursor); err != nil {
+			return fmt.Errorf("decode field cursor: %w", err)
+		}
+	}
+	if value, ok := fields["limit"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field limit must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Limit); err != nil {
+			return fmt.Errorf("decode field limit: %w", err)
+		}
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedTypesRegisterSharedServiceRequest struct {
+	ComponentId string `json:"component_id"`
+	OwnerAppId  string `json:"owner_app_id"`
+	RequestId   string `json:"request_id"`
+	ServiceName string `json:"service_name"`
+}
+
+func (v SharedTypesRegisterSharedServiceRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.OwnerAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field owner_app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field owner_app_id value must not encode as null")
+		}
+		fields["owner_app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.RequestId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field request_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field request_id value must not encode as null")
+		}
+		fields["request_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ServiceName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field service_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field service_name value must not encode as null")
+		}
+		fields["service_name"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedTypesRegisterSharedServiceRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedTypesRegisterSharedServiceRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedTypesRegisterSharedServiceRequest: expected JSON object")
+	}
+	var decoded SharedTypesRegisterSharedServiceRequest
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["owner_app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field owner_app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.OwnerAppId); err != nil {
+			return fmt.Errorf("decode field owner_app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field owner_app_id")
+	}
+	if value, ok := fields["request_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field request_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.RequestId); err != nil {
+			return fmt.Errorf("decode field request_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field request_id")
+	}
+	if value, ok := fields["service_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field service_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ServiceName); err != nil {
+			return fmt.Errorf("decode field service_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field service_name")
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedTypesSetSharedServiceAccessRequest struct {
+	Allow            bool   `json:"allow"`
+	ConsumerAppId    string `json:"consumer_app_id"`
+	ExpectedRevision string `json:"expected_revision"`
+	SharedServiceId  string `json:"shared_service_id"`
+}
+
+func (v SharedTypesSetSharedServiceAccessRequest) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Allow)
+		if err != nil {
+			return nil, fmt.Errorf("encode field allow: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field allow value must not encode as null")
+		}
+		fields["allow"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ConsumerAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field consumer_app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field consumer_app_id value must not encode as null")
+		}
+		fields["consumer_app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ExpectedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field expected_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field expected_revision value must not encode as null")
+		}
+		fields["expected_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.SharedServiceId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field shared_service_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field shared_service_id value must not encode as null")
+		}
+		fields["shared_service_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedTypesSetSharedServiceAccessRequest) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedTypesSetSharedServiceAccessRequest: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedTypesSetSharedServiceAccessRequest: expected JSON object")
+	}
+	var decoded SharedTypesSetSharedServiceAccessRequest
+	if value, ok := fields["allow"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field allow must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Allow); err != nil {
+			return fmt.Errorf("decode field allow: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field allow")
+	}
+	if value, ok := fields["consumer_app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field consumer_app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ConsumerAppId); err != nil {
+			return fmt.Errorf("decode field consumer_app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field consumer_app_id")
+	}
+	if value, ok := fields["expected_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field expected_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ExpectedRevision); err != nil {
+			return fmt.Errorf("decode field expected_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field expected_revision")
+	}
+	if value, ok := fields["shared_service_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field shared_service_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.SharedServiceId); err != nil {
+			return fmt.Errorf("decode field shared_service_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field shared_service_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedTypesSharedService struct {
+	Address         string `json:"address"`
+	ComponentId     string `json:"component_id"`
+	OwnerAppId      string `json:"owner_app_id"`
+	Revision        string `json:"revision"`
+	ServiceName     string `json:"service_name"`
+	SharedServiceId string `json:"shared_service_id"`
+}
+
+func (v SharedTypesSharedService) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Address)
+		if err != nil {
+			return nil, fmt.Errorf("encode field address: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field address value must not encode as null")
+		}
+		fields["address"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ComponentId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field component_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field component_id value must not encode as null")
+		}
+		fields["component_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.OwnerAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field owner_app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field owner_app_id value must not encode as null")
+		}
+		fields["owner_app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ServiceName)
+		if err != nil {
+			return nil, fmt.Errorf("encode field service_name: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field service_name value must not encode as null")
+		}
+		fields["service_name"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.SharedServiceId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field shared_service_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field shared_service_id value must not encode as null")
+		}
+		fields["shared_service_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedTypesSharedService) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedTypesSharedService: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedTypesSharedService: expected JSON object")
+	}
+	var decoded SharedTypesSharedService
+	if value, ok := fields["address"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field address must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Address); err != nil {
+			return fmt.Errorf("decode field address: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field address")
+	}
+	if value, ok := fields["component_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field component_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ComponentId); err != nil {
+			return fmt.Errorf("decode field component_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field component_id")
+	}
+	if value, ok := fields["owner_app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field owner_app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.OwnerAppId); err != nil {
+			return fmt.Errorf("decode field owner_app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field owner_app_id")
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	if value, ok := fields["service_name"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field service_name must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ServiceName); err != nil {
+			return fmt.Errorf("decode field service_name: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field service_name")
+	}
+	if value, ok := fields["shared_service_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field shared_service_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.SharedServiceId); err != nil {
+			return fmt.Errorf("decode field shared_service_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field shared_service_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedTypesSharedServiceAccess struct {
+	Allow           bool   `json:"allow"`
+	ConsumerAppId   string `json:"consumer_app_id"`
+	Revision        string `json:"revision"`
+	SharedServiceId string `json:"shared_service_id"`
+}
+
+func (v SharedTypesSharedServiceAccess) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Allow)
+		if err != nil {
+			return nil, fmt.Errorf("encode field allow: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field allow value must not encode as null")
+		}
+		fields["allow"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ConsumerAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field consumer_app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field consumer_app_id value must not encode as null")
+		}
+		fields["consumer_app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.Revision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field revision value must not encode as null")
+		}
+		fields["revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.SharedServiceId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field shared_service_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field shared_service_id value must not encode as null")
+		}
+		fields["shared_service_id"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedTypesSharedServiceAccess) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedTypesSharedServiceAccess: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedTypesSharedServiceAccess: expected JSON object")
+	}
+	var decoded SharedTypesSharedServiceAccess
+	if value, ok := fields["allow"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field allow must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Allow); err != nil {
+			return fmt.Errorf("decode field allow: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field allow")
+	}
+	if value, ok := fields["consumer_app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field consumer_app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ConsumerAppId); err != nil {
+			return fmt.Errorf("decode field consumer_app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field consumer_app_id")
+	}
+	if value, ok := fields["revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Revision); err != nil {
+			return fmt.Errorf("decode field revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field revision")
+	}
+	if value, ok := fields["shared_service_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field shared_service_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.SharedServiceId); err != nil {
+			return fmt.Errorf("decode field shared_service_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field shared_service_id")
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedTypesSharedServiceAccessStatus struct {
+	AppliedAllow    *bool   `json:"applied_allow"`
+	AppliedRevision *string `json:"applied_revision"`
+	BlockedReason   *string `json:"blocked_reason"`
+	ConsumerAppId   string  `json:"consumer_app_id"`
+	DesiredAllow    bool    `json:"desired_allow"`
+	DesiredRevision string  `json:"desired_revision"`
+	SharedServiceId string  `json:"shared_service_id"`
+	State           string  `json:"state"`
+}
+
+func (v SharedTypesSharedServiceAccessStatus) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	if v.AppliedAllow != nil {
+		encoded, err := json.Marshal(v.AppliedAllow)
+		if err != nil {
+			return nil, fmt.Errorf("encode field applied_allow: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field applied_allow value must not encode as null")
+		}
+		fields["applied_allow"] = encoded
+	}
+	if v.AppliedRevision != nil {
+		encoded, err := json.Marshal(v.AppliedRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field applied_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field applied_revision value must not encode as null")
+		}
+		fields["applied_revision"] = encoded
+	}
+	if v.BlockedReason != nil {
+		encoded, err := json.Marshal(v.BlockedReason)
+		if err != nil {
+			return nil, fmt.Errorf("encode field blocked_reason: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field blocked_reason value must not encode as null")
+		}
+		fields["blocked_reason"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.ConsumerAppId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field consumer_app_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field consumer_app_id value must not encode as null")
+		}
+		fields["consumer_app_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.DesiredAllow)
+		if err != nil {
+			return nil, fmt.Errorf("encode field desired_allow: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field desired_allow value must not encode as null")
+		}
+		fields["desired_allow"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.DesiredRevision)
+		if err != nil {
+			return nil, fmt.Errorf("encode field desired_revision: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field desired_revision value must not encode as null")
+		}
+		fields["desired_revision"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.SharedServiceId)
+		if err != nil {
+			return nil, fmt.Errorf("encode field shared_service_id: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field shared_service_id value must not encode as null")
+		}
+		fields["shared_service_id"] = encoded
+	}
+	{
+		encoded, err := json.Marshal(v.State)
+		if err != nil {
+			return nil, fmt.Errorf("encode field state: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field state value must not encode as null")
+		}
+		fields["state"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedTypesSharedServiceAccessStatus) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedTypesSharedServiceAccessStatus: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedTypesSharedServiceAccessStatus: expected JSON object")
+	}
+	var decoded SharedTypesSharedServiceAccessStatus
+	if value, ok := fields["applied_allow"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field applied_allow must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppliedAllow); err != nil {
+			return fmt.Errorf("decode field applied_allow: %w", err)
+		}
+	}
+	if value, ok := fields["applied_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field applied_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.AppliedRevision); err != nil {
+			return fmt.Errorf("decode field applied_revision: %w", err)
+		}
+	}
+	if value, ok := fields["blocked_reason"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field blocked_reason must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.BlockedReason); err != nil {
+			return fmt.Errorf("decode field blocked_reason: %w", err)
+		}
+	}
+	if value, ok := fields["consumer_app_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field consumer_app_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.ConsumerAppId); err != nil {
+			return fmt.Errorf("decode field consumer_app_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field consumer_app_id")
+	}
+	if value, ok := fields["desired_allow"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field desired_allow must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DesiredAllow); err != nil {
+			return fmt.Errorf("decode field desired_allow: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field desired_allow")
+	}
+	if value, ok := fields["desired_revision"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field desired_revision must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.DesiredRevision); err != nil {
+			return fmt.Errorf("decode field desired_revision: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field desired_revision")
+	}
+	if value, ok := fields["shared_service_id"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field shared_service_id must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.SharedServiceId); err != nil {
+			return fmt.Errorf("decode field shared_service_id: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field shared_service_id")
+	}
+	if value, ok := fields["state"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field state must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.State); err != nil {
+			return fmt.Errorf("decode field state: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field state")
+	}
+	*v = decoded
+	return nil
+}
+
+type SharedTypesSharedServicePage struct {
+	Items      []SharedTypesSharedService `json:"items"`
+	NextCursor *string                    `json:"next_cursor"`
+}
+
+func (v SharedTypesSharedServicePage) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]json.RawMessage)
+	{
+		encoded, err := json.Marshal(v.Items)
+		if err != nil {
+			return nil, fmt.Errorf("encode field items: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field items value must not encode as null")
+		}
+		fields["items"] = encoded
+	}
+	if v.NextCursor != nil {
+		encoded, err := json.Marshal(v.NextCursor)
+		if err != nil {
+			return nil, fmt.Errorf("encode field next_cursor: %w", err)
+		}
+		if string(encoded) == "null" {
+			return nil, fmt.Errorf("field next_cursor value must not encode as null")
+		}
+		fields["next_cursor"] = encoded
+	}
+	return json.Marshal(fields)
+}
+
+func (v *SharedTypesSharedServicePage) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return fmt.Errorf("decode SharedTypesSharedServicePage: %w", err)
+	}
+	if fields == nil {
+		return fmt.Errorf("decode SharedTypesSharedServicePage: expected JSON object")
+	}
+	var decoded SharedTypesSharedServicePage
+	if value, ok := fields["items"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field items must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.Items); err != nil {
+			return fmt.Errorf("decode field items: %w", err)
+		}
+	} else {
+		return fmt.Errorf("missing required field items")
+	}
+	if value, ok := fields["next_cursor"]; ok {
+		isNull := string(bytes.TrimSpace(value)) == "null"
+		if isNull {
+			return fmt.Errorf("field next_cursor must not be null")
+		}
+		if err := json.Unmarshal(value, &decoded.NextCursor); err != nil {
+			return fmt.Errorf("decode field next_cursor: %w", err)
 		}
 	}
 	*v = decoded

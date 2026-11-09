@@ -1,0 +1,87 @@
+types:
+  CreateAppRequest:
+    kind: struct
+    fields:
+      name: {type: string}
+      request_id: {type: string}
+  CreateComponentRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      name: {type: string}
+      request_id: {type: string}
+  DatabaseGrant:
+    kind: struct
+    fields:
+      deployment_name: {type: string}
+      container_kind: {type: string}
+      container_name: {type: string}
+      keys: {type: "[]string", required: false}
+      whole_secret: {type: bool, required: false}
+  External:
+    kind: struct
+    fields:
+      mode: {type: string}
+      domains: {type: "[]string"}
+  ServiceGrant:
+    kind: struct
+    fields:
+      target_app_id: {type: string}
+      target_component_id: {type: string}
+      service_name: {type: string}
+  ComponentPolicy:
+    kind: struct
+    fields:
+      database_grants: {type: "[]./settings_types.yaml#DatabaseGrant"}
+      external: {type: ./settings_types.yaml#External}
+      service_grants: {type: "[]./settings_types.yaml#ServiceGrant"}
+  ComponentPolicySnapshot:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      component_id: {type: string}
+      revision: {type: string}
+      policy: {type: ./settings_types.yaml#ComponentPolicy}
+  ComponentNetworkStatus:
+    kind: struct
+    fields:
+      desired_revision: {type: string}
+      applied_revision: {type: string, required: false}
+      state: {type: string}
+      reason: {type: string, required: false}
+  ComponentPolicyObservedSnapshot:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      component_id: {type: string}
+      revision: {type: string}
+      policy: {type: ./settings_types.yaml#ComponentPolicy}
+      network_status: {type: ./settings_types.yaml#ComponentNetworkStatus, required: false}
+  SetPolicyRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      component_id: {type: string}
+      expected_revision: {type: string}
+      policy: {type: ./settings_types.yaml#ComponentPolicy}
+  Migrator:
+    kind: struct
+    fields:
+      image: {type: string}
+  MigratorSnapshot:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      revision: {type: string}
+      migrator: {type: ./settings_types.yaml#Migrator, required: false}
+  SetMigratorRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      expected_revision: {type: string}
+      migrator: {type: ./settings_types.yaml#Migrator}
+  RemoveMigratorRequest:
+    kind: struct
+    fields:
+      app_id: {type: string}
+      expected_revision: {type: string}

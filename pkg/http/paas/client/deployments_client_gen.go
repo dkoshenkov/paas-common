@@ -119,6 +119,15 @@ func (r DeploymentsPreviewResponse404) MarshalJSON() ([]byte, error) {
 	return json.Marshal(r.Body)
 }
 
+type DeploymentsPreviewResponse409 struct {
+	Body paastypes.TypesErrorResponse
+}
+
+func (DeploymentsPreviewResponse409) isDeploymentsPreviewResponse() {}
+func (r DeploymentsPreviewResponse409) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.Body)
+}
+
 type DeploymentsPreviewResponse413 struct {
 	Body paastypes.TypesErrorResponse
 }
@@ -260,6 +269,12 @@ func (c *DeploymentsClient) Preview(ctx context.Context, req paastypes.TypesPrev
 			return nil, fmt.Errorf("decode response: %w", err)
 		}
 		return DeploymentsPreviewResponse404{Body: resp}, nil
+	case 409:
+		var resp paastypes.TypesErrorResponse
+		if err := json.NewDecoder(httpResp.Body).Decode(&resp); err != nil {
+			return nil, fmt.Errorf("decode response: %w", err)
+		}
+		return DeploymentsPreviewResponse409{Body: resp}, nil
 	case 413:
 		var resp paastypes.TypesErrorResponse
 		if err := json.NewDecoder(httpResp.Body).Decode(&resp); err != nil {
