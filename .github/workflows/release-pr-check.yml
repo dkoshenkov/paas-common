@@ -1,0 +1,176 @@
+name: release-pr-check
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, synchronize, edited, labeled, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: release-pr-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      EVENT_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      PROJECT: ${{ github.event.repository.name }}
+      TOOLS_SHA: ${{ vars.PAAS_RELEASE_TOOLS_SHA }}
+      RELEASE_ANCHOR: ${{ vars.PAAS_RELEASE_BASE }}
+      GOWORK: 'off'
+      GOPROXY: 'off'
+      GOSUMDB: 'off'
+      GOTOOLCHAIN: local
+    steps:
+      - name: Read trusted current PR and main
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$PR_NUMBER" =~ ^[1-9][0-9]*$ ]] || { echo 'Invalid PR number' >&2; exit 1; }
+          case "$PROJECT" in paas-common|paas-ctl|paas-daemon) ;; *) echo 'Unsupported project' >&2; exit 1;; esac
+          gh api "repos/$GITHUB_REPOSITORY" > "$RUNNER_TEMP/release-repo.json"
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" > "$RUNNER_TEMP/release-pr.json"
+          gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" > "$RUNNER_TEMP/release-main.json"
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          p=json.loads(Path(os.environ['RUNNER_TEMP'],'release-pr.json').read_text())
+          repo=json.loads(Path(os.environ['RUNNER_TEMP'],'release-repo.json').read_text())
+          main=json.loads(Path(os.environ['RUNNER_TEMP'],'release-main.json').read_text())['object']['sha']
+          sha=re.compile(r'^[0-9a-f]{40}$')
+          base,head=p['base']['sha'],p['head']['sha']
+          if (not all(sha.fullmatch(x or '') for x in (base,head,main)) or
+              p['state'] != 'open' or p['base']['ref'] != 'main' or
+              repo['default_branch'] != 'main' or os.environ['EVENT_DEFAULT_BRANCH'] != 'main' or
+              p['base']['repo']['full_name'] != os.environ['GITHUB_REPOSITORY'] or
+              base != main or base != os.environ['EVENT_BASE_SHA'] or head != os.environ['EVENT_HEAD_SHA']):
+              raise SystemExit('PR or main changed; rerun against current base and head')
+          snapshot={'base':base,'head':head,'ref':p['head']['ref'],'labels':sorted(x['name'] for x in p['labels']),'state':p['state']}
+          Path(os.environ['RUNNER_TEMP'],'release-snapshot.json').write_text(json.dumps(snapshot,sort_keys=True))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as output:
+              output.write('base='+base+'\nhead='+head+'\n')
+          PY
+
+      - name: Checkout only trusted base
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ steps.resolve.outputs.base }}
+          path: release-target
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Inspect PR objects without checkout
+        id: intent
+        shell: bash
+        env:
+          BASE_SHA: ${{ steps.resolve.outputs.base }}
+          HEAD_SHA: ${{ steps.resolve.outputs.head }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$(git -C release-target rev-parse HEAD)" == "$BASE_SHA" ]]
+          # Checkout at a SHA is detached; the verifier requires this trusted local ref.
+          git -C release-target update-ref refs/heads/main "$BASE_SHA"
+          # Token exists only in this step and is supplied by the in-memory gh helper.
+          git -C release-target -c credential.helper= -c 'credential.helper=!gh auth git-credential' fetch --no-tags --no-write-fetch-head origin "+refs/pull/$PR_NUMBER/head:refs/remotes/release-check/pr"
+          [[ "$(git -C release-target rev-parse refs/remotes/release-check/pr)" == "$HEAD_SHA" ]] || { echo 'PR head changed during fetch' >&2; exit 1; }
+          merge_base="$(git -C release-target merge-base --all "$BASE_SHA" "$HEAD_SHA")"
+          [[ "$merge_base" =~ ^[0-9a-f]{40}$ ]] || { echo 'Missing or ambiguous PR merge base' >&2; exit 1; }
+          git -C release-target diff --no-ext-diff --no-renames --name-only -z "$merge_base" "$HEAD_SHA" -- CHANGELOG.md configs/.release-please-manifest.json > "$RUNNER_TEMP/release-diff"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          snapshot=json.loads(Path(os.environ['RUNNER_TEMP'],'release-snapshot.json').read_text())
+          files=set(Path(os.environ['RUNNER_TEMP'],'release-diff').read_bytes().split(b'\0'))
+          protected={b'CHANGELOG.md',b'configs/.release-please-manifest.json'}
+          ref=snapshot['ref']
+          labels=set(snapshot['labels'])
+          intent=bool(files & protected or ref.startswith(('release/', 'release-please--branches--')) or labels & {'release', 'autorelease: pending'})
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('release='+str(intent).lower()+'\n')
+          print('Release candidate' if intent else 'Ordinary PR: no release candidate')
+          PY
+
+      - name: Validate trusted tools pin
+        if: steps.intent.outputs.release == 'true' && github.event.repository.name != 'paas-common'
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TOOLS_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'Set PAAS_RELEASE_TOOLS_SHA to a reviewed full commit SHA from dkoshenkov/paas-common main' >&2; exit 1; }
+
+      - name: Checkout pinned trusted verifier
+        if: steps.intent.outputs.release == 'true' && github.event.repository.name != 'paas-common'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: dkoshenkov/paas-common
+          ref: ${{ vars.PAAS_RELEASE_TOOLS_SHA }}
+          path: release-tools
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify trusted tools provenance
+        if: steps.intent.outputs.release == 'true' && github.event.repository.name != 'paas-common'
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$(git -C release-tools rev-parse HEAD)" == "$TOOLS_SHA" ]]
+          git -C release-tools merge-base --is-ancestor "$TOOLS_SHA" refs/remotes/origin/main || { echo 'Tools SHA is not reachable from trusted common main' >&2; exit 1; }
+
+      - name: Set up Go
+        if: steps.intent.outputs.release == 'true'
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: '1.27.3'
+          cache: false
+
+      - name: Verify release PR without executing PR contents
+        if: steps.intent.outputs.release == 'true'
+        shell: bash
+        env:
+          BASE_SHA: ${{ steps.resolve.outputs.base }}
+          HEAD_SHA: ${{ steps.resolve.outputs.head }}
+        run: |
+          set -euo pipefail
+          tools="$GITHUB_WORKSPACE/release-tools"
+          [[ "$PROJECT" != 'paas-common' ]] || tools="$GITHUB_WORKSPACE/release-target"
+          [[ -f "$tools/scripts/release-version/main.go" ]] || { echo 'Trusted verifier missing at selected base/pin' >&2; exit 1; }
+          cd "$tools"
+          args=(--verify-pr --repo "$GITHUB_WORKSPACE/release-target" --head "$BASE_SHA" --pr-head "$HEAD_SHA" --project "$PROJECT")
+          if [[ -n "$RELEASE_ANCHOR" ]]; then
+            [[ "$RELEASE_ANCHOR" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)@[0-9a-f]{40}$ ]] || { echo 'Invalid trusted PAAS_RELEASE_BASE (expected version@40-hex-SHA)' >&2; exit 1; }
+            args+=(--release-anchor "$RELEASE_ANCHOR")
+          fi
+          go run ./scripts/release-version "${args[@]}"
+
+      - name: Recheck PR and main have not changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY" > "$RUNNER_TEMP/release-repo-final.json"
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" > "$RUNNER_TEMP/release-pr-final.json"
+          gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" > "$RUNNER_TEMP/release-main-final.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          tmp=Path(os.environ['RUNNER_TEMP'])
+          old=json.loads((tmp/'release-snapshot.json').read_text())
+          p=json.loads((tmp/'release-pr-final.json').read_text())
+          main=json.loads((tmp/'release-main-final.json').read_text())['object']['sha']
+          repo=json.loads((tmp/'release-repo-final.json').read_text())
+          now={'base':p['base']['sha'],'head':p['head']['sha'],'ref':p['head']['ref'],'labels':sorted(x['name'] for x in p['labels']),'state':p['state']}
+          if now != old or main != old['base'] or repo['default_branch'] != 'main' or p['base']['ref'] != 'main' or p['base']['repo']['full_name'] != os.environ['GITHUB_REPOSITORY']:
+              raise SystemExit('PR or main changed during verification; rerun required')
+          PY
