@@ -5,7 +5,7 @@
 This repository contains PaaS contracts, generated SDK artifacts, OpenSpec, and shared project documentation. It is part of a workspace with three independent Git repositories; the workspace root is not a Git repository.
 
 - This repository: Go module for HTTP and gRPC contracts. Edit source specifications in `docs/api/common/` and `docs/api/paas/`. Generated artifacts live in `pkg/http/`, `pkg/grpc/`, `docs/proto/`, and `docs/oapi/`.
-- Sibling repositories `../paas-ctl/` and `../paas-daemon/` have Go modules and application code. ctl checks daemon health/readiness through SSH/UDS; daemon serves health/readiness and the read-only PostgreSQL catalog. Preview/apply and operation-history runtime remain pending stages. Both use a development-only local `replace` for `paas-common`.
+- Sibling repositories `../paas-ctl/` and `../paas-daemon/` have Go modules and application code. ctl connects through SSH/UDS. The daemon serves the catalogue, settings, deployment preview/apply, operations and migration history. Its worker executes accepted operations on prepared nodes. Check the active OpenSpec tasks and acceptance reports for the deployed schema and feature limits. Both use a development-only local `replace` for `paas-common`.
 - Each repository has `.github/` automation and `.golangci.yml` configuration.
 
 ## Build, Test, and Development Commands
@@ -18,13 +18,13 @@ Run these commands from this repository root, using Go 1.27.3 or newer:
 - `go vet ./...`: run static checks.
 - `go mod tidy -diff`: detect dependency-file drift without modifying files.
 - `golangci-lint fmt` and `golangci-lint run`: format handwritten code and run configured linters.
-- `make sdk GENERATOR=/path/to/flux`: regenerate common and approved PaaS preview/apply, operations get/list and catalog HTTP/OpenAPI artifacts. Individual targets are `sdk-http` and `sdk-oapi`; existing protobuf/gRPC artifacts are preserved.
+- `make sdk GENERATOR=/path/to/flux`: regenerate common and approved PaaS preview/apply, operations get/list and catalog/settings HTTP/OpenAPI artifacts. Individual targets are `sdk-http` and `sdk-oapi`; existing protobuf/gRPC artifacts are preserved.
 
-Generation uses clean Flux revision `7bf0d07b74871baa601b6388b53560ec6f6cbe01` (v0.4.0); Makefile checks it. The default `./flux` binary is absent; pass `GENERATOR=/path/to/flux`. Current Flux has no proto target: `sdk-proto`/`sdk-grpc` fail explicitly, and no protoc tools are needed for this profile. This contracts repository has no application run command; executable commands live in the sibling ctl/daemon repositories.
+Generation uses Flux v0.7.0, revision `791064940350c2561c1c98d3a559e64e90e23d43`. Makefile checks the release module checksum or the clean VCS revision in the binary. The default `./flux` binary is absent; pass `GENERATOR=/path/to/flux`. The approved profile generates HTTP and OpenAPI: `sdk-proto`/`sdk-grpc` fail explicitly, and no protoc tools are needed for this profile. This contracts repository has no application run command; executable commands live in the sibling ctl/daemon repositories.
 
 ## Coding Style & Naming Conventions
 
-Use idiomatic Go names, tabs for Go indentation, and two spaces in YAML. Configured formatters are `gofumpt` and `gci`. Never manually edit generated files, including `*_gen.go` and `*.pb.go`; update source contracts and regenerate. Current Makefile defaults generate common and the approved PaaS deployment, operation get/list and read-only catalog contracts. `pkg/http/paas/transport` and `pkg/http/paas/validation` are handwritten. Semantic validators are explicit, context-free calls; generated handlers do not automatically install them.
+Use idiomatic Go names, tabs for Go indentation, and two spaces in YAML. Configured formatters are `gofumpt` and `gci`. Never manually edit generated files, including `*_gen.go` and `*.pb.go`; update source contracts and regenerate. Current Makefile defaults generate common and the approved PaaS deployment, operation get/list and catalog and settings contracts. `pkg/http/paas/transport` and `pkg/http/paas/validation` are handwritten. Semantic validators are explicit, context-free calls; generated handlers do not automatically install them.
 
 ## Testing Guidelines
 
@@ -36,16 +36,15 @@ SDK history uses Conventional Commits, such as `chore(deps): bump ...`; follow `
 
 ## Product Version Boundaries
 
-- Ветка продукта PaaS `0.x.x` поддерживает только одну ноду k3s.
-- Мультинод — обязательное условие выпуска продукта PaaS `1.0.0` и развития `1.x.x`.
-- Не выпускать `1.0.0` только по наличию breaking change, пока мультинод не реализован и не проверен.
+- Текущая ветка продукта PaaS `1.x.x` поддерживает только одну ноду k3s.
+- Мультинод относится к будущей версии продукта `v2` и требует отдельного согласования.
 - Мультинод не означает автоматически HA: требования отказоустойчивости согласовываются отдельно.
 
 ## Automatic Versioning Policy
 
 - Во всех трёх репозиториях (`paas-common`, `paas-ctl`, `paas-daemon`) требуется автоматический расчёт следующей версии релиза по сообщениям коммитов.
 - Правило проекта только для `0.x.x`: по умолчанию **minor**; `fix:` / `fix(scope):` — **patch**; breaking change (`!` после type/scope либо footer `BREAKING CHANGE:`) — **minor**, включая `fix!:`. Например, `0.3.2` → `0.4.0`.
-- Переход на `1.0.0` — отдельное явно согласованное решение после реализации и проверки поддержки мультинода; его нельзя выпускать автоматически из-за breaking commit.
+- Для ctl и daemon без релизного тега первая версия — `1.0.0`, диапазон включает всю историю до выбранного SHA main. Для линии 1.x обычный fix даёт patch, остальные пользовательские изменения дают minor, включая breaking.
 - Начиная с `1.0.0`, API проектировать с обратной совместимостью. Изменения API не должны требовать breaking bump в обычном развитии `1.x.x`.
 - При нескольких изменениях выбирается максимальный требуемый bump: major > minor > patch. Если есть обычное изменение без patch/major-маркера, оно требует minor.
 - Используй Conventional Commits. Не предполагай, что стандартная стратегия Release Please реализует minor по умолчанию: это нужно явно настроить и проверить.
