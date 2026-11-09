@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "release-please": "17.11.2"
+  },
+  "overrides": {
+    "minimatch": "11.0.1"
+  }
+}
